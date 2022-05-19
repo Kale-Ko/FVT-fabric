@@ -165,9 +165,9 @@
 	"fvt.feature.name.horse_stats": "Horse Stats",
 	"fvt.feature.name.horse_stats.tooltip": "Adds horse statistics that show when hovered over in their inventory (health, speed and jump height).",
 	"fvt.feature.name.horse_stats.button": "Stats",
-	"fvt.feature.name.horse_stats.button.tooltip.health": "§7Health§8:§r %s §r(15-30)",
-	"fvt.feature.name.horse_stats.button.tooltip.speed": "§7Speed§8:§r %s §r(4.74-14.23)",
-	"fvt.feature.name.horse_stats.button.tooltip.jump_height": "§7Jump§8:§r %s §r(1.08-5.29)",
+	"fvt.feature.name.horse_stats.button.tooltip.health": "Health§8:§r %s §7(15-30)",
+	"fvt.feature.name.horse_stats.button.tooltip.speed": "Speed§8:§r %s §7(4.74-14.23)",
+	"fvt.feature.name.horse_stats.button.tooltip.jump_height": "Jump§8:§r %s §7(1.08-5.29)",
 
 	"fvt.feature.name.use_delay": "Use Delay",
 	"fvt.feature.name.use_delay.tooltip": "Changes the delay when holding the use key (usually RMB). For example changes how often you place blocks when holding the use key. Setting this to 1 will make it place as fast as it can.",

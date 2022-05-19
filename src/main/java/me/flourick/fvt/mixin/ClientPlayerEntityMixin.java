@@ -37,7 +37,7 @@ import me.flourick.fvt.FVT;
 
 /**
  * FEATURES: AutoReconnect, Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra
- * 
+ *
  * @author Flourick
  */
 @Mixin(ClientPlayerEntity.class)
@@ -68,17 +68,20 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		if(FVT.VARS.isAfterDeath && FVT.OPTIONS.sendDeathCoordinates.getValueRaw()) {
 			FVT.VARS.isAfterDeath = false;
 			FVT.MC.inGameHud.addChatMessage(
-				MessageType.CHAT, 
-				new TranslatableText("fvt.chat_messages_prefix", new TranslatableText("fvt.feature.name.send_death_coordinates.message", BigDecimal.valueOf(FVT.VARS.getLastDeathX()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathZ()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathY()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), FVT.VARS.getLastDeathWorld())), 
+				MessageType.CHAT,
+				new TranslatableText("fvt.chat_messages_prefix", new TranslatableText("fvt.feature.name.send_death_coordinates.message", BigDecimal.valueOf(FVT.VARS.getLastDeathX()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathZ()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathY()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), FVT.VARS.getLastDeathWorld())),
 				UUID.fromString("00000000-0000-0000-0000-000000000000")
 			);
 		}
 	}
 
-	@Inject(method = "dropSelectedItem", at = @At("HEAD"))
+	@Inject(method = "dropSelectedItem", at = @At("HEAD"), cancellable = true)
 	private void onDropSelectedItem(CallbackInfoReturnable<Boolean> info)
 	{
-		if(FVT.OPTIONS.autoHideHotbarItem.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValueRaw()) {
+			info.setReturnValue(false);
+		}
+		else if(FVT.OPTIONS.autoHideHotbarItem.getValueRaw()) {
 			FVT.VARS.resetHotbarLastInteractionTime();
 		}
 	}
@@ -130,7 +133,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
 		// called when player landed so if he has elytra we switch back to a chestplate
 		if(FVT_prevFallFlying && !this.isFallFlying() && inventory.getArmorStack(2).getItem() == Items.ELYTRA) {
-			
+
 			int sz = inventory.main.size();
 			int idx = -1;
 
@@ -217,7 +220,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
 		return hasJumpingMount();
 	}
-	
+
 	// PREVENTS BOAT MOVEMENT (freecam)
 	@Inject(method = "tickRiding", at = @At("HEAD"), cancellable = true)
 	private void onTickRiding(CallbackInfo info)

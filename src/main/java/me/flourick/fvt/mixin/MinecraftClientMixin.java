@@ -251,12 +251,6 @@ abstract class MinecraftClientMixin
 		FVT_zAligned = false;
 	}
 
-	@Redirect(method = "handleInputEvents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;dropSelectedItem(Z)Z", ordinal = 0))
-	private boolean onHandleDropSelectedItem(ClientPlayerEntity player, boolean entireStack)
-	{
-		return FVT.OPTIONS.freecam.getValueRaw() ? false : player.dropSelectedItem(entireStack);
-	}
-
 	@Inject(method = "handleInputEvents", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerInventory;selectedSlot:I", ordinal = 0, shift = At.Shift.BEFORE))
 	private void onHandleHotbarKeyPress(CallbackInfo info)
 	{
