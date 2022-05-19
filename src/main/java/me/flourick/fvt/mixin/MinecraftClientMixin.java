@@ -18,6 +18,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.CrossbowItem;
 import net.minecraft.item.ItemStack;
@@ -266,7 +267,16 @@ abstract class MinecraftClientMixin
 	@Inject(method = "hasOutline", at = @At("HEAD"), cancellable = true)
 	private void onHasOutline(Entity entity, CallbackInfoReturnable<Boolean> info)
 	{
-		if(FVT.OPTIONS.entityOutline.getValueRaw() || (FVT.OPTIONS.freecam.getValueRaw() && entity.equals(FVT.MC.player))) {
+		if (FVT.OPTIONS.entityOutline.getValueRaw()) {
+			if((FVT.OPTIONS.entityOutlinePlayers.getValueRaw() && entity.getType() == EntityType.PLAYER)
+				|| (FVT.OPTIONS.entityOutlineAnimals.getValueRaw() && (entity.getType().getSpawnGroup() == SpawnGroup.CREATURE || entity.getType().getSpawnGroup() == SpawnGroup.WATER_CREATURE || entity.getType().getSpawnGroup() == SpawnGroup.UNDERGROUND_WATER_CREATURE || entity.getType().getSpawnGroup() == SpawnGroup.AXOLOTLS))
+				|| (FVT.OPTIONS.entityOutlineMobs.getValueRaw() && entity.getType().getSpawnGroup() == SpawnGroup.MONSTER)
+				|| FVT.OPTIONS.entityOutlineMisc.getValueRaw()) {
+				info.setReturnValue(true);
+			}
+		}
+
+		if (FVT.OPTIONS.freecam.getValueRaw() && FVT.OPTIONS.freecamHightlightPlayer.getValueRaw() && entity.getType() == EntityType.PLAYER) {
 			info.setReturnValue(true);
 		}
 	}

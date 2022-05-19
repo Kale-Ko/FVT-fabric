@@ -73,8 +73,11 @@ public class FVTSettingsScreen extends Screen
 		this.list.addDualOptionEntry(FVT.OPTIONS.noPotionParticles, FVT.OPTIONS.noBlockBreakParticles);
 		this.list.addDualOptionEntry(FVT.OPTIONS.noNetherFog, FVT.OPTIONS.invisibleOffhand);
 		this.list.addDualOptionEntry(FVT.OPTIONS.noVignette, FVT.OPTIONS.noSpyglassOverlay);
-		this.list.addSingleOptionEntry(FVT.OPTIONS.cloudHeight);
-		this.list.addDualOptionEntry(FVT.OPTIONS.fullbright, FVT.OPTIONS.entityOutline);
+		this.list.addDualOptionEntry(FVT.OPTIONS.fullbright, FVT.OPTIONS.cloudHeight);
+		this.list.addSingleOptionEntry(new FTVCategoryOption("fvt.feature_category.entity_outline"));
+		this.list.addSingleOptionEntry(FVT.OPTIONS.entityOutline);
+		this.list.addDualOptionEntry(FVT.OPTIONS.entityOutlineAnimals, FVT.OPTIONS.entityOutlineMobs);
+		this.list.addDualOptionEntry(FVT.OPTIONS.entityOutlinePlayers, FVT.OPTIONS.entityOutlineMisc);
 		this.list.addSingleOptionEntry(new FTVCategoryOption("fvt.feature_category.tools"));
 		this.list.addDualOptionEntry(FVT.OPTIONS.noToolBreaking, FVT.OPTIONS.toolWarning);
 		this.list.addDualOptionEntry(FVT.OPTIONS.toolWarningPosition, FVT.OPTIONS.toolWarningScale);
@@ -89,9 +92,9 @@ public class FVTSettingsScreen extends Screen
 		this.list.addDualOptionEntry(FVT.OPTIONS.creativeBreakDelay, FVT.OPTIONS.placementLock);
 		this.list.addSingleOptionEntry(new FTVCategoryOption("fvt.feature_category.misc"));
 		this.list.addDualOptionEntry(FVT.OPTIONS.disableWToSprint, FVT.OPTIONS.sendDeathCoordinates);
-		this.list.addDualOptionEntry(FVT.OPTIONS.freecam, FVT.OPTIONS.attackThrough);
+		this.list.addDualOptionEntry(FVT.OPTIONS.freecam, FVT.OPTIONS.freecamHightlightPlayer);
+		this.list.addDualOptionEntry(FVT.OPTIONS.attackThrough, FVT.OPTIONS.horseStats);
 		this.list.addDualOptionEntry(FVT.OPTIONS.containerButtons, FVT.OPTIONS.inventoryButton);
-		this.list.addEntry(new Option[] {FVT.OPTIONS.horseStats, null});
 		this.addSelectableChild(this.list);
 		
 		// DEFAULTS button at the top left corner

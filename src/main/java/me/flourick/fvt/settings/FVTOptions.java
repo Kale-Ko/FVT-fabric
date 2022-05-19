@@ -48,6 +48,10 @@ public class FVTOptions
 	public final FVTBooleanOption toolWarningPosition;
 	public final FVTDoubleOption  cloudHeight;
 	public final FVTBooleanOption entityOutline;
+	public final FVTBooleanOption entityOutlineAnimals;
+	public final FVTBooleanOption entityOutlineMobs;
+	public final FVTBooleanOption entityOutlinePlayers;
+	public final FVTBooleanOption entityOutlineMisc;
 	public final FVTBooleanOption fullbright;
 	public final FVTBooleanOption randomPlacement;
 	public final FVTBooleanOption noNetherFog;
@@ -62,6 +66,7 @@ public class FVTOptions
 	public final FVTBooleanOption autoEat;
 	public final FVTBooleanOption triggerBot;
 	public final FVTBooleanOption freecam;
+	public final FVTBooleanOption freecamHightlightPlayer;
 	public final FVTBooleanOption autoTotem;
 	public final FVTDoubleOption  useDelay;
 	public final FVTDoubleOption  creativeBreakDelay;
@@ -216,6 +221,34 @@ public class FVTOptions
 		);
 		savedFeatures.put("entityOutline", entityOutline);
 
+		entityOutlineAnimals = new FVTBooleanOption(
+			"fvt.feature.name.entity_outline_animals",
+			"fvt.feature.name.entity_outline_animals.tooltip",
+			false
+		);
+		savedFeatures.put("entityOutlineAnimals", entityOutlineAnimals);
+
+		entityOutlineMobs = new FVTBooleanOption(
+			"fvt.feature.name.entity_outline_mobs",
+			"fvt.feature.name.entity_outline_mobs.tooltip",
+			false
+		);
+		savedFeatures.put("entityOutlineMobs", entityOutlineMobs);
+
+		entityOutlinePlayers = new FVTBooleanOption(
+			"fvt.feature.name.entity_outline_players",
+			"fvt.feature.name.entity_outline_players.tooltip",
+			false
+		);
+		savedFeatures.put("entityOutlinePlayers", entityOutlinePlayers);
+
+		entityOutlineMisc = new FVTBooleanOption(
+			"fvt.feature.name.entity_outline_misc",
+			"fvt.feature.name.entity_outline_misc.tooltip",
+			false
+		);
+		savedFeatures.put("entityOutlineMisc", entityOutlineMisc);
+
 		fullbright = new FVTBooleanOption(
 			"fvt.feature.name.fullbright",
 			"fvt.feature.name.fullbright.tooltip",
@@ -282,7 +315,7 @@ public class FVTOptions
 		autoReconnectMaxTries = new FVTDoubleOption(
 			"fvt.feature.name.autoreconnect.tries",
 			"fvt.feature.name.autoreconnect.tries.tooltip",
-			0.0d, 50.0d, 1.0d, 3.0d, FVTDoubleOption.Mode.WHOLE
+			0.0d, 51.0d, 1.0d, 3.0d, FVTDoubleOption.Mode.WHOLE, "fvt.feature.name.autoreconnect.tries_max"
 		);
 		savedFeatures.put("autoReconnectMaxTries", autoReconnectMaxTries);
 
@@ -313,6 +346,13 @@ public class FVTOptions
 			false
 		);
 		//features.put("freecam", freecam);
+
+		freecamHightlightPlayer = new FVTBooleanOption(
+			"fvt.feature.name.freecam_hightlight_player",
+			"fvt.feature.name.freecam_hightlight_player.tooltip",
+			true
+		);
+		savedFeatures.put("freecamHightlightPlayer", freecamHightlightPlayer);
 
 		autoTotem = new FVTBooleanOption(
 			"fvt.feature.name.autototem",

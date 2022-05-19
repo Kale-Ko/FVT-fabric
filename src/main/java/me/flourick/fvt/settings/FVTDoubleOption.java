@@ -40,6 +40,8 @@ public class FVTDoubleOption extends FVTOption<Double>
 	
 	private Text tooltipText;
 	private List<OrderedText> tooltip;
+	private Text minText;
+	private Text maxText;
 
 	public FVTDoubleOption(String key, String tooltipKey, double min, double max, double step, double defaultValue)
 	{
@@ -63,6 +65,33 @@ public class FVTDoubleOption extends FVTOption<Double>
 		this.currentValue = getRatio(defaultValue);
 		this.mode = mode;
 		this.tooltipText = new TranslatableText(tooltipKey);
+	}
+
+	public FVTDoubleOption(String key, String tooltipKey, double min, double max, double step, double defaultValue, Mode mode, String maxKey)
+	{
+		super(key);
+		this.defaultValue = defaultValue;
+		this.min = min;
+		this.max = max;
+		this.step = step;
+		this.currentValue = getRatio(defaultValue);
+		this.mode = mode;
+		this.tooltipText = new TranslatableText(tooltipKey);
+		this.maxText = new TranslatableText(maxKey);
+	}
+
+	public FVTDoubleOption(String key, String tooltipKey, double min, double max, double step, double defaultValue, Mode mode, String minKey, String maxKey)
+	{
+		super(key);
+		this.defaultValue = defaultValue;
+		this.min = min;
+		this.max = max;
+		this.step = step;
+		this.currentValue = getRatio(defaultValue);
+		this.mode = mode;
+		this.tooltipText = new TranslatableText(tooltipKey);
+		this.minText = new TranslatableText(minKey);
+		this.maxText = new TranslatableText(maxKey);
 	}
 
 	@Override
@@ -149,7 +178,13 @@ public class FVTDoubleOption extends FVTOption<Double>
 			case PERCENT:
 				return getPercentLabel(getValueRaw());
 			case WHOLE:
-				return getGenericLabel(new LiteralText(String.valueOf(getValueAsInteger())));
+                if(this.minText != null && this.getValueRaw() == this.min) {
+                    return getGenericLabel(minText);
+                } else if(this.maxText != null && this.getValueRaw() == this.max) {
+                    return getGenericLabel(maxText);
+                } else {
+				    return getGenericLabel(new LiteralText(String.valueOf(getValueAsInteger())));
+                }
 			case NORMAL:
 			default:
 				return getGenericLabel(new LiteralText(getValueAsString()));

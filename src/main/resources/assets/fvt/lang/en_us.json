@@ -16,6 +16,7 @@
 	"fvt.feature_category.hotbar": "Hotbar",
 	"fvt.feature_category.tools": "Tools",
 	"fvt.feature_category.render": "Render",
+    "fvt.feature_category.entity_outline": "Entity Outline",
 	"fvt.feature_category.auto": "Auto",
 	"fvt.feature_category.placement": "Placement",
 	"fvt.feature_category.misc": "Miscellaneous",
@@ -105,6 +106,18 @@
 	"fvt.feature.name.entity_outline": "Entity Outline",
 	"fvt.feature.name.entity_outline.tooltip": "Makes all entities (except players) glow white and be seen through walls.",
 
+	"fvt.feature.name.entity_outline_animals": "Entity Outline Animals",
+	"fvt.feature.name.entity_outline_animals.tooltip": "Allow animals to be outlined.",
+
+	"fvt.feature.name.entity_outline_mobs": "Entity Outline Mobs",
+	"fvt.feature.name.entity_outline_mobs.tooltip": "Allow mobs to be outlined.",
+
+	"fvt.feature.name.entity_outline_players": "Entity Outline Player",
+	"fvt.feature.name.entity_outline_players.tooltip": "Allow players to be outlined.",
+
+	"fvt.feature.name.entity_outline_misc": "Entity Outline Misc",
+	"fvt.feature.name.entity_outline_misc.tooltip": "Allow other entities to be outlined.",
+
 	"fvt.feature.name.fullbright": "Fullbright",
 	"fvt.feature.name.fullbright.tooltip": "Makes you see in dark just as if it was a bright day.",
 
@@ -132,7 +145,9 @@
 	"fvt.feature.name.autoreconnect": "AutoReconnect",
 	"fvt.feature.name.autoreconnect.tooltip": "Will try to automatically reconnect you to the server you got disconnected from.",
 	"fvt.feature.name.autoreconnect.message": "Reconnecting in: %ds (%d tries left)",
+	"fvt.feature.name.autoreconnect.message_nomax": "Reconnecting in: %ds",
 	"fvt.feature.name.autoreconnect.tries": "AutoReconnect Tries",
+    "fvt.feature.name.autoreconnect.tries_max": "Unlimited",
 	"fvt.feature.name.autoreconnect.tries.tooltip": "Number of times it will try to reconnect you after which it just gives up.",
 	"fvt.feature.name.autoreconnect.timeout": "AutoReconnect Timeout",
 	"fvt.feature.name.autoreconnect.timeout.tooltip": "States how long it should wait before every reconnect attempt (in seconds).",
@@ -145,6 +160,9 @@
 
 	"fvt.feature.name.freecam": "Freecam",
 	"fvt.feature.name.freecam.tooltip": "Allows you to leave your body and explore your surroundings. Works similar to spectator.",
+
+	"fvt.feature.name.freecam_hightlight_player": "Freecam Hightlight Self",
+	"fvt.feature.name.freecam_hightlight_player.tooltip": "Weather to hightlight your player when you go into freecam.",
 
 	"fvt.feature.name.invisible_offhand": "Invisible Offhand",
 	"fvt.feature.name.invisible_offhand.tooltip": "Makes your offhand completely invisible but will still remain fully functional.",
