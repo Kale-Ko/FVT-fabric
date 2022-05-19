@@ -224,14 +224,14 @@ public class FVTOptions
 		entityOutlineAnimals = new FVTBooleanOption(
 			"fvt.feature.name.entity_outline_animals",
 			"fvt.feature.name.entity_outline_animals.tooltip",
-			false
+			true
 		);
 		savedFeatures.put("entityOutlineAnimals", entityOutlineAnimals);
 
 		entityOutlineMobs = new FVTBooleanOption(
 			"fvt.feature.name.entity_outline_mobs",
 			"fvt.feature.name.entity_outline_mobs.tooltip",
-			false
+			true
 		);
 		savedFeatures.put("entityOutlineMobs", entityOutlineMobs);
 
