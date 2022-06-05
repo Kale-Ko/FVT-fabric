@@ -202,6 +202,9 @@
 	"fvt.feature.name.auto_elytra": "AutoElytra",
 	"fvt.feature.name.auto_elytra.tooltip": "Automatically switches to elytra when trying to fly as if you had one in the first place, when you land it will switch back to a chestplate if one is in your inventory.",
 
+	"fvt.feature.name.fast_trade": "FastTrade",
+	"fvt.feature.name.fast_trade.tooltip": "If you hold shift while clicking on a villager trade it will automatically perform the trade. Basically shift-clicks the output slot for you, therefore saving you a click.",
+
 	"fvt.feature.name.bee_info.honey": "Honey: %s",
 	"fvt.feature.name.bee_info.bees": "Bees: %s"
 }

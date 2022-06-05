@@ -2,7 +2,7 @@
 
 Various client-side tweaks fabric mod, compatible with Sodium/Canvas.
 
-Translations are handled on [Crowdin](https://crowdin.com/project/flours-various-tweaks). If you wish to translate the mod and your language is not listed there, start a thread in [Discussions](https://github.com/Flourick/FVT-fabric/discussions) or message me on Crowdin. The mod is currently fully translated into English, Czech, Russian and Brazilian Portuguese.
+Translations are handled on [Crowdin](https://crowdin.com/project/flours-various-tweaks). If you wish to translate the mod and your language is not listed there, start a thread in [Discussions](https://github.com/Flourick/FVT-fabric/discussions) or message me on Crowdin.
 
 ## Installation
 
@@ -23,10 +23,6 @@ Features that are always enabled and don't have a switch.
 * ### Bee Hive/Nest Info
 
     Adds a bee count and honey level to Bee Hives & Nests tooltip (ADVANCED TOOLTIPS has to be enabled!).
-
-* ### Merchant Autotrade
-
-    If you hold shift while clicking on a villager trade it will automatically perform the trade. Basically shift-clicks the output slot for you, therefore saving you a click.
 
 ## Toggleable Features
 
@@ -126,6 +122,10 @@ List of all toggleable features. Configuration is in in-game options menu called
 
     If you have a chestplate on and an elytra in your inventory will automatically swap them when flying/landing. NOTE: will pick the items from the upper-left corner first so if you have multiple chestplates the one closer to that corner will be picked first.
 
+* ### FastTrade
+
+    If you hold shift while clicking on a villager trade it will automatically perform the trade. Basically shift-clicks the output slot for you, therefore saving you a click.
+
 * ### Use Delay
 
     By default while you hold the use key (usually RMB) the game will perform the use action every 4 ticks. This options let's you set it from 1 tick delay to 20 tick delay (ex. at 1 will place as fast as it can and at 20 will place roughly once every second).
@@ -182,7 +182,7 @@ List of all toggleable features. Configuration is in in-game options menu called
 
     Automatically attacks living beings (not players) if you place your crosshair over them and in reach. Primarily meant for AFK farms.
 
-## Preview (v1.7.1)
+## Preview (v1.10.1)
 
 <details><summary>Static crosshair color, HUD info, death message & tool breaking warning. (CLICK ME)</summary>
 <p>
@@ -195,7 +195,7 @@ List of all toggleable features. Configuration is in in-game options menu called
 <details><summary>Ingame menu with default settings. (CLICK ME)</summary>
 <p>
 
-![menu](https://user-images.githubusercontent.com/33128006/131262470-925cadf0-a89c-41e1-8d0d-fce44b37ddc2.png)
+![menu](https://user-images.githubusercontent.com/33128006/172046184-360a30a2-0093-4b1e-876c-5fd746bfa532.png)
 
 </p>
 </details>

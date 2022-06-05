@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.MerchantScreenHandler;
 
 /**
- * FEATURES: Merchant Autotrade
+ * FEATURES: FastTrade
  * 
  * @author Flourick
  */

@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import me.flourick.fvt.FVT;
 
 /**
- * FEATURES: Chat Death Coordinates, AutoTotem, Hotbar Autohide, Merchant Autotrade
+ * FEATURES: Chat Death Coordinates, AutoTotem, Hotbar Autohide, FastTrade
  * 
  * @author Flourick
  */
@@ -32,7 +32,7 @@ abstract class ClientPlayNetworkHandlerMixin
 	@Inject(method = "onScreenHandlerSlotUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/ScreenHandlerSlotUpdateS2CPacket;getRevision()I", ordinal = 1))
 	private void onnScreenHandlerSlotUpdate(ScreenHandlerSlotUpdateS2CPacket packet, CallbackInfo info)
 	{
-		if(FVT.VARS.waitForTrade && packet.getSlot() == 2 && FVT.VARS.tradeItem != null && packet.getItemStack().getItem() == FVT.VARS.tradeItem) {
+		if(FVT.OPTIONS.fastTrade.getValueRaw() && FVT.VARS.waitForTrade && packet.getSlot() == 2 && FVT.VARS.tradeItem != null && packet.getItemStack().getItem() == FVT.VARS.tradeItem) {
 			if(Screen.hasShiftDown()) {
 				FVT.MC.interactionManager.clickSlot(packet.getSyncId(), 2, 0, SlotActionType.QUICK_MOVE, FVT.MC.player);
 			}

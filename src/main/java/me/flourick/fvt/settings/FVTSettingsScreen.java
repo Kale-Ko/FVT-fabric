@@ -86,7 +86,7 @@ public class FVTSettingsScreen extends Screen
 		this.list.addSingleOptionEntry(FVT.OPTIONS.autoReconnectTimeout);
 		this.list.addDualOptionEntry(FVT.OPTIONS.autoEat, FVT.OPTIONS.triggerBot);
 		this.list.addDualOptionEntry(FVT.OPTIONS.autoTotem, FVT.OPTIONS.refillHand);
-		this.list.addEntry(new Option[] {FVT.OPTIONS.autoElytra, null});
+		this.list.addDualOptionEntry(FVT.OPTIONS.autoElytra, FVT.OPTIONS.fastTrade);
 		this.list.addSingleOptionEntry(new FTVCategoryOption("fvt.feature_category.placement"));
 		this.list.addDualOptionEntry(FVT.OPTIONS.randomPlacement, FVT.OPTIONS.useDelay);
 		this.list.addDualOptionEntry(FVT.OPTIONS.creativeBreakDelay, FVT.OPTIONS.placementLock);

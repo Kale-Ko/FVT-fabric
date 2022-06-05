@@ -137,6 +137,8 @@
 	"fvt.feature.name.attack_through.tooltip": "Permite o ataque contra entidades entre blocos sem caixa de colisão como grama e flores.",
 	"fvt.feature.name.auto_elytra": "AutoElytra",
 	"fvt.feature.name.auto_elytra.tooltip": "Vista os élitros automaticamente ao tentar voar, caso você tenha. Os élitros são trocados pelo peitoral em seu inventário ao aterrissar, se possível.",
+	"fvt.feature.name.fast_trade": "Troca rápida",
+	"fvt.feature.name.fast_trade.tooltip": "Segure Shift ao clicar num aldeão para trocar automaticamente. A troca é acelerada com a redução de um clique.",
 	"fvt.feature.name.bee_info.honey": "Mel: %s",
 	"fvt.feature.name.bee_info.bees": "Abelhas: %s"
 }

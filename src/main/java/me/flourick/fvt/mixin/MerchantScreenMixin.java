@@ -17,7 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.village.TradeOffer;
 
 /**
- * FEATURES: Merchant Autotrade
+ * FEATURES: FastTrade
  * 
  * @author Flourick
  */
@@ -30,6 +30,10 @@ abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHandler>
 	@Inject(method = "syncRecipeIndex", at = @At("HEAD"))
 	private void onSyncRecipeIndex(CallbackInfo info)
 	{
+		if(!FVT.OPTIONS.fastTrade.getValueRaw()) {
+			return;
+		}
+
 		TradeOffer trade = ((MerchantScreenHandler)this.handler).getRecipes().get(selectedIndex);
 
 		if(trade != null && !trade.isDisabled() && Screen.hasShiftDown()) {

@@ -137,6 +137,8 @@
 	"fvt.feature.name.attack_through.tooltip": "Позволяет атаковать объекты через блоки(у которых нет хитбокса столкновения), такие как трава и цветы.",
 	"fvt.feature.name.auto_elytra": "АвтоЭлитры",
 	"fvt.feature.name.auto_elytra.tooltip": "Автоматически поменяет нагрудник на элитры при попытки взлететь, при приземлении элитры снова поменяются на нагрудник.",
+	"fvt.feature.name.fast_trade": "FastTrade",
+	"fvt.feature.name.fast_trade.tooltip": "If you hold shift while clicking on a villager trade it will automatically perform the trade. Basically shift-clicks the output slot for you, therefore saving you a click.",
 	"fvt.feature.name.bee_info.honey": "Мед: %s",
 	"fvt.feature.name.bee_info.bees": "Пчелы: %s"
 }

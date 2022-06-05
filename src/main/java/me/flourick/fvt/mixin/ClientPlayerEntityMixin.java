@@ -108,6 +108,11 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 				}
 			}
 
+			if(idx == -1) {
+				// no elytra found so don't switch anything
+				return;
+			}
+
 			// clicks on the chestplate slot then elytra then chestplate again
 			FVT.MC.interactionManager.clickSlot(FVT.MC.player.playerScreenHandler.syncId, 6, 0, SlotActionType.PICKUP, FVT.MC.player);
 

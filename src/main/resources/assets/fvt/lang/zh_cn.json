@@ -4,7 +4,7 @@
 	"fvt.options.tooltips.show": "显示功能工具提示。",
 	"fvt.options.tooltips.hide": "隐藏功能工具提示。",
 	"fvt.options.defaults": "默认值",
-	"fvt.options.defaults.tooltip": "警告! 此操作将会将当前设置重置回默认值！",
+	"fvt.options.defaults.tooltip": "警告！此操作将把所有设置重置回默认值！",
 	"fvt.chat_messages_prefix": "§8[§7FVT§8]§r %s",
 	"fvt.feature_category.crosshair": "十字准星",
 	"fvt.feature_category.hud": "HUD",
@@ -137,6 +137,8 @@
 	"fvt.feature.name.attack_through.tooltip": "允许穿过没有碰撞箱的方块（如草和花）攻击实体。",
 	"fvt.feature.name.auto_elytra": "自动鞘翅切换",
 	"fvt.feature.name.auto_elytra.tooltip": "在尝试飞行时自动切换到鞘翅，就好像你一开始就穿上了一样，当你着陆时，如果你的物品栏中有一个胸甲，它会自动切换回胸甲。",
+	"fvt.feature.name.fast_trade": "FastTrade",
+	"fvt.feature.name.fast_trade.tooltip": "If you hold shift while clicking on a villager trade it will automatically perform the trade. Basically shift-clicks the output slot for you, therefore saving you a click.",
 	"fvt.feature.name.bee_info.honey": "蜂蜜：%s",
 	"fvt.feature.name.bee_info.bees": "蜜蜂：%s"
 }

@@ -137,6 +137,8 @@
 	"fvt.feature.name.attack_through.tooltip": "Umožňuje útočit na bytosti pomocí bloků, které nemají žádné kolizní boxy, jako je např. tráva a květiny.",
 	"fvt.feature.name.auto_elytra": "AutoKrovky",
 	"fvt.feature.name.auto_elytra.tooltip": "Automaticky přepne na krovky když se snažíš vzlétnout, po přistání zase přepne zpět na brnění pokud je nějaké v inventáři.",
+	"fvt.feature.name.fast_trade": "Rychlejší obchod",
+	"fvt.feature.name.fast_trade.tooltip": "Při obchodování s vesničany lze držet klávesu shift, kdy po kliknutí na daný obchod se provede automaticky bez nutnosti klikat na obchod podruhé.",
 	"fvt.feature.name.bee_info.honey": "Med: %s",
 	"fvt.feature.name.bee_info.bees": "Včely: %s"
 }
