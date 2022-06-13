@@ -38,7 +38,7 @@ import me.flourick.fvt.FVT;
 /**
  * FEATURES: AutoReconnect, Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra
  *
- * @author Flourick
+ * @author Flourick, gliscowo
  */
 @Mixin(ClientPlayerEntity.class)
 abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity

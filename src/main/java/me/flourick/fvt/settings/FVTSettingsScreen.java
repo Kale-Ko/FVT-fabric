@@ -46,8 +46,8 @@ public class FVTSettingsScreen extends Screen
 	// getter for ModMenu
 	public static Screen getNewScreen(Screen parent)
 	{
-        return new FVTSettingsScreen(parent);
-    }
+		return new FVTSettingsScreen(parent);
+	}
 
 	public FVTSettingsScreen(Screen parent)
 	{
@@ -144,7 +144,7 @@ public class FVTSettingsScreen extends Screen
 	public List<OrderedText> getHoveredButtonTooltip(int mouseX, int mouseY)
 	{
 		Optional<ClickableWidget> button = list.getHoveredButton((double)mouseX, (double)mouseY);
-      	return (button.isPresent() && button.get() instanceof OrderableTooltip ? ((OrderableTooltip)button.get()).getOrderedTooltip() : ImmutableList.of());
+		return (button.isPresent() && button.get() instanceof OrderableTooltip ? ((OrderableTooltip)button.get()).getOrderedTooltip() : ImmutableList.of());
 	}
 
 	@Override

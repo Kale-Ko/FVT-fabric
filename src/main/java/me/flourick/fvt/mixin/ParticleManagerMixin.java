@@ -18,10 +18,10 @@ import me.flourick.fvt.FVT;
 abstract class ParticleManagerMixin
 {
 	@Inject(method = "addBlockBreakParticles", at = @At("HEAD"), cancellable = true)
-    private void disableBlockBreakParticles(CallbackInfo info)
-    {
-        if(FVT.OPTIONS.noBlockBreakParticles.getValueRaw()) {
+	private void disableBlockBreakParticles(CallbackInfo info)
+	{
+		if(FVT.OPTIONS.noBlockBreakParticles.getValueRaw()) {
 			info.cancel();
 		}
-    }
+	}
 }
