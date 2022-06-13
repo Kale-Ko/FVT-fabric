@@ -17,8 +17,8 @@ abstract class OverworldDimensionEffectsMixin extends DimensionEffects
 	@Override
 	public float getCloudsHeight()
 	{
-        return FVT.OPTIONS.cloudHeight.getValueRaw().floatValue();
-    }
+		return FVT.OPTIONS.cloudHeight.getValueRaw().floatValue();
+	}
 
 	public OverworldDimensionEffectsMixin(float cloudsHeight, boolean alternateSkyColor, SkyType skyType, boolean brightenLighting, boolean darkened) { super(cloudsHeight, alternateSkyColor, skyType, brightenLighting, darkened); } // IGNORED
 }

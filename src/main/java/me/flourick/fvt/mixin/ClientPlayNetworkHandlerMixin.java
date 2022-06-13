@@ -46,7 +46,7 @@ abstract class ClientPlayNetworkHandlerMixin
 	private void onOnCombatEvent(DeathMessageS2CPacket packet, CallbackInfo info)
 	{
 		Entity entity = FVT.MC.world.getEntityById(packet.getEntityId());
-		
+
 		if(entity == FVT.MC.player) {
 			FVT.VARS.setLastDeathCoordinates(FVT.MC.player.getX(), FVT.MC.player.getY(), FVT.MC.player.getZ(), FVT.MC.player.clientWorld.getRegistryKey().getValue().toString().split(":")[1].replace('_', ' '));
 			FVT.VARS.isAfterDeath = true;
@@ -89,7 +89,7 @@ abstract class ClientPlayNetworkHandlerMixin
 						else {
 							FVT.MC.interactionManager.clickSlot(player.playerScreenHandler.syncId, i, 0, SlotActionType.PICKUP, player);
 						}
-						
+
 						FVT.MC.interactionManager.clickSlot(player.playerScreenHandler.syncId, activeIdx, 0, SlotActionType.PICKUP, player);
 
 						break;

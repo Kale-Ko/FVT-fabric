@@ -65,19 +65,20 @@ abstract class EntityMixin
 	private void onPopulateCrashReport(CrashReportSection section, CallbackInfo info)
 	{
 		section.add("Entity Type", () -> EntityType.getId(this.getType()) + " (" + this.getClass().getCanonicalName() + ")");
-        section.add("Entity ID", this.id);
-        section.add("Entity Name", () -> this.getName().getString());
-        section.add("Entity's Exact location", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", this.getX(), this.getY(), this.getZ()));
-        section.add("Entity's Block location", CrashReportSection.createPositionString((HeightLimitView)this.world, MathHelper.floor(this.getX()), MathHelper.floor(this.getY()), MathHelper.floor(this.getZ())));
-        Vec3d vec3d = this.getVelocity();
+		section.add("Entity ID", this.id);
+		section.add("Entity Name", () -> this.getName().getString());
+		section.add("Entity's Exact location", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", this.getX(), this.getY(), this.getZ()));
+		section.add("Entity's Block location", CrashReportSection.createPositionString((HeightLimitView)this.world, MathHelper.floor(this.getX()), MathHelper.floor(this.getY()), MathHelper.floor(this.getZ())));
+		
+		Vec3d vec3d = this.getVelocity();
 		if(vec3d != null) {
 			section.add("Entity's Momentum", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", vec3d.x, vec3d.y, vec3d.z));
 		}
 		else {
 			section.add("Entity's Momentum", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", 0.12f, 0.12f, 0.12f));
 		}
-        section.add("Entity's Passengers", () -> this.getPassengerList().toString());
-        section.add("Entity's Vehicle", () -> String.valueOf(this.getVehicle()));
+		section.add("Entity's Passengers", () -> this.getPassengerList().toString());
+		section.add("Entity's Vehicle", () -> String.valueOf(this.getVehicle()));
 		
 		info.cancel();
 	}

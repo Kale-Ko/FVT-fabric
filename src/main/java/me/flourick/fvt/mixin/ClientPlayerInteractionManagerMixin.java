@@ -95,8 +95,8 @@ abstract class ClientPlayerInteractionManagerMixin
 							else {
 								FVT.MC.interactionManager.clickSlot(FVT.MC.player.playerScreenHandler.syncId, i, mouse, SlotActionType.PICKUP, FVT.MC.player);
 							}
-                    		
-                    		FVT.MC.interactionManager.clickSlot(FVT.MC.player.playerScreenHandler.syncId, inventory.selectedSlot + 36, 0, SlotActionType.PICKUP, FVT.MC.player);
+							
+							FVT.MC.interactionManager.clickSlot(FVT.MC.player.playerScreenHandler.syncId, inventory.selectedSlot + 36, 0, SlotActionType.PICKUP, FVT.MC.player);
 
 							break;
 						}

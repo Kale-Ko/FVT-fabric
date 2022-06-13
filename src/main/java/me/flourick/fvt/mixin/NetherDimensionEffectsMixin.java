@@ -16,9 +16,9 @@ import net.minecraft.client.render.DimensionEffects.Nether;
 @Mixin(Nether.class)
 abstract class NetherDimensionEffectsMixin
 {
-    @Inject(method = "useThickFog", at = @At("HEAD"), cancellable = true)
-    private void onUseThickFog(CallbackInfoReturnable<Boolean> info)
-    {
-        info.setReturnValue(!FVT.OPTIONS.noNetherFog.getValueRaw());
-    }
+	@Inject(method = "useThickFog", at = @At("HEAD"), cancellable = true)
+	private void onUseThickFog(CallbackInfoReturnable<Boolean> info)
+	{
+		info.setReturnValue(!FVT.OPTIONS.noNetherFog.getValueRaw());
+	}
 }

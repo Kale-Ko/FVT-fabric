@@ -10,15 +10,15 @@ import net.minecraft.text.Text;
 public class FVTOptionButtonWidget extends ButtonWidget implements OrderableTooltip
 {
 	private final FVTOption<?> option;
- 
+
 	public FVTOptionButtonWidget(int x, int y, int width, int height, FVTOption<?> option, Text message, ButtonWidget.PressAction onPress)
 	{
-	   super(x, y, width, height, message, onPress);
-	   this.option = option;
+		super(x, y, width, height, message, onPress);
+		this.option = option;
 	}
  
 	public List<OrderedText> getOrderedTooltip()
 	{
-	   return option.getTooltip();
+		return option.getTooltip();
 	}
- }
+}

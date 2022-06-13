@@ -33,7 +33,7 @@ import net.minecraft.util.math.BlockPos;
 /**
  * FEATURES: Prevent Tool Breaking, Freecam, Use Delay, Entity Outline, AutoReconnect, Placement Lock, Hotbar Autohide, Offhand AutoEat
  * 
- * @author Flourick
+ * @author Flourick, gliscowo
  */
 @Mixin(value = MinecraftClient.class, priority = 999)
 abstract class MinecraftClientMixin
