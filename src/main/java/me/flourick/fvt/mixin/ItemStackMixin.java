@@ -17,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 
 /**
@@ -65,7 +64,7 @@ abstract class ItemStackMixin
 			}
 		}
 
-		list.add(new TranslatableText("fvt.feature.name.bee_info.honey", honeyLevel).formatted(Formatting.GRAY));
-		list.add(new TranslatableText("fvt.feature.name.bee_info.bees", beeCount).formatted(Formatting.GRAY));
+		list.add(Text.translatable("fvt.feature.name.bee_info.honey", honeyLevel).formatted(Formatting.GRAY));
+		list.add(Text.translatable("fvt.feature.name.bee_info.bees", beeCount).formatted(Formatting.GRAY));
 	}
 }

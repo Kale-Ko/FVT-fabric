@@ -5,8 +5,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import me.flourick.fvt.FVT;
 import net.minecraft.client.render.DimensionEffects.Nether;
+
+import me.flourick.fvt.FVT;
 
 /**
  * FEATURES: No Nether Thick Fog
@@ -19,6 +20,6 @@ abstract class NetherDimensionEffectsMixin
 	@Inject(method = "useThickFog", at = @At("HEAD"), cancellable = true)
 	private void onUseThickFog(CallbackInfoReturnable<Boolean> info)
 	{
-		info.setReturnValue(!FVT.OPTIONS.noNetherFog.getValueRaw());
+		info.setReturnValue(!FVT.OPTIONS.noNetherFog.getValue());
 	}
 }

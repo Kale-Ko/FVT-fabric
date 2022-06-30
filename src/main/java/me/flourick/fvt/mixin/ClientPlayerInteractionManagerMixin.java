@@ -1,13 +1,5 @@
 package me.flourick.fvt.mixin;
 
-import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.util.ActionResult;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,13 +8,22 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import net.minecraft.client.network.ClientPlayerInteractionManager;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.util.ActionResult;
 
 import me.flourick.fvt.FVT;
 
 /**
  * <p>
- * FEATURES: Random Block Placement, Refill Hand, Creative Break Delay
+ * FEATURES: Random Block Placement, Refill Hand, Creative Break Delay, No Break Swap Stop
  * </p>
  * 
  * @author Flourick
@@ -33,22 +34,32 @@ abstract class ClientPlayerInteractionManagerMixin
 	@Shadow
 	private int blockBreakingCooldown;
 
+	@ModifyVariable(method = "isCurrentlyBreaking(Lnet/minecraft/util/math/BlockPos;)Z", at = @At("STORE"), ordinal = 0)
+	private boolean breakStop(boolean bl)
+	{
+		if(FVT.OPTIONS.noBreakSwapStop.getValue()) {
+			return true;
+		}	
+
+		return bl;
+	}
+
 	@Inject(method = "attackBlock", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;blockBreakingCooldown:I", ordinal = 0, shift = At.Shift.AFTER))
 	private void onAttackBlockCooldown(CallbackInfoReturnable<Boolean> info)
 	{
-		blockBreakingCooldown = FVT.OPTIONS.creativeBreakDelay.getValueAsInteger(); // -1 is intentionally not here so the first block broken has always atleast some delay to make accidental double breaking not as common
+		blockBreakingCooldown = FVT.OPTIONS.creativeBreakDelay.getValue(); // -1 is intentionally not here so the first block broken has always atleast some delay to make accidental double breaking not as common
 	}
 
 	@Inject(method = "updateBlockBreakingProgress", at = @At(value = "FIELD", target = "Lnet/minecraft/client/network/ClientPlayerInteractionManager;blockBreakingCooldown:I", ordinal = 3, shift = At.Shift.AFTER))
 	private void onUpdateBlockBreakingProgressCooldown(CallbackInfoReturnable<Boolean> info)
 	{
-		blockBreakingCooldown = FVT.OPTIONS.creativeBreakDelay.getValueAsInteger() - 1;
+		blockBreakingCooldown = FVT.OPTIONS.creativeBreakDelay.getValue() - 1;
 	}
 
 	@Inject(method = "interactBlock", at = @At("HEAD"))
 	private void onInteractBlock(CallbackInfoReturnable<ActionResult> info)
 	{
-		if(FVT.OPTIONS.randomPlacement.getValueRaw()) {
+		if(FVT.OPTIONS.randomPlacement.getValue()) {
 			PlayerInventory inventory  = FVT.MC.player.getInventory();
 
 			// need to hold a block first for it to pick a block or empty hand
@@ -67,7 +78,7 @@ abstract class ClientPlayerInteractionManagerMixin
 			}
 		}
 
-		if(FVT.OPTIONS.refillHand.getValueRaw()) {
+		if(FVT.OPTIONS.refillHand.getValue()) {
 			PlayerInventory inventory  = FVT.MC.player.getInventory();
 
 			if(inventory.getStack(inventory.selectedSlot).getItem() instanceof BlockItem) {
@@ -78,7 +89,7 @@ abstract class ClientPlayerInteractionManagerMixin
 					int sz = inventory.main.size();
 
 					// if random placement enabled don't take items from hotbar
-					int begIdx = FVT.OPTIONS.randomPlacement.getValueRaw() ? 9 : 0;
+					int begIdx = FVT.OPTIONS.randomPlacement.getValue() ? 9 : 0;
 
 					// reverse search to pick items from back of the inventory first rather than hotbar
 					for(int i = sz-1; i >= begIdx; i--) {

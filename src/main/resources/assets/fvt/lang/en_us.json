@@ -16,7 +16,6 @@
 	"fvt.feature_category.hotbar": "Hotbar",
 	"fvt.feature_category.tools": "Tools",
 	"fvt.feature_category.render": "Render",
-    "fvt.feature_category.entity_outline": "Entity Outline",
 	"fvt.feature_category.auto": "Auto",
 	"fvt.feature_category.placement": "Placement",
 	"fvt.feature_category.misc": "Miscellaneous",
@@ -25,7 +24,6 @@
 
 	"fvt.feature.enabled": "%s is now enabled!",
 	"fvt.feature.disabled": "%s is now disabled!",
-
 	
 	"fvt.feature.name.button_position": "FVT Button Position",
 	"fvt.feature.name.button_position.right": "Right",
@@ -59,8 +57,6 @@
 	"fvt.feature.name.send_death_coordinates.tooltip": "Sends your last death coordinates in chat after you respawn (only visible to you).",
 
 	"fvt.feature.name.show_info": "HUD Info",
-	"fvt.feature.name.show_info.visible": "Visible",
-	"fvt.feature.name.show_info.hidden": "Hidden",
 	"fvt.feature.name.show_info.tooltip": "Shows your location, pitch, cardinal direction and block light while ingame. Sort of like a mini F3 screen.",
 
 	"fvt.feature.name.hud_coordinates": "Coords Position",
@@ -100,6 +96,9 @@
 	"fvt.feature.name.tool_warning.position.top": "Top",
 	"fvt.feature.name.tool_warning.position.bottom": "Bottom",
 
+	"fvt.feature.name.no_break_swap_stop": "No Break Swap Stop",
+	"fvt.feature.name.no_break_swap_stop.tooltip": "Will no longer stop breaking a block when you swap tools.",
+
 	"fvt.feature.name.cloud_height": "Cloud Height",
 	"fvt.feature.name.cloud_height.tooltip": "Sets the height at which clouds render.",
 
@@ -117,46 +116,6 @@
 
 	"fvt.feature.name.entity_outline_misc": "Entity Outline Misc",
 	"fvt.feature.name.entity_outline_misc.tooltip": "Allow other entities to be outlined.",
-
-	"fvt.feature.name.fullbright": "Fullbright",
-	"fvt.feature.name.fullbright.tooltip": "Makes you see in dark just as if it was a bright day.",
-
-	"fvt.feature.name.random_placement": "Random Placement",
-	"fvt.feature.name.random_placement.tooltip": "Randomly selects a block from your hotbar to place every time you try to place a block or when you have an empty hand.",
-
-	"fvt.feature.name.no_nether_fog": "No Nether Fog",
-	"fvt.feature.name.no_nether_fog.tooltip": "Disables the thick fog found in Nether.",
-
-	"fvt.feature.name.no_block_break_particles": "No Block Particles",
-	"fvt.feature.name.no_block_break_particles.tooltip": "Disables rendering the particles that spawn when you break a block.",
-
-	"fvt.feature.name.no_potion_particles": "No Potion Particles",
-	"fvt.feature.name.no_potion_particles.tooltip": "Disables particles that spawn around you when you use a potion on yourself.",
-
-	"fvt.feature.name.no_vignette": "No Vignette",
-	"fvt.feature.name.no_vignette.tooltip": "Disables the black vignette around HUD.",
-
-	"fvt.feature.name.no_spyglass_overlay": "No Spyglass Overlay",
-	"fvt.feature.name.no_spyglass_overlay.tooltip": "Disables spyglass overlay while zooming in.",
-
-	"fvt.feature.name.refill_hand": "Refill Hand",
-	"fvt.feature.name.refill_hand.tooltip": "Once the stack in your main hand is below 50% automatically finds the same item in your inventory and restocks it.",
-
-	"fvt.feature.name.autoreconnect": "AutoReconnect",
-	"fvt.feature.name.autoreconnect.tooltip": "Will try to automatically reconnect you to the server you got disconnected from.",
-	"fvt.feature.name.autoreconnect.message": "Reconnecting in: %ds (%d tries left)",
-	"fvt.feature.name.autoreconnect.message_nomax": "Reconnecting in: %ds",
-	"fvt.feature.name.autoreconnect.tries": "AutoReconnect Tries",
-    "fvt.feature.name.autoreconnect.tries_max": "Unlimited",
-	"fvt.feature.name.autoreconnect.tries.tooltip": "Number of times it will try to reconnect you after which it just gives up.",
-	"fvt.feature.name.autoreconnect.timeout": "AutoReconnect Timeout",
-	"fvt.feature.name.autoreconnect.timeout.tooltip": "States how long it should wait before every reconnect attempt (in seconds).",
-
-	"fvt.feature.name.autoeat": "Offhand AutoEat",
-	"fvt.feature.name.autoeat.tooltip": "Will automatically eat the food in your offhand as soon as you lose enough hunger for it to be fully utilized, will also eat if your health is low.",
-
-	"fvt.feature.name.trigger_autoattack": "Trigger AutoAttack",
-	"fvt.feature.name.trigger_autoattack.tooltip": "Automatically attacks entities if you place your crosshair over them and in reach (not players).",
 
 	"fvt.feature.name.freecam": "Freecam",
 	"fvt.feature.name.freecam.tooltip": "Allows you to leave your body and explore your surroundings. Works similar to spectator.",

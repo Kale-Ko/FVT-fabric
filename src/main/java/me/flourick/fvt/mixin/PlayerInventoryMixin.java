@@ -5,8 +5,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import me.flourick.fvt.FVT;
 import net.minecraft.entity.player.PlayerInventory;
+
+import me.flourick.fvt.FVT;
 
 /**
  * FEATURES: Hotbar Autohide

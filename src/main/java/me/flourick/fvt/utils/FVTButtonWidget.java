@@ -2,12 +2,12 @@ package me.flourick.fvt.utils;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import me.flourick.fvt.FVT;
-
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+
+import me.flourick.fvt.FVT;
 
 /**
  * Updated version of vanilla's ButtonWidget that fixes custom button sizes and adds coloring option.
