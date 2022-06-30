@@ -15,7 +15,6 @@
 		"CameraMixin",
 		"GameRendererMixin",
 		"ParticleManagerMixin",
-		"DisconnectedScreenMixin",
 		"GenericContainerScreenMixin",
 		"ShulkerBoxScreenMixin",
 		"HorseScreenMixin",
@@ -31,7 +30,8 @@
 		"MerchantScreenMixin",
 		"HandledScreenMixin",
 		"ScreenMixin",
-		"EntityMixin"
+		"EntityMixin",
+		"SimpleOptionMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

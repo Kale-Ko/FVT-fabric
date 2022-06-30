@@ -2,7 +2,6 @@ package me.flourick.fvt.utils;
 
 import java.util.HashSet;
 
-import me.flourick.fvt.FVT;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -11,8 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
+
+import me.flourick.fvt.FVT;
 
 /**
  * Adds three item management buttons to given screen.
@@ -49,19 +49,19 @@ public class ContainerButtons<T extends ScreenHandler>
 
 	public void create()
 	{
-		((IScreen)screen).FVT_addDrawableSelectableChild(new FVTButtonWidget(baseX, baseY, buttonWidth, buttonHeight, new LiteralText("⊽"), (buttonWidget) -> onDropButtonClick()
+		((IScreen)screen).FVT_addDrawableSelectableChild(new FVTButtonWidget(baseX, baseY, buttonWidth, buttonHeight, Text.literal("⊽"), (buttonWidget) -> onDropButtonClick()
 		, (buttonWidget, matrixStack, i, j) -> {
-			screen.renderTooltip(matrixStack, new TranslatableText("fvt.feature.name.container_buttons.drop.tooltip"), i, j + 8);
+			screen.renderTooltip(matrixStack, Text.translatable("fvt.feature.name.container_buttons.drop.tooltip"), i, j + 8);
 		}, new Color(150, 255, 255, 255), new Color(220, 255, 255, 255)));
 
-		((IScreen)screen).FVT_addDrawableSelectableChild(new FVTButtonWidget(baseX - buttonWidth - 2, baseY, buttonWidth, buttonHeight, new LiteralText("⊻"), (buttonWidget) -> onGetButtonClick()
+		((IScreen)screen).FVT_addDrawableSelectableChild(new FVTButtonWidget(baseX - buttonWidth - 2, baseY, buttonWidth, buttonHeight, Text.literal("⊻"), (buttonWidget) -> onGetButtonClick()
 		, (buttonWidget, matrixStack, i, j) -> {
-			screen.renderTooltip(matrixStack, new TranslatableText("fvt.feature.name.container_buttons.get.tooltip"), i, j + 8);
+			screen.renderTooltip(matrixStack, Text.translatable("fvt.feature.name.container_buttons.get.tooltip"), i, j + 8);
 		}, new Color(150, 255, 255, 255), new Color(220, 255, 255, 255)));
 
-		((IScreen)screen).FVT_addDrawableSelectableChild(new FVTButtonWidget(baseX - 2*buttonWidth - 4, baseY, buttonWidth, buttonHeight, new LiteralText("⊼"), (buttonWidget) -> onStoreButtonClick()
+		((IScreen)screen).FVT_addDrawableSelectableChild(new FVTButtonWidget(baseX - 2*buttonWidth - 4, baseY, buttonWidth, buttonHeight, Text.literal("⊼"), (buttonWidget) -> onStoreButtonClick()
 		, (buttonWidget, matrixStack, i, j) -> {
-			screen.renderTooltip(matrixStack, new TranslatableText("fvt.feature.name.container_buttons.store.tooltip"), i, j + 8);
+			screen.renderTooltip(matrixStack, Text.translatable("fvt.feature.name.container_buttons.store.tooltip"), i, j + 8);
 		}, new Color(150, 255, 255, 255), new Color(220, 255, 255, 255)));
 	}
 

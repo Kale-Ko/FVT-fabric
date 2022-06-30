@@ -1,27 +1,5 @@
 package me.flourick.fvt.mixin;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.input.Input;
-import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.recipebook.ClientRecipeBook;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ElytraItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.MessageType;
-import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.stat.StatHandler;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.math.MathHelper;
-
-import java.util.UUID;
-
 import com.ibm.icu.math.BigDecimal;
 import com.mojang.authlib.GameProfile;
 
@@ -33,10 +11,29 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import net.minecraft.client.input.Input;
+import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ElytraItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.network.encryption.PlayerPublicKey;
+import net.minecraft.network.message.MessageSender;
+import net.minecraft.network.message.MessageType;
+import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.BuiltinRegistries;
+
 import me.flourick.fvt.FVT;
 
 /**
- * FEATURES: AutoReconnect, Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra
+ * FEATURES: Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra
  *
  * @author Flourick, gliscowo
  */
@@ -54,23 +51,16 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Shadow
 	private int ticksLeftToDoubleTapSprint;
 
-	@Inject(method = "<init>", at = @At("RETURN"))
-	private void onConstructor(MinecraftClient client, ClientWorld world, ClientPlayNetworkHandler networkHandler, StatHandler stats, ClientRecipeBook recipeBook, boolean lastSneaking, boolean lastSprinting, CallbackInfo info)
-	{
-		if(FVT.OPTIONS.autoReconnect.getValueRaw()) {
-			FVT.VARS.autoReconnectTries = 0;
-		}
-	}
-
 	@Inject(method = "setShowsDeathScreen", at = @At("HEAD"))
 	private void onSetShowsDeathScreen(CallbackInfo info)
 	{
-		if(FVT.VARS.isAfterDeath && FVT.OPTIONS.sendDeathCoordinates.getValueRaw()) {
+		if(FVT.VARS.isAfterDeath && FVT.OPTIONS.sendDeathCoordinates.getValue()) {
 			FVT.VARS.isAfterDeath = false;
-			FVT.MC.inGameHud.addChatMessage(
-				MessageType.CHAT,
-				new TranslatableText("fvt.chat_messages_prefix", new TranslatableText("fvt.feature.name.send_death_coordinates.message", BigDecimal.valueOf(FVT.VARS.getLastDeathX()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathZ()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathY()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), FVT.VARS.getLastDeathWorld())),
-				UUID.fromString("00000000-0000-0000-0000-000000000000")
+
+			FVT.MC.inGameHud.onChatMessage(
+				BuiltinRegistries.MESSAGE_TYPE.get(MessageType.SYSTEM), 
+				Text.translatable("fvt.chat_messages_prefix", Text.translatable("fvt.feature.name.send_death_coordinates.message", BigDecimal.valueOf(FVT.VARS.getLastDeathX()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathZ()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathY()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), FVT.VARS.getLastDeathWorld())), 
+				MessageSender.of(Text.of(null))
 			);
 		}
 	}
@@ -78,10 +68,10 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Inject(method = "dropSelectedItem", at = @At("HEAD"), cancellable = true)
 	private void onDropSelectedItem(CallbackInfoReturnable<Boolean> info)
 	{
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			info.setReturnValue(false);
 		}
-		else if(FVT.OPTIONS.autoHideHotbarItem.getValueRaw()) {
+		else if(FVT.OPTIONS.autoHideHotbarItem.getValue()) {
 			FVT.VARS.resetHotbarLastInteractionTime();
 		}
 	}
@@ -89,7 +79,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getEquippedStack(Lnet/minecraft/entity/EquipmentSlot;)Lnet/minecraft/item/ItemStack;"))
 	private void onTickMovementGetEquippedStack(CallbackInfo info)
 	{
-		if(!FVT.OPTIONS.autoElytra.getValueRaw()) {
+		if(!FVT.OPTIONS.autoElytra.getValue()) {
 			return;
 		}
 
@@ -130,7 +120,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Inject(method = "tickMovement", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isFallFlying()Z"))
 	private void onTickMovementIsFallFlying(CallbackInfo info)
 	{
-		if(!FVT.OPTIONS.autoElytra.getValueRaw()) {
+		if(!FVT.OPTIONS.autoElytra.getValue()) {
 			return;
 		}
 
@@ -170,11 +160,11 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Inject(method = "tickMovement", at = @At("HEAD"))
 	private void onTickMovement(CallbackInfo info)
 	{
-		if(FVT.OPTIONS.disableWToSprint.getValueRaw()) {
+		if(FVT.OPTIONS.disableWToSprint.getValue()) {
 			this.ticksLeftToDoubleTapSprint = -1;
 		}
 
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			this.setVelocity(FVT.VARS.playerVelocity);
 
 			float forward = FVT.MC.player.input.movementForward;
@@ -208,7 +198,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;hasVehicle()Z", ordinal = 0))
 	private boolean hijackHasVehicle(ClientPlayerEntity player)
 	{
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			return false;
 		}
 
@@ -219,7 +209,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;hasJumpingMount()Z", ordinal = 0))
 	private boolean hijackHasJumpingMount(ClientPlayerEntity player)
 	{
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			return false;
 		}
 
@@ -230,7 +220,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Inject(method = "tickRiding", at = @At("HEAD"), cancellable = true)
 	private void onTickRiding(CallbackInfo info)
 	{
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			super.tickRiding();
 			info.cancel();
 		}
@@ -240,7 +230,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Inject(method = "move", at = @At("HEAD"), cancellable = true)
 	private void onMove(CallbackInfo info)
 	{
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			info.cancel();
 		}
 	}
@@ -249,7 +239,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Inject(method = "isCamera", at = @At("HEAD"), cancellable = true)
 	private void onIsCamera(CallbackInfoReturnable<Boolean> info)
 	{
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			info.setReturnValue(false);
 		}
 	}
@@ -258,7 +248,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Inject(method = "isSneaking", at = @At("HEAD"), cancellable = true)
 	private void onIsSneaking(CallbackInfoReturnable<Boolean> info)
 	{
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			info.setReturnValue(false);
 		}
 	}
@@ -267,7 +257,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	@Override
 	public void changeLookDirection(double cursorDeltaX, double cursorDeltaY)
 	{
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			FVT.VARS.freecamYaw += cursorDeltaX * 0.15D;
 			FVT.VARS.freecamPitch = MathHelper.clamp(FVT.VARS.freecamPitch + cursorDeltaY * 0.15D, -90, 90);
 		}
@@ -276,5 +266,5 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		}
 	}
 
-	public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) { super(world, profile); } // IGNORED
+	public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile, PlayerPublicKey publicKey) { super(world, profile, publicKey); } // IGNORED
 }

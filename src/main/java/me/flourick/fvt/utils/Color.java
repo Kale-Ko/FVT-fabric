@@ -75,4 +75,9 @@ public class Color
 	{
 		return packed;
 	}
+
+	public static float normalize(int colorPart)
+	{
+		return (float)colorPart / 255;
+	}
 }

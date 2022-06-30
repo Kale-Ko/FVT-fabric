@@ -14,9 +14,7 @@ import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 import me.flourick.fvt.FVT;
 import me.flourick.fvt.utils.Color;
@@ -57,16 +55,16 @@ abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen implem
 	@Inject(method = "init", at = @At("RETURN"))
 	private void onInit(CallbackInfo info)
 	{
-		if(!FVT.OPTIONS.inventoryButton.getValueRaw() || (Object)this instanceof CreativeInventoryScreen) {
+		if(!FVT.OPTIONS.inventoryButton.getValue() || (Object)this instanceof CreativeInventoryScreen) {
 			return;
 		}
 
 		int buttonWidth = 14;
 		int buttonHeight = 12;
 
-		FVT_dropButton = new FVTButtonWidget(FVT_getDropButtonX(), FVT_getDropButtonY(), buttonWidth, buttonHeight, new LiteralText("⊽"), (buttonWidget) -> FVT_onDropButtonClick()
+		FVT_dropButton = new FVTButtonWidget(FVT_getDropButtonX(), FVT_getDropButtonY(), buttonWidth, buttonHeight, Text.literal("⊽"), (buttonWidget) -> FVT_onDropButtonClick()
 		, (buttonWidget, matrixStack, i, j) -> {
-			this.renderTooltip(matrixStack, new TranslatableText("fvt.feature.name.inventory_button.drop.tooltip"), i, j + 8);
+			this.renderTooltip(matrixStack, Text.translatable("fvt.feature.name.inventory_button.drop.tooltip"), i, j + 8);
 		}, new Color(255, 255, 255, 255), new Color(255, 255, 255, 255));
 
 		this.addDrawableChild(FVT_dropButton);

@@ -4,6 +4,8 @@ Various client-side tweaks fabric mod, compatible with Sodium/Canvas.
 
 Translations are handled on [Crowdin](https://crowdin.com/project/flours-various-tweaks). If you wish to translate the mod and your language is not listed there, start a thread in [Discussions](https://github.com/Flourick/FVT-fabric/discussions) or message me on Crowdin.
 
+[![Crowdin](https://badges.crowdin.net/flours-various-tweaks/localized.svg)](https://crowdin.com/project/flours-various-tweaks)
+
 ## Installation
 
 1. Download fabric loader from [here](https://fabricmc.net/use/) (**REQUIRES** Fabric-API! Get it [here](https://modrinth.com/mod/fabric-api))
@@ -82,6 +84,10 @@ List of all toggleable features. Configuration is in in-game options menu called
 
     Makes your tools stop working at certain durability (will stop at 2 durability for most tools). This includes swords, pickaxes, axes, shovels, hoes, trident, bow and crossbow. Can be overriden (by default holding right ALT).
 
+* ### No Break Swap Stop
+
+    Will no longer stop breaking a block when you swap tools.
+
 * ### Cloud Height
 
     Allows you to set the height at which clouds render (-64 to 320).
@@ -105,6 +111,10 @@ List of all toggleable features. Configuration is in in-game options menu called
 * ### No Spyglass Overlay
 
     Disables spyglass overlay while zooming in.
+
+* ### Damage Tilt
+
+    Let's you disable or tune down the screen tilt when you take damage.
 
 * ### Attack Through
 
@@ -142,10 +152,6 @@ List of all toggleable features. Configuration is in in-game options menu called
 
     Adds a drop button to every screen with your inventory (crafting, dropper, horse... screen) that will drop your inventory on the ground (only your inventory, not every slot on the screen!).
 
-* ### AutoReconnect
-
-    Will try to automatically reconnect you to the server you got disconnected from. Number of tries and the time after which it tries to reconnect you are configurable.
-
 * ### Horse Stats
 
     Horses, donkeys and mules have a "Stats" button which upon hover shows it's health, speed and jump height.
@@ -182,7 +188,7 @@ List of all toggleable features. Configuration is in in-game options menu called
 
     Automatically attacks living beings (not players) if you place your crosshair over them and in reach. Primarily meant for AFK farms.
 
-## Preview (v1.10.1)
+## Preview (v1.11.0)
 
 <details><summary>Static crosshair color, HUD info, death message & tool breaking warning. (CLICK ME)</summary>
 <p>
@@ -195,7 +201,7 @@ List of all toggleable features. Configuration is in in-game options menu called
 <details><summary>Ingame menu with default settings. (CLICK ME)</summary>
 <p>
 
-![menu](https://user-images.githubusercontent.com/33128006/172046184-360a30a2-0093-4b1e-876c-5fd746bfa532.png)
+![menu](https://user-images.githubusercontent.com/33128006/174318447-3155eedc-9468-4c50-8db8-3c11401dbdfb.png)
 
 </p>
 </details>

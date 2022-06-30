@@ -1,11 +1,11 @@
 package me.flourick.fvt.mixin;
 
-import net.minecraft.client.render.LightmapTextureManager;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import net.minecraft.client.render.LightmapTextureManager;
 
 import me.flourick.fvt.FVT;
 
@@ -18,9 +18,9 @@ import me.flourick.fvt.FVT;
 abstract class LightmapTextureManagerMixin
 {
 	@Inject(method = "getBrightness", at = @At("HEAD"), cancellable = true)
-	private void onGetBrightness(CallbackInfoReturnable<Float> info)
+	private static void onGetBrightness(CallbackInfoReturnable<Float> info)
 	{
-		if(FVT.OPTIONS.fullbright.getValueRaw()) {
+		if(FVT.OPTIONS.fullbright.getValue()) {
 			info.setReturnValue(1f);
 		}
 	}

@@ -1,6 +1,12 @@
 package me.flourick.fvt.mixin;
 
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
@@ -8,28 +14,70 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.RaycastContext;
-
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import me.flourick.fvt.FVT;
 
 /**
- * FEATURES: Freecam, Attack Through
+ * FEATURES: Freecam, Attack Through, Damage Tilt
  * 
  * @author Flourick
  */
 @Mixin(GameRenderer.class)
 abstract class GameRendererMixin
 {
-	@Inject(method = "updateTargetedEntity", at = @At("HEAD"), cancellable = true)
-	public void onUpdateTargetedEntity(float tickDelta, CallbackInfo info)
+	@Inject(method = "bobViewWhenHurt", at = @At("HEAD"), cancellable = true)
+	private void onBobViewWhenHurt(MatrixStack matrices, float tickDelta, CallbackInfo info)
 	{
-		if(!FVT.OPTIONS.attackThrough.getValueRaw()) {
+		if(FVT.MC.getCameraEntity() instanceof LivingEntity) {
+			LivingEntity livingEntity = (LivingEntity)FVT.MC.getCameraEntity();
+			float f = livingEntity.hurtTime - tickDelta;
+			float g;
+
+			if(livingEntity.isDead()) {
+				g = Math.min((float)livingEntity.deathTime + tickDelta, 20.0f);
+				matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(40.0f - 8000.0f / (g + 200.0f)));
+			}
+
+			if(f < 0.0f) {
+				info.cancel();
+				return;
+			}
+
+			switch(FVT.OPTIONS.damageTilt.getValue()) {
+				case OFF:
+					info.cancel();
+					return;
+				case MINIMAL:
+					f /= (float)livingEntity.maxHurtTime;
+					f = MathHelper.sin(f*f*f * (float)Math.PI);
+					g = livingEntity.knockbackVelocity;
+					matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-g));
+					matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-f * 5.0f));
+					matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(g));
+					break;
+				case DEFAULT:
+				default:
+					f /= (float)livingEntity.maxHurtTime;
+					f = MathHelper.sin(f*f*f*f * (float)Math.PI);
+					g = livingEntity.knockbackVelocity;
+					matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-g));
+					matrices.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(-f * 14.0f));
+					matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(g));
+					break;
+			}
+		}
+
+		info.cancel();
+	}
+
+	@Inject(method = "updateTargetedEntity", at = @At("HEAD"), cancellable = true)
+	private void onUpdateTargetedEntity(float tickDelta, CallbackInfo info)
+	{
+		if(!FVT.OPTIONS.attackThrough.getValue()) {
 			return;
 		}
 
@@ -97,7 +145,7 @@ abstract class GameRendererMixin
 	@Inject(method = "renderHand", at = @At("HEAD"), cancellable = true)
 	private void removeHandRendering(CallbackInfo info)
 	{
-		if(FVT.OPTIONS.freecam.getValueRaw()) {
+		if(FVT.OPTIONS.freecam.getValue()) {
 			info.cancel();
 		}
 	}

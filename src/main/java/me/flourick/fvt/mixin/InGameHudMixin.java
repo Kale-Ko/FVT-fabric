@@ -1,7 +1,5 @@
 package me.flourick.fvt.mixin;
 
-import java.util.Random;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -13,9 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import me.flourick.fvt.FVT;
-import me.flourick.fvt.utils.OnScreenText;
-
+import net.minecraft.util.math.random.Random;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -32,6 +28,11 @@ import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
+
+import me.flourick.fvt.FVT;
+import me.flourick.fvt.settings.FVTOptions.HotbarMode;
+import me.flourick.fvt.utils.Color;
+import me.flourick.fvt.utils.OnScreenText;
 
 /**
  * FEATURES: Tool Breaking Warning, HUD Info, Mount Hunger, Crosshair, No Vignette, No Spyglass Overlay, Hotbar Autohide
@@ -80,16 +81,16 @@ abstract class InGameHudMixin extends DrawableHelper
 	private int FVT_getHotbarHideHeight()
 	{
 		// either entire hotbar + health, armor... or just the items part
-		int adjustment = FVT.OPTIONS.autoHideHotbarMode.getValueRaw() ? 70 : 23;
+		int adjustment = FVT.OPTIONS.autoHideHotbarMode.getValue() == HotbarMode.FULL ? 70 : 23;
 
 		return (int)(adjustment - (adjustment * FVT_getHotbarInteractionScalar()));
 	}
 
 	private float FVT_getHotbarInteractionScalar()
 	{
-		long delay = MathHelper.ceil(FVT.OPTIONS.autoHideHotbarTimeout.getValueRaw() * 1000.0D); // 1-10s max time left opened
-		long closeDelay = FVT.OPTIONS.autoHideHotbarMode.getValueRaw() ? 400L : 250L; // 400/250ms closing animation
-		long openDelay = FVT.OPTIONS.autoHideHotbarMode.getValueRaw() ? 160L : 80L; // 160/80ms opening animation
+		long delay = MathHelper.ceil(FVT.OPTIONS.autoHideHotbarTimeout.getValue() * 100.0D); // 1-10s max time left opened
+		long closeDelay = FVT.OPTIONS.autoHideHotbarMode.getValue() == HotbarMode.FULL ? 400L : 250L; // 400/250ms closing animation
+		long openDelay = FVT.OPTIONS.autoHideHotbarMode.getValue() == HotbarMode.FULL ? 160L : 80L; // 160/80ms opening animation
 
 		if(FVT_firstHotbarOpen) {
 			FVT_firstHotbarOpen = false;
@@ -129,7 +130,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	@Inject(method = "renderSpyglassOverlay", at = @At("HEAD"), cancellable = true)
 	private void onRenderSpyglassOverlay(CallbackInfo info)
 	{
-		if(FVT.OPTIONS.noSpyglassOverlay.getValueRaw()) {
+		if(FVT.OPTIONS.noSpyglassOverlay.getValue()) {
 			info.cancel();
 		}
 	}
@@ -142,7 +143,7 @@ abstract class InGameHudMixin extends DrawableHelper
 			return;
 		}
 
-		if(FVT.OPTIONS.showInfo.getValueRaw()) {
+		if(FVT.OPTIONS.showHUDInfo.getValue()) {
 			// HUD info moves to the top if chat is open
 			if(FVT.MC.currentScreen instanceof ChatScreen) {
 				OnScreenText.drawCoordinatesTextUpper(matrixStack);
@@ -159,7 +160,7 @@ abstract class InGameHudMixin extends DrawableHelper
 		if(FVT.VARS.getToolWarningTextTicksLeft() > 0) {
 			matrixStack.push();
 			matrixStack.translate((double)(this.client.getWindow().getScaledWidth() / 2.0d), (double)(this.client.getWindow().getScaledHeight() / 2.0d), (double)this.getZOffset());
-			matrixStack.scale(FVT.OPTIONS.toolWarningScale.getValueRaw().floatValue(), FVT.OPTIONS.toolWarningScale.getValueRaw().floatValue(), 1.0f);
+			matrixStack.scale(FVT.OPTIONS.toolWarningScale.getValue().floatValue(), FVT.OPTIONS.toolWarningScale.getValue().floatValue(), 1.0f);
 			OnScreenText.drawToolWarningText(matrixStack);
 			matrixStack.pop();
 		}
@@ -168,7 +169,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderVignetteOverlay(Lnet/minecraft/entity/Entity;)V", ordinal = 0))
 	private void hijackRenderVignetteOverlay(InGameHud igHud, Entity entity)
 	{
-		if(!FVT.OPTIONS.noVignette.getValueRaw()) {
+		if(!FVT.OPTIONS.noVignette.getValue()) {
 			this.renderVignetteOverlay(entity);
 		}
 	}
@@ -178,7 +179,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	{
 		// makes it so jump bar is only visible while actually jumping
 		if(FVT.MC.options.jumpKey.isPressed()) {
-			boolean autoHideHotbar = FVT.OPTIONS.autoHideHotbar.getValueRaw();
+			boolean autoHideHotbar = FVT.OPTIONS.autoHideHotbar.getValue();
 
 			if(autoHideHotbar) {
 				matrices.push();
@@ -211,7 +212,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	@Inject(method = "renderStatusBars", at = @At("HEAD"))
 	private void onRenderStatusBarsBegin(MatrixStack matrices, CallbackInfo info)
 	{
-		if(FVT.OPTIONS.autoHideHotbar.getValueRaw()) {
+		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.push();
 			matrices.translate(0, FVT_getHotbarHideHeight(), this.getZOffset());
 		}
@@ -220,7 +221,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	@Inject(method = "renderStatusBars", at = @At("RETURN"))
 	private void onRenderStatusBarsEnd(MatrixStack matrices, CallbackInfo info)
 	{
-		if(FVT.OPTIONS.autoHideHotbar.getValueRaw()) {
+		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.pop();
 		}
 	}
@@ -228,7 +229,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	@Inject(method = "renderMountHealth", at = @At("HEAD"), cancellable = true)
 	private void onRenderMountHealth(MatrixStack matrices, CallbackInfo info)
 	{
-		if(FVT.OPTIONS.autoHideHotbar.getValueRaw()) {
+		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.push();
 			matrices.translate(0, FVT_getHotbarHideHeight(), this.getZOffset());
 		}
@@ -301,7 +302,7 @@ abstract class InGameHudMixin extends DrawableHelper
 				currentRowY -= 10;
 			}
 
-			if(FVT.OPTIONS.autoHideHotbar.getValueRaw()) {
+			if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 				matrices.pop();
 			}
 
@@ -312,7 +313,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	@Inject(method = "renderMountHealth", at = @At("RETURN"))
 	private void onRenderMountHealthEnd(MatrixStack matrices, CallbackInfo info)
 	{
-		if(FVT.OPTIONS.autoHideHotbar.getValueRaw()) {
+		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.pop();
 		}
 	}
@@ -320,7 +321,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	@Inject(method = "renderExperienceBar", at = @At("HEAD"))
 	private void onRenderExperienceBarBegin(MatrixStack matrices, int x, CallbackInfo info)
 	{
-		if(FVT.OPTIONS.autoHideHotbar.getValueRaw()) {
+		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.push();
 			matrices.translate(0, FVT_getHotbarHideHeight(), this.getZOffset());
 		}
@@ -329,7 +330,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	@Inject(method = "renderExperienceBar", at = @At("RETURN"))
 	private void onRenderExperienceBarEnd(MatrixStack matrices, int x, CallbackInfo info)
 	{
-		if(FVT.OPTIONS.autoHideHotbar.getValueRaw()) {
+		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.pop();
 		}
 	}
@@ -339,7 +340,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	{
 		// couldn't just simply push & pop into matrices becouse only HALF OF THE FUCKING FUNCTION USES THEM, the other half is still on the old system... ugh.
 		// so yeah enjoy the entire function being rewritten, glorious!
-		if(FVT.OPTIONS.autoHideHotbar.getValueRaw()) {
+		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			PlayerEntity playerEntity = this.getCameraPlayer();
 			
 			if(playerEntity != null) {
@@ -393,7 +394,7 @@ abstract class InGameHudMixin extends DrawableHelper
 					}
 				}
 
-				if(this.client.options.attackIndicator == AttackIndicator.HOTBAR) {
+				if(this.client.options.getAttackIndicator().getValue() == AttackIndicator.HOTBAR) {
 					float f = this.client.player.getAttackCooldownProgress(0.0F);
 
 					if(f < 1.0F) {
@@ -420,7 +421,7 @@ abstract class InGameHudMixin extends DrawableHelper
 		}
 	}
 
-	@Redirect(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 0))
+	@Redirect(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 0), require = 0)
 	private void onRenderCrosshair(InGameHud igHud, MatrixStack matrixStack, int x, int y, int u, int v, int width, int height)
 	{
 		int scaledWidth = this.client.getWindow().getScaledWidth();
@@ -429,15 +430,15 @@ abstract class InGameHudMixin extends DrawableHelper
 		matrixStack.push();
 		matrixStack.translate((float)(scaledWidth / 2), (float)(scaledHeight / 2), (float)this.getZOffset());
 
-		if(FVT.OPTIONS.crosshairStaticColor.getValueRaw()) {
-			RenderSystem.setShaderColor(FVT.OPTIONS.crosshairStaticColorRed.getValueRawNormalized().floatValue(), FVT.OPTIONS.crosshairStaticColorGreen.getValueRawNormalized().floatValue(), FVT.OPTIONS.crosshairStaticColorBlue.getValueRawNormalized().floatValue(), FVT.OPTIONS.crosshairStaticColorAlpha.getValueRawNormalized().floatValue());
+		if(FVT.OPTIONS.crosshairStaticColor.getValue()) {
+			RenderSystem.setShaderColor(Color.normalize(FVT.OPTIONS.crosshairStaticColorRed.getValue()), Color.normalize(FVT.OPTIONS.crosshairStaticColorGreen.getValue()), Color.normalize(FVT.OPTIONS.crosshairStaticColorBlue.getValue()), Color.normalize(FVT.OPTIONS.crosshairStaticColorAlpha.getValue()));
 			RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
 		}
 		else {
 			RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.ONE_MINUS_DST_COLOR, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
 		}
 	
-		matrixStack.scale(FVT.OPTIONS.crosshairScale.getValueRaw().floatValue(), FVT.OPTIONS.crosshairScale.getValueRaw().floatValue(), 1.0f);
+		matrixStack.scale(FVT.OPTIONS.crosshairScale.getValue().floatValue(), FVT.OPTIONS.crosshairScale.getValue().floatValue(), 1.0f);
 		this.drawTexture(matrixStack, -15/2, -15/2, 0, 0, 15, 15);
 		matrixStack.pop();
 	}

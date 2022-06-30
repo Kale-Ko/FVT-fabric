@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import me.flourick.fvt.FVT;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.MerchantScreen;
@@ -15,6 +14,8 @@ import net.minecraft.screen.MerchantScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import net.minecraft.village.TradeOffer;
+
+import me.flourick.fvt.FVT;
 
 /**
  * FEATURES: FastTrade
@@ -30,7 +31,7 @@ abstract class MerchantScreenMixin extends HandledScreen<MerchantScreenHandler>
 	@Inject(method = "syncRecipeIndex", at = @At("HEAD"))
 	private void onSyncRecipeIndex(CallbackInfo info)
 	{
-		if(!FVT.OPTIONS.fastTrade.getValueRaw()) {
+		if(!FVT.OPTIONS.fastTrade.getValue()) {
 			return;
 		}
 

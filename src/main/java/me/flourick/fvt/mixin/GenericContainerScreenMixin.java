@@ -2,14 +2,14 @@ package me.flourick.fvt.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import me.flourick.fvt.FVT;
-import me.flourick.fvt.utils.ContainerButtons;
-
 import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.text.Text;
+
+import me.flourick.fvt.FVT;
+import me.flourick.fvt.utils.ContainerButtons;
 
 /**
  * FEATURES: Container Buttons
@@ -24,7 +24,7 @@ abstract class GenericContainerScreenMixin extends HandledScreen<GenericContaine
 	{
 		super.init();
 
-		if(!FVT.OPTIONS.containerButtons.getValueRaw()) {
+		if(!FVT.OPTIONS.containerButtons.getValue()) {
 			return;
 		}
 

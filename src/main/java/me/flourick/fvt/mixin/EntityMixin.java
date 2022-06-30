@@ -74,9 +74,6 @@ abstract class EntityMixin
 		if(vec3d != null) {
 			section.add("Entity's Momentum", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", vec3d.x, vec3d.y, vec3d.z));
 		}
-		else {
-			section.add("Entity's Momentum", String.format(Locale.ROOT, "%.2f, %.2f, %.2f", 0.12f, 0.12f, 0.12f));
-		}
 		section.add("Entity's Passengers", () -> this.getPassengerList().toString());
 		section.add("Entity's Vehicle", () -> String.valueOf(this.getVehicle()));
 		

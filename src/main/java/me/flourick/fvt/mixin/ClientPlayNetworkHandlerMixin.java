@@ -32,7 +32,7 @@ abstract class ClientPlayNetworkHandlerMixin
 	@Inject(method = "onScreenHandlerSlotUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/s2c/play/ScreenHandlerSlotUpdateS2CPacket;getRevision()I", ordinal = 1))
 	private void onnScreenHandlerSlotUpdate(ScreenHandlerSlotUpdateS2CPacket packet, CallbackInfo info)
 	{
-		if(FVT.OPTIONS.fastTrade.getValueRaw() && FVT.VARS.waitForTrade && packet.getSlot() == 2 && FVT.VARS.tradeItem != null && packet.getItemStack().getItem() == FVT.VARS.tradeItem) {
+		if(FVT.OPTIONS.fastTrade.getValue() && FVT.VARS.waitForTrade && packet.getSlot() == 2 && FVT.VARS.tradeItem != null && packet.getItemStack().getItem() == FVT.VARS.tradeItem) {
 			if(Screen.hasShiftDown()) {
 				FVT.MC.interactionManager.clickSlot(packet.getSyncId(), 2, 0, SlotActionType.QUICK_MOVE, FVT.MC.player);
 			}
@@ -56,7 +56,7 @@ abstract class ClientPlayNetworkHandlerMixin
 	@Inject(method = "onItemPickupAnimation", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;getStack()Lnet/minecraft/item/ItemStack;"), locals = LocalCapture.CAPTURE_FAILHARD)
 	private void onOnItemPickupAnimation(ItemPickupAnimationS2CPacket packet, CallbackInfo info, Entity entity, LivingEntity livingEntity, ItemEntity itemEntity)
 	{
-		if(FVT.OPTIONS.autoHideHotbarItem.getValueRaw() && livingEntity == FVT.MC.player) {
+		if(FVT.OPTIONS.autoHideHotbarItem.getValue() && livingEntity == FVT.MC.player) {
 			FVT.VARS.resetHotbarLastInteractionTime();
 		}
 	}
@@ -64,7 +64,7 @@ abstract class ClientPlayNetworkHandlerMixin
 	@Inject(method = "onEntityStatus", at = @At("RETURN"))
 	private void onOnEntityStatus(EntityStatusS2CPacket packet, CallbackInfo info)
 	{
-		if(FVT.OPTIONS.autoTotem.getValueRaw() && packet.getStatus() == 35 && packet.getEntity(FVT.MC.player.world).equals(FVT.MC.player)) {
+		if(FVT.OPTIONS.autoTotem.getValue() && packet.getStatus() == 35 && packet.getEntity(FVT.MC.player.world).equals(FVT.MC.player)) {
 			ClientPlayerEntity player  = FVT.MC.player;
 
 			int activeIdx = -1;
