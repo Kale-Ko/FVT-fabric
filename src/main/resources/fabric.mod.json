@@ -6,12 +6,12 @@
 	"name": "Flour's Various Tweaks",
 	"description": "Various client-side tweaks & enhancements mod",
 	"authors": [
-		"Flourick"
+		"Flourick",
+		"Kale Ko"
 	],
 	"contributors": [
 		"jtenner",
-		"gliscowo",
-		"Kale Ko"
+		"gliscowo"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/fvt",

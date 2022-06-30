@@ -16,10 +16,11 @@
 	"fvt.feature_category.hotbar": "Hotbar",
 	"fvt.feature_category.tools": "Tools",
 	"fvt.feature_category.render": "Render",
+	"fvt.feature_category.entity_outline": "Entity Outline",
 	"fvt.feature_category.auto": "Auto",
 	"fvt.feature_category.placement": "Placement",
 	"fvt.feature_category.misc": "Miscellaneous",
-	
+
 	"fvt.feature.default": "Default: %s",
 
 	"fvt.feature.enabled": "%s is now enabled!",
@@ -116,6 +117,39 @@
 
 	"fvt.feature.name.entity_outline_misc": "Entity Outline Misc",
 	"fvt.feature.name.entity_outline_misc.tooltip": "Allow other entities to be outlined.",
+
+	"fvt.feature.name.fullbright": "Fullbright",
+	"fvt.feature.name.fullbright.tooltip": "Makes you see in dark just as if it was a bright day.",
+
+	"fvt.feature.name.random_placement": "Random Placement",
+	"fvt.feature.name.random_placement.tooltip": "Randomly selects a block from your hotbar to place every time you try to place a block or when you have an empty hand.",
+
+	"fvt.feature.name.no_nether_fog": "No Nether Fog",
+	"fvt.feature.name.no_nether_fog.tooltip": "Disables the thick fog found in Nether.",
+
+	"fvt.feature.name.no_block_break_particles": "No Block Particles",
+	"fvt.feature.name.no_block_break_particles.tooltip": "Disables rendering the particles that spawn when you break a block.",
+
+	"fvt.feature.name.no_potion_particles": "No Potion Particles",
+	"fvt.feature.name.no_potion_particles.tooltip": "Disables particles that spawn around you when you use a potion on yourself.",
+
+	"fvt.feature.name.damage_tilt": "Damage Tilt",
+	"fvt.feature.name.damage_tilt.tooltip": "Let's you disable or tune down the screen tilt when you take damage.",
+
+	"fvt.feature.name.no_vignette": "No Vignette",
+	"fvt.feature.name.no_vignette.tooltip": "Disables the black vignette around HUD.",
+
+	"fvt.feature.name.no_spyglass_overlay": "No Spyglass Overlay",
+	"fvt.feature.name.no_spyglass_overlay.tooltip": "Disables spyglass overlay while zooming in.",
+
+	"fvt.feature.name.refill_hand": "Refill Hand",
+	"fvt.feature.name.refill_hand.tooltip": "Once the stack in your main hand is below 50% automatically finds the same item in your inventory and restocks it.",
+
+	"fvt.feature.name.autoeat": "Offhand AutoEat",
+	"fvt.feature.name.autoeat.tooltip": "Will automatically eat the food in your offhand as soon as you lose enough hunger for it to be fully utilized, will also eat if your health is low.",
+
+	"fvt.feature.name.trigger_autoattack": "Trigger AutoAttack",
+	"fvt.feature.name.trigger_autoattack.tooltip": "Automatically attacks entities if you place your crosshair over them and in reach (not players).",
 
 	"fvt.feature.name.freecam": "Freecam",
 	"fvt.feature.name.freecam.tooltip": "Allows you to leave your body and explore your surroundings. Works similar to spectator.",
