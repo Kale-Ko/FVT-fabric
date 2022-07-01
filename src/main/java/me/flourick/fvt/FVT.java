@@ -9,6 +9,10 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ConnectScreen;
+import net.minecraft.client.gui.screen.DisconnectedScreen;
+import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.util.InputUtil;
@@ -115,6 +119,27 @@ public class FVT implements ClientModInitializer
 				// disables freecam if leaving a world
 				FVT.OPTIONS.freecam.setValue(false);
 			}
+
+			if(FVT.OPTIONS.autoReconnect.getValue() && FVT.VARS.autoReconnectTicks > 0) {
+				if(FVT.MC.currentScreen instanceof DisconnectedScreen) {
+					FVT.VARS.autoReconnectTicks -= 1;
+
+					if(FVT.VARS.autoReconnectTicks == 0 && FVT.VARS.lastServer != null) {
+						if(FVT.VARS.autoReconnectAttempts < FVT.OPTIONS.autoReconnectAttempts.getValue() || FVT.OPTIONS.autoReconnectAttempts.getValue() == -1) {
+                            FVT.VARS.autoReconnectAttempts++;
+
+							ConnectScreen.connect(new TitleScreen(), FVT.MC, ServerAddress.parse(FVT.VARS.lastServer.address), FVT.VARS.lastServer);
+						}
+						else {
+							FVT.VARS.autoReconnectAttempts = 0;
+						}
+					}
+				}
+				else {
+					FVT.VARS.autoReconnectAttempts = 0;
+					FVT.VARS.autoReconnectTicks = 0;
+				}
+            }
 		});
 
 		ClientTickEvents.END_WORLD_TICK.register(clientWorld ->

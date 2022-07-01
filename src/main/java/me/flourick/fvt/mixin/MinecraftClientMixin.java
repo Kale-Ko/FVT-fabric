@@ -280,4 +280,12 @@ abstract class MinecraftClientMixin
 			info.setReturnValue(true);
 		}
 	}
+
+	@Inject(method = "disconnect", at = @At("HEAD"), cancellable = true)
+	private void onDisconnect(CallbackInfo info)
+	{
+		if(this.currentServerEntry != null) {
+			FVT.VARS.lastServer = this.currentServerEntry;
+		}
+	}
 }

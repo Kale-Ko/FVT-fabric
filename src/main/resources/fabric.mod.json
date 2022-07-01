@@ -15,8 +15,8 @@
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/fvt",
-		"sources": "https://github.com/Flourick/FVT-fabric",
-		"issues": "https://github.com/Flourick/FVT-fabric/issues"
+		"sources": "https://github.com/Kale-Ko/FVT-fabric",
+		"issues": "https://github.com/Kale-Ko/FVT-fabric/issues"
 	},
 
 	"license": "MIT",
@@ -36,7 +36,7 @@
 	],
 
 	"depends": {
-		"fabricloader": ">=0.14.6",
+		"fabricloader": ">=0.14.8",
 		"fabric": "*",
 		"minecraft": "~1.19",
 		"java": ">=17"

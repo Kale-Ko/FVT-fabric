@@ -84,6 +84,7 @@ public class FVTSettingsScreen extends Screen
 		this.list.AddOptionEntry(FVT.OPTIONS.toolWarningScale);
 		this.list.AddOptionEntry(FVT.OPTIONS.noToolBreaking, FVT.OPTIONS.noBreakSwapStop);
 		this.list.addCategoryEntry("fvt.feature_category.auto");
+		this.list.AddOptionEntry(FVT.OPTIONS.autoReconnect, FVT.OPTIONS.autoReconnectAttempts);
 		this.list.AddOptionEntry(FVT.OPTIONS.autoEat, FVT.OPTIONS.autoAttack);
 		this.list.AddOptionEntry(FVT.OPTIONS.autoTotem, FVT.OPTIONS.refillHand);
 		this.list.AddOptionEntry(FVT.OPTIONS.autoElytra, FVT.OPTIONS.fastTrade);

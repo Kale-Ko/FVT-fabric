@@ -2,7 +2,6 @@ package me.flourick.fvt.mixin;
 
 import com.ibm.icu.math.BigDecimal;
 import com.mojang.authlib.GameProfile;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,10 +9,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.recipebook.ClientRecipeBook;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffects;
@@ -26,6 +27,7 @@ import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.network.message.MessageSender;
 import net.minecraft.network.message.MessageType;
 import net.minecraft.screen.slot.SlotActionType;
+import net.minecraft.stat.StatHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.BuiltinRegistries;
@@ -33,7 +35,7 @@ import net.minecraft.util.registry.BuiltinRegistries;
 import me.flourick.fvt.FVT;
 
 /**
- * FEATURES: Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra
+ * FEATURES: AutoReconnect, Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra
  *
  * @author Flourick, gliscowo
  */
@@ -50,6 +52,14 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
 	@Shadow
 	private int ticksLeftToDoubleTapSprint;
+
+	@Inject(method = "<init>", at = @At("RETURN"))
+	private void onConstructor(MinecraftClient client, ClientWorld world, ClientPlayNetworkHandler networkHandler, StatHandler stats, ClientRecipeBook recipeBook, boolean lastSneaking, boolean lastSprinting, CallbackInfo info)
+	{
+		if(FVT.OPTIONS.autoReconnect.getValue()) {
+			FVT.VARS.autoReconnectAttempts = 0;
+		}
+	}
 
 	@Inject(method = "setShowsDeathScreen", at = @At("HEAD"))
 	private void onSetShowsDeathScreen(CallbackInfo info)

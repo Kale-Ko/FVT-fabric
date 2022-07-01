@@ -104,7 +104,7 @@
 	"fvt.feature.name.cloud_height.tooltip": "Sets the height at which clouds render.",
 
 	"fvt.feature.name.entity_outline": "Entity Outline",
-	"fvt.feature.name.entity_outline.tooltip": "Makes all entities (except players) glow white and be seen through walls.",
+	"fvt.feature.name.entity_outline.tooltip": "Makes the selected entities glow white and be seen through walls.",
 
 	"fvt.feature.name.entity_outline_animals": "Entity Outline Animals",
 	"fvt.feature.name.entity_outline_animals.tooltip": "Allow animals to be outlined.",
@@ -150,6 +150,15 @@
 
 	"fvt.feature.name.trigger_autoattack": "Trigger AutoAttack",
 	"fvt.feature.name.trigger_autoattack.tooltip": "Automatically attacks entities if you place your crosshair over them and in reach (not players).",
+
+    "fvt.feature.name.auto_reconnect": "Auto Reconnect",
+    "fvt.feature.name.auto_reconnect.tooltip": "Automatically reconnect to the server you where on if you get kicked",
+
+    "fvt.feature.name.auto_reconnect_attempts": "Auto Reconnect Attempts",
+    "fvt.feature.name.auto_reconnect_attempts.tooltip": "The number of times to try and reconnect (-1 for infinite)",
+
+    "fvt.feature.name.auto_reconnect.message": "Reconnecting in: %ds (%d tries left)",
+    "fvt.feature.name.auto_reconnect.message_no_max": "Reconnecting in: %ds",
 
 	"fvt.feature.name.freecam": "Freecam",
 	"fvt.feature.name.freecam.tooltip": "Allows you to leave your body and explore your surroundings. Works similar to spectator.",

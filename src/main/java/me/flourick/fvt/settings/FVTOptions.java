@@ -76,6 +76,8 @@ public class FVTOptions
 	public final SimpleOption<Boolean> noPotionParticles;
 	public final SimpleOption<Boolean> noVignette;
 	public final SimpleOption<Boolean> noSpyglassOverlay;
+	public final SimpleOption<Boolean> autoReconnect;
+	public final SimpleOption<Integer> autoReconnectAttempts;
 	public final SimpleOption<Boolean> refillHand;
 	public final SimpleOption<Boolean> autoEat;
 	public final SimpleOption<Boolean> autoAttack;
@@ -83,7 +85,7 @@ public class FVTOptions
 	public final SimpleOption<Boolean> freecamHightlightPlayer;
 	public final SimpleOption<Boolean> autoTotem;
 	public final SimpleOption<Integer> useDelay;
-	public final SimpleOption<Integer>  creativeBreakDelay;
+	public final SimpleOption<Integer> creativeBreakDelay;
 	public final SimpleOption<Boolean> placementLock;
 	public final SimpleOption<Boolean> containerButtons;
 	public final SimpleOption<Boolean> inventoryButton;
@@ -91,7 +93,7 @@ public class FVTOptions
 	public final SimpleOption<Boolean> invisibleOffhand;
 	public final SimpleOption<Boolean> autoHideHotbar;
 	public final SimpleOption<HotbarMode> autoHideHotbarMode;
-	public final SimpleOption<Integer>  autoHideHotbarTimeout;
+	public final SimpleOption<Integer> autoHideHotbarTimeout;
 	public final SimpleOption<Boolean> autoHideHotbarUse;
 	public final SimpleOption<Boolean> autoHideHotbarItem;
 	public final SimpleOption<Boolean> attackThrough;
@@ -249,15 +251,15 @@ public class FVTOptions
 
 		entityOutlineAnimals = SimpleOption.ofBoolean(
 			"fvt.feature.name.entity_outline_animals", 
-			tooltip("fvt.feature.name.entity_outline_animals.tooltip", false), 
-			false
+			tooltip("fvt.feature.name.entity_outline_animals.tooltip", true), 
+			true
 		);
 		features.put("entityOutline", entityOutline);
 
 		entityOutlineMobs = SimpleOption.ofBoolean(
 			"fvt.feature.name.entity_outline_mobs", 
-			tooltip("fvt.feature.name.entity_outline_mobs.tooltip", false), 
-			false
+			tooltip("fvt.feature.name.entity_outline_mobs.tooltip", true), 
+			true
 		);
 		features.put("entityOutline", entityOutline);
 
@@ -324,6 +326,21 @@ public class FVTOptions
 		);
 		features.put("noSpyglassOverlay", noSpyglassOverlay);
 
+		autoReconnect = SimpleOption.ofBoolean(
+			"fvt.feature.name.auto_reconnect", 
+			tooltip("fvt.feature.name.auto_reconnect.tooltip", true), 
+			true
+		);
+		features.put("autoReconnect", autoReconnect);
+
+		autoReconnectAttempts = new SimpleOption<Integer>(
+			"fvt.feature.name.auto_reconnect_attempts",
+			tooltip("fvt.feature.name.auto_reconnect_attempts.tooltip", -1),
+			FVTOptions::getValueText,
+			new SimpleOption.ValidatingIntSliderCallbacks(-1, 50), -1, value -> {}
+		);
+		features.put("autoReconnectAttempts", autoReconnectAttempts);
+
 		refillHand = SimpleOption.ofBoolean(
 			"fvt.feature.name.refill_hand", 
 			tooltip("fvt.feature.name.refill_hand.tooltip", false), 
@@ -354,8 +371,8 @@ public class FVTOptions
 		
         freecamHightlightPlayer = SimpleOption.ofBoolean(
 			"fvt.feature.name.freecam_hightlight_player", 
-			tooltip("fvt.feature.name.freecam_hightlight_player.tooltip", false), 
-			false
+			tooltip("fvt.feature.name.freecam_hightlight_player.tooltip", true), 
+			true
 		);
 
 		autoTotem = SimpleOption.ofBoolean(

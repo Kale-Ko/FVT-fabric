@@ -1,5 +1,6 @@
 package me.flourick.fvt.utils;
 
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -15,6 +16,11 @@ public class FVTVars
 {
 	public boolean waitForTrade;
 	public Item tradeItem;
+
+	public Integer autoReconnectAttempts;
+	public Integer autoReconnectTicks;
+
+	public ServerInfo lastServer;
 
 	public boolean autoEating;
 
@@ -55,6 +61,11 @@ public class FVTVars
 	{
 		this.waitForTrade = false;
 		this.tradeItem = null;
+
+        this.autoReconnectAttempts = 0;
+        this.autoReconnectTicks = 0;
+
+        this.lastServer = null;
 
 		this.autoEating = false;
 
