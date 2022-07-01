@@ -126,8 +126,6 @@ public class FVT implements ClientModInitializer
 
 					if(FVT.VARS.autoReconnectTicks == 0 && FVT.VARS.lastServer != null) {
 						if(FVT.VARS.autoReconnectAttempts < FVT.OPTIONS.autoReconnectAttempts.getValue() || FVT.OPTIONS.autoReconnectAttempts.getValue() == -1) {
-                            FVT.VARS.autoReconnectAttempts++;
-
 							ConnectScreen.connect(new TitleScreen(), FVT.MC, ServerAddress.parse(FVT.VARS.lastServer.address), FVT.VARS.lastServer);
 						}
 						else {
