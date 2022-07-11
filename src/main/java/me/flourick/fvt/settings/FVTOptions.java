@@ -247,42 +247,42 @@ public class FVTOptions
 			tooltip("fvt.feature.name.entity_outline.tooltip", false), 
 			false
 		);
-		features.put("entityOutline", entityOutline);
+		// features.put("entityOutline", entityOutline);
 
 		entityOutlineAnimals = SimpleOption.ofBoolean(
 			"fvt.feature.name.entity_outline_animals", 
 			tooltip("fvt.feature.name.entity_outline_animals.tooltip", true), 
 			true
 		);
-		features.put("entityOutline", entityOutline);
+		features.put("entityOutlineAnimals", entityOutlineAnimals);
 
 		entityOutlineMobs = SimpleOption.ofBoolean(
 			"fvt.feature.name.entity_outline_mobs", 
 			tooltip("fvt.feature.name.entity_outline_mobs.tooltip", true), 
 			true
 		);
-		features.put("entityOutline", entityOutline);
+		features.put("entityOutlineMobs", entityOutlineMobs);
 
 		entityOutlinePlayers = SimpleOption.ofBoolean(
 			"fvt.feature.name.entity_outline_players", 
 			tooltip("fvt.feature.name.entity_outline_players.tooltip", false), 
 			false
 		);
-		features.put("entityOutline", entityOutline);
+		features.put("entityOutlinePlayers", entityOutlinePlayers);
 
 		entityOutlineMisc = SimpleOption.ofBoolean(
 			"fvt.feature.name.entity_outline_misc", 
 			tooltip("fvt.feature.name.entity_outline_misc.tooltip", false), 
 			false
 		);
-		features.put("entityOutline", entityOutline);
+		features.put("entityOutlineMisc", entityOutlineMisc);
 
 		fullbright = SimpleOption.ofBoolean(
 			"fvt.feature.name.fullbright", 
 			tooltip("fvt.feature.name.fullbright.tooltip", false), 
 			false
 		);
-		features.put("fullbright", fullbright);
+		// features.put("fullbright", fullbright);
 
 		randomPlacement = SimpleOption.ofBoolean(
 			"fvt.feature.name.random_placement", 
@@ -367,13 +367,14 @@ public class FVTOptions
 			tooltip("fvt.feature.name.freecam.tooltip", false), 
 			false
 		);
-		// features.put("freecam", freecam); // don't save as there is no point
+		// features.put("freecam", freecam);
 		
         freecamHightlightPlayer = SimpleOption.ofBoolean(
 			"fvt.feature.name.freecam_hightlight_player", 
 			tooltip("fvt.feature.name.freecam_hightlight_player.tooltip", true), 
 			true
 		);
+		features.put("freecamHightlightPlayer", freecamHightlightPlayer);
 
 		autoTotem = SimpleOption.ofBoolean(
 			"fvt.feature.name.autototem", 
