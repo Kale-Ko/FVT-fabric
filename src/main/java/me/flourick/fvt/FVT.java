@@ -16,14 +16,11 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.message.MessageSender;
-import net.minecraft.network.message.MessageType;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult.Type;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.BuiltinRegistries;
 
 import me.flourick.fvt.settings.FVTOptions;
 import me.flourick.fvt.settings.FVTSettingsScreen;
@@ -68,10 +65,10 @@ public class FVT implements ClientModInitializer
 
 			if(FVT.OPTIONS.featureToggleMessages.getValue()) {
 				if(option.getValue()) {
-					FVT.MC.inGameHud.onChatMessage(BuiltinRegistries.MESSAGE_TYPE.get(MessageType.SYSTEM), Text.translatable("fvt.chat_messages_prefix", Text.translatable("fvt.feature.enabled", Text.translatable(key))), MessageSender.of(Text.of(null)));
+					FVT.MC.inGameHud.getChatHud().addMessage(Text.translatable("fvt.chat_messages_prefix", Text.translatable("fvt.feature.enabled", Text.translatable(key))));
 				}
 				else {
-					FVT.MC.inGameHud.onChatMessage(BuiltinRegistries.MESSAGE_TYPE.get(MessageType.SYSTEM), Text.translatable("fvt.chat_messages_prefix", Text.translatable("fvt.feature.disabled", Text.translatable(key))), MessageSender.of(Text.of(null)));
+					FVT.MC.inGameHud.getChatHud().addMessage(Text.translatable("fvt.chat_messages_prefix", Text.translatable("fvt.feature.disabled", Text.translatable(key))));
 				}
 			}
 		}
