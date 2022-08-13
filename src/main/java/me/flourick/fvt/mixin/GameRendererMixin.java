@@ -117,8 +117,8 @@ abstract class GameRendererMixin
 					calcReach *= calcReach;
 				}
 
-				EntityHitResult entityHitResult = ProjectileUtil.raycast(cameraEntity, cameraPos, reachTo, box, (entityx) -> {
-					return !entityx.isSpectator() && entityx.collides();
+				EntityHitResult entityHitResult = ProjectileUtil.raycast(cameraEntity, cameraPos, reachTo, box, entity -> {
+					return !entity.isSpectator() && entity.canHit();
 				}, calcReach);
 
 				if(entityHitResult != null) {

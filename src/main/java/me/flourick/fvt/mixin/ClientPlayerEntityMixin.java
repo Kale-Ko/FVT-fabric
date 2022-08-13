@@ -24,13 +24,10 @@ import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.encryption.PlayerPublicKey;
-import net.minecraft.network.message.MessageSender;
-import net.minecraft.network.message.MessageType;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.stat.StatHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.BuiltinRegistries;
 
 import me.flourick.fvt.FVT;
 
@@ -67,11 +64,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		if(FVT.VARS.isAfterDeath && FVT.OPTIONS.sendDeathCoordinates.getValue()) {
 			FVT.VARS.isAfterDeath = false;
 
-			FVT.MC.inGameHud.onChatMessage(
-				BuiltinRegistries.MESSAGE_TYPE.get(MessageType.SYSTEM), 
-				Text.translatable("fvt.chat_messages_prefix", Text.translatable("fvt.feature.name.send_death_coordinates.message", BigDecimal.valueOf(FVT.VARS.getLastDeathX()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathZ()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathY()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), FVT.VARS.getLastDeathWorld())), 
-				MessageSender.of(Text.of(null))
-			);
+			FVT.MC.inGameHud.getChatHud().addMessage(Text.translatable("fvt.chat_messages_prefix", Text.translatable("fvt.feature.name.send_death_coordinates.message", BigDecimal.valueOf(FVT.VARS.getLastDeathX()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathZ()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), BigDecimal.valueOf(FVT.VARS.getLastDeathY()).setScale(2, BigDecimal.ROUND_DOWN).doubleValue(), FVT.VARS.getLastDeathWorld())));
 		}
 	}
 
@@ -136,7 +129,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
 		PlayerInventory inventory  = FVT.MC.player.getInventory();
 
-		// called when player landed so if he has elytra we switch back to a chestplate
+		// called when player landed so if he has elytra we switch back to a chestplate if found
 		if(FVT_prevFallFlying && !this.isFallFlying() && inventory.getArmorStack(2).getItem() == Items.ELYTRA) {
 
 			int sz = inventory.main.size();
@@ -149,6 +142,11 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 				if(itemStack.getItem() instanceof ArmorItem && ((ArmorItem)itemStack.getItem()).getSlotType() == EquipmentSlot.CHEST) {
 					break;
 				}
+			}
+
+			if(idx == -1) {
+				// no chestplate found so don't switch anything
+				return;
 			}
 
 			// clicks on the chestplate slot then elytra then chestplate again
