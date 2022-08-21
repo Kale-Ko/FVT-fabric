@@ -119,7 +119,7 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
 		PlayerInventory inventory  = FVT.MC.player.getInventory();
 
-		// called when player landed so if he has elytra we switch back to a chestplate
+		// called when player landed so if he has elytra we switch back to a chestplate if found
 		if(FVT_prevFallFlying && !this.isFallFlying() && inventory.getArmorStack(2).getItem() == Items.ELYTRA) {
 
 			int sz = inventory.main.size();
@@ -132,6 +132,11 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 				if(itemStack.getItem() instanceof ArmorItem && ((ArmorItem)itemStack.getItem()).getSlotType() == EquipmentSlot.CHEST) {
 					break;
 				}
+			}
+
+			if(idx == -1) {
+				// no chestplate found so don't switch anything
+				return;
 			}
 
 			// clicks on the chestplate slot then elytra then chestplate again
