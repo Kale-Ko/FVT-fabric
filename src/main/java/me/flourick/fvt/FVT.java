@@ -41,6 +41,7 @@ public class FVT implements ClientModInitializer
 	public static final FVTVars VARS = new FVTVars();
 
 	private KeyBinding toolBreakingOverrideKeybind;
+	private KeyBinding freelookKeybind;
 
 	@Override
 	public void onInitializeClient()
@@ -56,6 +57,11 @@ public class FVT implements ClientModInitializer
 	public boolean isToolBreakingOverriden()
 	{
 		return toolBreakingOverrideKeybind.isPressed();
+	}
+
+	public boolean isFreelookEnabled()
+	{
+		return freelookKeybind.isPressed() && !MC.options.getPerspective().isFirstPerson();
 	}
 
 	private void handleFeatureKeybindPress(KeyBinding keybind, SimpleOption<Boolean> option, String key)
@@ -78,6 +84,7 @@ public class FVT implements ClientModInitializer
 	{
 		KeyBinding openSettingsMenuKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.options.open", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "FVT"));
 		toolBreakingOverrideKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.tool_breaking_override", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_ALT, "FVT"));
+		freelookKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.freelook", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "FVT"));
 		KeyBinding fullbrightKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.fullbright", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "FVT"));
 		KeyBinding freecamKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.freecam", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "FVT"));
 		KeyBinding randomPlacementKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.random_placement", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "FVT"));

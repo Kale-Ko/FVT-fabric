@@ -30,7 +30,7 @@ import net.minecraft.util.math.MathHelper;
 import me.flourick.fvt.FVT;
 
 /**
- * FEATURES: Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra
+ * FEATURES: Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra, FreeLook
  *
  * @author Flourick, gliscowo
  */
@@ -251,13 +251,17 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		}
 	}
 
-	// UPDATES FREECAM YAW AND PITCH ACCORDING TO HEAD (freecam)
+	// UPDATES YAW AND PITCH BASED ON MOUSE MOVEMENT (freecam & freelook)
 	@Override
 	public void changeLookDirection(double cursorDeltaX, double cursorDeltaY)
 	{
 		if(FVT.OPTIONS.freecam.getValue()) {
 			FVT.VARS.freecamYaw += cursorDeltaX * 0.15D;
 			FVT.VARS.freecamPitch = MathHelper.clamp(FVT.VARS.freecamPitch + cursorDeltaY * 0.15D, -90, 90);
+		}
+		else if(FVT.INSTANCE.isFreelookEnabled()) {
+			FVT.VARS.freelookYaw += cursorDeltaX * 0.15D;
+			FVT.VARS.freelookPitch = MathHelper.clamp(FVT.VARS.freelookPitch + cursorDeltaY * 0.15D, -90, 90);
 		}
 		else {
 			super.changeLookDirection(cursorDeltaX, cursorDeltaY);

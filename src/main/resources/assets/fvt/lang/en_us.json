@@ -85,6 +85,8 @@
 	"fvt.feature.name.no_tool_breaking.tooltip": "Makes your tools stop working at certain durability (will stop at 2 durability for most tools). This includes swords, pickaxes, axes, shovels, hoes, tridents, bows and crossbows.",
 	"fvt.feature.name.tool_breaking_override": "Tool Breaking Override",
 
+	"fvt.feature.name.freelook": "Freelook",
+
 	"fvt.feature.name.tool_warning": "Show Warning",
 	"fvt.feature.name.tool_warning.tooltip": "When your active tool goes below 10% durability and have 12 or less uses a red warning text appears on your screen for two seconds.",
 	"fvt.feature.name.tool_warning.text.main_hand": "Main hand tool has %d durability left!",
