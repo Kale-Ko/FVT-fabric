@@ -22,10 +22,14 @@ jobs:
         run: chmod +x ./gradlew
       - name: 'Build mod'
         run: ./gradlew build
-      - name: 'Get tag'
+      - name: 'Get mod version'
         if: startsWith(github.ref, 'refs/tags/')
-        id: git_tag
-        run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
+        id: mod_version
+        run: echo ::set-output name=VERSION::$(grep -oP '^mod_version = \K.*(?=-.*)' gradle.properties)
+      - name: 'Get MC version'
+        if: startsWith(github.ref, 'refs/tags/')
+        id: mc_version
+        run: echo ::set-output name=VERSION::$(grep -oP '^mod_version = .*-\K.*' gradle.properties)
       - name: Build changelog
         if: startsWith(github.ref, 'refs/tags/')
         id: changelog_release
@@ -89,6 +93,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           draft: true
-          name: 'Accurate Block Placement v${{steps.git_tag.outputs.TAG}}'
+          name: 'FVT-fabric v${{steps.mod_version.outputs.VERSION}} mc${{steps.mc_version.outputs.VERSION}}'
           body: ${{steps.changelog_release.outputs.changelog}}
-          files: 'build/libs/accurate-block-placement-${{steps.git_tag.outputs.TAG}}.jar'
+          files: 'build/libs/fvt-fabric-${{steps.mod_version.outputs.VERSION}}-${{steps.mc_version.outputs.VERSION}}.jar'
