@@ -31,7 +31,8 @@
 		"HandledScreenMixin",
 		"ScreenMixin",
 		"EntityMixin",
-		"SimpleOptionMixin"
+		"SimpleOptionMixin",
+		"ChatHudMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

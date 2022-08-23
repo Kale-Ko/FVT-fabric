@@ -49,6 +49,9 @@
 	"fvt.feature.name.crosshair_static_color.alpha": "Alpha",
 	"fvt.feature.name.crosshair_static_color.alpha.tooltip": "Represents the alpha part of crosshair color. Basically how transparent the crosshair should be.",
 
+	"fvt.feature.name.chat_history_length": "Chat History Length",
+	"fvt.feature.name.chat_history_length.tooltip": "Allows you to change the amount of messages you can scroll up in chat.",
+
 	"fvt.feature.name.disable_w_to_sprint": "Disable 'W' To Sprint",
 	"fvt.feature.name.disable_w_to_sprint.tooltip": "Double tapping 'W' will no longer make you sprint.",
 
@@ -144,13 +147,13 @@
 	"fvt.feature.name.freecam.tooltip": "Allows you to leave your body and explore your surroundings. Works similar to spectator.",
 
 	"fvt.feature.name.invisible_offhand": "Invisible Offhand",
-	"fvt.feature.name.invisible_offhand.tooltip": "Makes your offhand completely invisible but will still remain fully functional.",
+	"fvt.feature.name.invisible_offhand.tooltip": "Makes your offhand completely invisible while still remainining fully functional.",
 
 	"fvt.feature.name.autototem": "AutoTotem",
 	"fvt.feature.name.autototem.tooltip": "Upon totem activation will automatically find another totem in your inventory and replace the one that was just consumed.",
 	
 	"fvt.feature.name.container_buttons": "Container Buttons",
-	"fvt.feature.name.container_buttons.tooltip": "Chests, barrels and shulker boxes have three buttons that let you deposit all items into the container, take all items from the container or drop the items on the ground. If you hold CLTR while clicking the deposit or take buttons it will only move items that are already present in the other inventory a.k.a matching items only.",
+	"fvt.feature.name.container_buttons.tooltip": "Chests, barrels and shulker boxes have three buttons that let you deposit all items into the container, take all items from the container or drop the items on the ground. If you hold CLTR while clicking the deposit or take buttons it will only move items that are already present in the other inventory (matching items only).",
 	"fvt.feature.name.container_buttons.drop.tooltip": "Drop all!",
 	"fvt.feature.name.container_buttons.get.tooltip": "Get all!",
 	"fvt.feature.name.container_buttons.store.tooltip": "Store all!",

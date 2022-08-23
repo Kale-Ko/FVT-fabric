@@ -94,6 +94,7 @@ public class FVTOptions
 	public final SimpleOption<Boolean> fastTrade;
 	public final SimpleOption<DamageTiltMode> damageTilt;
 	public final SimpleOption<Boolean> noBreakSwapStop;
+	public final SimpleOption<Integer> chatHistoryLength;
 
 	public FVTOptions()
 	{
@@ -336,7 +337,7 @@ public class FVTOptions
 
 		creativeBreakDelay = new SimpleOption<Integer>(
 			"fvt.feature.name.creative_break_delay",
-			tooltip("fvt.feature.name.creative_break_delay.tooltip", 4),
+			tooltip("fvt.feature.name.creative_break_delay.tooltip", 6),
 			FVTOptions::getValueText,
 			new SimpleOption.ValidatingIntSliderCallbacks(1, 10), 6, value -> {}
 		);
@@ -417,8 +418,8 @@ public class FVTOptions
 
 		attackThrough = SimpleOption.ofBoolean(
 			"fvt.feature.name.attack_through", 
-			tooltip("fvt.feature.name.attack_through.tooltip", true), 
-			true
+			tooltip("fvt.feature.name.attack_through.tooltip", false),
+			false
 		);
 		features.put("attackThrough", attackThrough);
 
@@ -451,6 +452,14 @@ public class FVTOptions
 			true
 		);
 		features.put("noBreakSwapStop", noBreakSwapStop);
+
+		chatHistoryLength = new SimpleOption<Integer>(
+			"fvt.feature.name.chat_history_length",
+			tooltip("fvt.feature.name.chat_history_length.tooltip", 100),
+			FVTOptions::getValueText,
+			new SimpleOption.ValidatingIntSliderCallbacks(10, 10000), 100, value -> {}
+		);
+		features.put("chatHistoryLength", chatHistoryLength);
 
 		init();
 	}

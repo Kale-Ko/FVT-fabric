@@ -36,7 +36,7 @@ abstract class ScreenMixin implements IScreen
 	@Override
 	public <T extends Element & Drawable & Selectable> T FVT_addDrawableSelectableChild(T child)
 	{
-		// cannot use Invoker becouse for some reason it cannot find those methods
+		// cannot use Invoker because for some reason it cannot find those methods
 		this.drawables.add(child);
 		this.children.add(child);
 		this.selectables.add(child);
