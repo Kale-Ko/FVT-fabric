@@ -30,7 +30,7 @@ import net.minecraft.util.math.MathHelper;
 import me.flourick.fvt.FVT;
 
 /**
- * FEATURES: Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra, FreeLook
+ * FEATURES: Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra, FreeLook, Spyglass Zoom
  *
  * @author Flourick, gliscowo
  */
@@ -47,6 +47,26 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
 	@Shadow
 	private int ticksLeftToDoubleTapSprint;
+
+	@Override
+	public boolean isUsingItem()
+	{
+		if(FVT.INSTANCE.isSpyglassEnabled()) {
+			return true;
+		}
+
+		return super.isUsingItem();
+	}
+
+	@Override
+	public boolean isUsingSpyglass()
+	{
+		if(FVT.INSTANCE.isSpyglassEnabled()) {
+			return true;
+		}
+
+		return super.isUsingSpyglass();
+	}
 
 	@Inject(method = "setShowsDeathScreen", at = @At("HEAD"))
 	private void onSetShowsDeathScreen(CallbackInfo info)

@@ -22,9 +22,7 @@ import net.minecraft.util.ActionResult;
 import me.flourick.fvt.FVT;
 
 /**
- * <p>
  * FEATURES: Random Block Placement, Refill Hand, Creative Break Delay, No Break Swap Stop
- * </p>
  * 
  * @author Flourick
  */
