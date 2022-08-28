@@ -61,10 +61,10 @@ jobs:
                 }
               ],
               "ignore_labels": [
-                  "build",
+                "build",
                 "refactor",
                 "docs"
-                ],
+              ],
               "sort": {
                 "order": "DESC",
                 "on_property": "mergedAt"
