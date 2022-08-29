@@ -93,6 +93,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           draft: true
-          name: 'FVT-fabric v${{steps.mod_version.outputs.VERSION}} mc${{steps.mc_version.outputs.VERSION}}'
+          name: 'FVT-fabric v${{steps.mod_version.outputs.VERSION}} ${{steps.mc_version.outputs.VERSION}}'
           body: ${{steps.changelog_release.outputs.changelog}}
           files: 'build/libs/fvt-fabric-${{steps.mod_version.outputs.VERSION}}-${{steps.mc_version.outputs.VERSION}}.jar'
