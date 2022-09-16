@@ -24,11 +24,12 @@ public class FVTVars
 
 	public boolean autoEating;
 
+	public double freelookYaw;
+	public double freelookPitch;
+
 	public double freecamYaw;
 	public double freecamPitch;
 
-	public double playerYaw;
-	public double playerPitch;
 	public Vec3d playerVelocity;
 
 	public double freecamX;
@@ -72,8 +73,6 @@ public class FVTVars
 		this.freecamYaw = 0.0d;
 		this.freecamPitch = 0.0d;
 
-		this.playerYaw = 0.0d;
-		this.playerPitch = 0.0d;
 		this.playerVelocity = Vec3d.ZERO;
 
 		this.freecamX = 0.0d;

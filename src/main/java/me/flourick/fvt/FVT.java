@@ -4,6 +4,8 @@ import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.ImmutableSet;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -20,6 +22,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.EntityHitResult;
@@ -29,9 +32,12 @@ import net.minecraft.util.math.MathHelper;
 import me.flourick.fvt.settings.FVTOptions;
 import me.flourick.fvt.settings.FVTSettingsScreen;
 import me.flourick.fvt.utils.FVTVars;
+import me.flourick.fvt.utils.IKeyBinding;
 
 /**
  * Mod initializer, registers keybinds & their listeners and several tick callbacks.
+ * 
+ * FEATURES: AutoAttack, Offhand AutoEat, Tool Breaking Warning, Freecam, Spyglass Zoom
  *
  * @author Flourick, jtenner
  */
@@ -45,6 +51,10 @@ public class FVT implements ClientModInitializer
 	public static final FVTVars VARS = new FVTVars();
 
 	private KeyBinding toolBreakingOverrideKeybind;
+	private KeyBinding freelookKeybind;
+	private KeyBinding spyglassZoomKeybind;
+
+	private boolean spyglassInInventory = false;
 
 	@Override
 	public void onInitializeClient()
@@ -60,6 +70,16 @@ public class FVT implements ClientModInitializer
 	public boolean isToolBreakingOverriden()
 	{
 		return toolBreakingOverrideKeybind.isPressed();
+	}
+
+	public boolean isFreelookEnabled()
+	{
+		return freelookKeybind.isPressed() && !MC.options.getPerspective().isFirstPerson();
+	}
+
+	public boolean isSpyglassEnabled()
+	{
+		return spyglassZoomKeybind.isPressed() && spyglassInInventory;
 	}
 
 	private void handleFeatureKeybindPress(KeyBinding keybind, SimpleOption<Boolean> option, String key)
@@ -82,6 +102,8 @@ public class FVT implements ClientModInitializer
 	{
 		KeyBinding openSettingsMenuKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.options.open", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "FVT"));
 		toolBreakingOverrideKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.tool_breaking_override", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_ALT, "FVT"));
+		freelookKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.freelook", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, "FVT"));
+		spyglassZoomKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("item.minecraft.spyglass", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "FVT"));
 		KeyBinding fullbrightKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.fullbright", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "FVT"));
 		KeyBinding freecamKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.freecam", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "FVT"));
 		KeyBinding randomPlacementKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("fvt.feature.name.random_placement", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "FVT"));
@@ -110,6 +132,16 @@ public class FVT implements ClientModInitializer
 
 	private void registerCallbacks()
 	{
+		((IKeyBinding)spyglassZoomKeybind).FVT_registerKeyDownListener(() -> {
+			if(FVT.MC.player != null) {
+				spyglassInInventory = FVT.MC.player.getInventory().containsAny(ImmutableSet.of(Items.SPYGLASS));
+			}
+		});
+
+		((IKeyBinding)spyglassZoomKeybind).FVT_registerKeyUpListener(() -> {
+			spyglassInInventory = false;
+		});
+
 		ClientTickEvents.END_CLIENT_TICK.register(client ->
 		{
 			if(FVT.MC.player == null && FVT.OPTIONS.freecam.getValue()) {
