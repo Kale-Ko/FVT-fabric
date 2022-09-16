@@ -24,7 +24,7 @@ import me.flourick.fvt.FVT;
 import me.flourick.fvt.utils.Color;
 
 /**
- * Custom button list that allows for custom amount of buttons in each entry.
+ * Custom button list that allows for custom amount of buttons in each entry and "category buttons".
  * 
  * @author Flourick
  */
@@ -40,17 +40,17 @@ public class FVTButtonListWidget extends ElementListWidget<FVTButtonListWidget.F
 		this.addEntry(FVTButtonEntry.create(width, Text.translatable(key).formatted(Formatting.BOLD)));
 	}
 
-	public void AddOptionEntry(SimpleOption<?> first)
+	public void addOptionEntry(SimpleOption<?> first)
 	{
 		this.addEntry(FVTButtonEntry.create(this.width, first));
 	}
 
-	public void AddOptionEntry(SimpleOption<?> first, SimpleOption<?> second)
+	public void addOptionEntry(SimpleOption<?> first, SimpleOption<?> second)
 	{
 		this.addEntry(FVTButtonEntry.create(this.width, first, second));
 	}
 
-	public void AddOptionEntry(SimpleOption<?>[] options)
+	public void addOptionEntry(SimpleOption<?>[] options)
 	{
 		this.addEntry(FVTButtonEntry.create(this.width, options));
 	}

@@ -1,32 +1,98 @@
-name: build
+name: 'Build mod'
 on:
   push:
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
       - 'src/main/resources/assets/**'
-
 jobs:
   build:
-    strategy:
-      matrix:
-        java: [
-          17, # Minimum supported by Minecraft
-        ]
-        os: [ubuntu-20.04]
-
-    runs-on: ${{ matrix.os }}
-
+    runs-on: ubuntu-latest
     steps:
-      - name: checkout repository
-        uses: actions/checkout@v2
-      - name: validate gradle wrapper
+      - name: 'Checkout repository'
+        uses: actions/checkout@v3
+      - name: 'Validate gradle wrapper'
         uses: gradle/wrapper-validation-action@v1
-      - name: setup jdk ${{ matrix.java }}
-        uses: actions/setup-java@v1
+      - name: 'Setup JDK 17'
+        uses: actions/setup-java@v2
         with:
-          java-version: ${{ matrix.java }}
-      - name: make gradle wrapper executable
+          distribution: 'adopt'
+          java-version: '17'
+      - name: 'Make gradle wrapper executable'
         run: chmod +x ./gradlew
-      - name: build
+      - name: 'Build mod'
         run: ./gradlew build
+      - name: 'Get mod version'
+        if: startsWith(github.ref, 'refs/tags/')
+        id: mod_version
+        run: echo ::set-output name=VERSION::$(grep -oP '^mod_version = \K.*(?=-.*)' gradle.properties)
+      - name: 'Get MC version'
+        if: startsWith(github.ref, 'refs/tags/')
+        id: mc_version
+        run: echo ::set-output name=VERSION::$(grep -oP '^mod_version = .*-\K.*' gradle.properties)
+      - name: Build changelog
+        if: startsWith(github.ref, 'refs/tags/')
+        id: changelog_release
+        uses: mikepenz/release-changelog-builder-action@v3
+        with:
+          commitMode: true
+          configurationJson: |
+            {
+              "categories": [
+                {
+                  "title": "### New Features",
+                  "labels": ["feat"]
+                },
+                {
+                  "title": "### Changes",
+                  "labels": ["change", "impr"]
+                },
+                {
+                  "title": "### Fixes",
+                  "labels": ["fix"]
+                },
+                {
+                  "title": "### Localization",
+                  "labels": ["loc"]
+                },
+                {
+                  "title": "### Other",
+                  "labels": []
+                }
+              ],
+              "ignore_labels": [
+                "build",
+                "refactor",
+                "docs"
+              ],
+              "sort": {
+                "order": "DESC",
+                "on_property": "mergedAt"
+              },
+              "label_extractor": [
+                {
+                  "pattern": "(.*): (.*)",
+                  "target": "$1",
+                  "on_property": "title"
+                }
+              ],
+              "transformers": [
+                {
+                  "pattern": "(.*): (.*)",
+                  "target": "* $2"
+                }
+              ],
+              "template": "## Changelog\n\n#{{CHANGELOG}}",
+              "pr_template": "#{{TITLE}}",
+              "empty_template": "CHANGEME"
+            }
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: 'Draft a new release'
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          name: 'FVT-fabric v${{steps.mod_version.outputs.VERSION}} ${{steps.mc_version.outputs.VERSION}}'
+          body: ${{steps.changelog_release.outputs.changelog}}
+          files: 'build/libs/fvt-fabric-${{steps.mod_version.outputs.VERSION}}-${{steps.mc_version.outputs.VERSION}}.jar'

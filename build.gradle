@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'fabric-loom' version '1.0-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -18,12 +18,11 @@ repositories {
 	// for more information about repositories.
 	maven {
 		url "https://maven.terraformersmc.com/"
-	//url = 'https://raw.githubusercontent.com/TerraformersMC/Archive/main/releases/' - backup
 	}
 }
 
 dependencies {
-	//to change the versions see the gradle.properties file
+	// to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
