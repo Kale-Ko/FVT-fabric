@@ -179,7 +179,7 @@ abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
 			for(t = 0; t < components.size(); ++t) {
 				tooltipComponent2 = components.get(t);
 				tooltipComponent2.drawText(this.textRenderer, l, s, matrix4f, immediate);
-				s += tooltipComponent2.getHeight() + (t == components.size()-2 ? 2 : 0);
+				s += tooltipComponent2.getHeight();
 			}
 			immediate.draw();
 			matrices.pop();
@@ -187,7 +187,7 @@ abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
 			for (t = 0; t < components.size(); ++t) {
 				tooltipComponent2 = components.get(t);
 				tooltipComponent2.drawItems(this.textRenderer, l, s, matrices, this.itemRenderer, 400);
-				s += tooltipComponent2.getHeight() + (t == components.size()-2 ? 2 : 0);
+				s += tooltipComponent2.getHeight();
 			}
 			this.itemRenderer.zOffset = f;
 		}
