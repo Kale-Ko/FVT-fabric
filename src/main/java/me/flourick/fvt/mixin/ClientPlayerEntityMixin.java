@@ -32,11 +32,7 @@ import net.minecraft.util.math.MathHelper;
 import me.flourick.fvt.FVT;
 
 /**
-<<<<<<< HEAD
- * FEATURES: AutoReconnect, Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra
-=======
- * FEATURES: Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra, FreeLook, Spyglass Zoom
->>>>>>> d56444660e012ce876bb9f0b0df27bd7aae06e50
+ * FEATURES: AutoReconnect, Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra, FreeLook, Spyglass Zoom
  *
  * @author Flourick, gliscowo
  */

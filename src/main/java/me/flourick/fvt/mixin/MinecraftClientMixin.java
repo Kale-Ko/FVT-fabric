@@ -274,9 +274,7 @@ abstract class MinecraftClientMixin
 				|| FVT.OPTIONS.entityOutlineMisc.getValue()) {
 				info.setReturnValue(true);
 			}
-		}
-
-		if (FVT.OPTIONS.freecam.getValue() && FVT.OPTIONS.freecamHightlightPlayer.getValue() && entity.getType() == EntityType.PLAYER && !FVT.MC.options.hudHidden) {
+		} else if (FVT.OPTIONS.freecam.getValue() && FVT.OPTIONS.freecamHightlightPlayer.getValue() && entity.getType() == EntityType.PLAYER && !FVT.MC.options.hudHidden) {
 			info.setReturnValue(true);
 		}
 	}
