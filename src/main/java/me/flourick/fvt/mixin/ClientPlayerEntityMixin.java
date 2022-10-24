@@ -103,6 +103,15 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		}
 	}
 
+	@Inject(method = "updateHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getHealth()F", ordinal = 0))
+	private void onUpdateHealth(float health, CallbackInfo info)
+	{
+		// disables freecam if you take damage while using it
+		if(this.hurtTime == 10 && FVT.OPTIONS.freecam.getValue()) {
+			FVT.OPTIONS.freecam.setValue(false);
+		}
+	}
+
 	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getEquippedStack(Lnet/minecraft/entity/EquipmentSlot;)Lnet/minecraft/item/ItemStack;"))
 	private void onTickMovementGetEquippedStack(CallbackInfo info)
 	{
