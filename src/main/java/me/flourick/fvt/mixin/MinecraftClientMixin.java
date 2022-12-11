@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.network.ServerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BowItem;
@@ -47,9 +46,6 @@ abstract class MinecraftClientMixin
 
 	@Shadow
 	private ClientPlayerEntity player;
-
-	@Shadow
-	private ServerInfo currentServerEntry;
 
 	@Shadow
 	private int itemUseCooldown;

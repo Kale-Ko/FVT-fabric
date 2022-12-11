@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,7 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 
 import me.flourick.fvt.FVT;
+import me.flourick.fvt.mixin.ScreenAccessor;
 
 /**
  * Adds three item management buttons to given screen.
@@ -49,20 +51,31 @@ public class ContainerButtons<T extends ScreenHandler>
 
 	public void create()
 	{
-		((IScreen)screen).FVT_addDrawableSelectableChild(new FVTButtonWidget(baseX, baseY, buttonWidth, buttonHeight, Text.literal("⊽"), (buttonWidget) -> onDropButtonClick()
-		, (buttonWidget, matrixStack, i, j) -> {
-			screen.renderTooltip(matrixStack, Text.translatable("fvt.feature.name.container_buttons.drop.tooltip"), i, j + 8);
-		}, new Color(150, 255, 255, 255), new Color(220, 255, 255, 255)));
+		FVTButtonWidget dropButton = new FVTButtonWidget(
+			baseX, baseY, buttonWidth, buttonHeight, Text.literal("⊽"),
+			(buttonWidget) -> onDropButtonClick(),
+			new Color(150, 255, 255, 255), new Color(220, 255, 255, 255)
+		);
 
-		((IScreen)screen).FVT_addDrawableSelectableChild(new FVTButtonWidget(baseX - buttonWidth - 2, baseY, buttonWidth, buttonHeight, Text.literal("⊻"), (buttonWidget) -> onGetButtonClick()
-		, (buttonWidget, matrixStack, i, j) -> {
-			screen.renderTooltip(matrixStack, Text.translatable("fvt.feature.name.container_buttons.get.tooltip"), i, j + 8);
-		}, new Color(150, 255, 255, 255), new Color(220, 255, 255, 255)));
+		FVTButtonWidget getButton = new FVTButtonWidget(
+			baseX - buttonWidth - 2, baseY, buttonWidth, buttonHeight,
+			Text.literal("⊻"), (buttonWidget) -> onGetButtonClick(),
+			new Color(150, 255, 255, 255), new Color(220, 255, 255, 255)
+		);
 
-		((IScreen)screen).FVT_addDrawableSelectableChild(new FVTButtonWidget(baseX - 2*buttonWidth - 4, baseY, buttonWidth, buttonHeight, Text.literal("⊼"), (buttonWidget) -> onStoreButtonClick()
-		, (buttonWidget, matrixStack, i, j) -> {
-			screen.renderTooltip(matrixStack, Text.translatable("fvt.feature.name.container_buttons.store.tooltip"), i, j + 8);
-		}, new Color(150, 255, 255, 255), new Color(220, 255, 255, 255)));
+		FVTButtonWidget storeButton = new FVTButtonWidget(
+			baseX - 2*buttonWidth - 4, baseY, buttonWidth, buttonHeight,
+			Text.literal("⊼"), (buttonWidget) -> onStoreButtonClick(),
+			new Color(150, 255, 255, 255), new Color(220, 255, 255, 255)
+		);
+
+		dropButton.setTooltip(Tooltip.of(Text.translatable("fvt.feature.name.container_buttons.drop.tooltip")));
+		getButton.setTooltip(Tooltip.of(Text.translatable("fvt.feature.name.container_buttons.get.tooltip")));
+		storeButton.setTooltip(Tooltip.of(Text.translatable("fvt.feature.name.container_buttons.store.tooltip")));
+
+		((ScreenAccessor)screen).callAddDrawableChild(dropButton);
+		((ScreenAccessor)screen).callAddDrawableChild(getButton);
+		((ScreenAccessor)screen).callAddDrawableChild(storeButton);
 	}
 
 	public void setBasePos(int baseX, int baseY)

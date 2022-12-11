@@ -16,13 +16,13 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.JumpingMount;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
@@ -40,13 +40,13 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	private boolean FVT_prevFallFlying = false;
 
 	@Shadow
-	abstract boolean hasJumpingMount();
-
-	@Shadow
 	public Input input;
 
 	@Shadow
 	private int ticksLeftToDoubleTapSprint;
+
+	@Shadow
+	public abstract JumpingMount getJumpingMount();
 
 	@Override
 	public boolean isUsingItem()
@@ -233,14 +233,14 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 	}
 
 	// PREVENTS HORSES FROM JUMPING (freecam)
-	@Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;hasJumpingMount()Z", ordinal = 0))
-	private boolean hijackHasJumpingMount(ClientPlayerEntity player)
+	@Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;getJumpingMount()Lnet/minecraft/entity/JumpingMount;", ordinal = 0))
+	private JumpingMount hijackGetJumpingMount(ClientPlayerEntity player)
 	{
 		if(FVT.OPTIONS.freecam.getValue()) {
-			return false;
+			return null;
 		}
 
-		return hasJumpingMount();
+		return this.getJumpingMount();
 	}
 
 	// PREVENTS BOAT MOVEMENT (freecam)
@@ -297,5 +297,5 @@ abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 		}
 	}
 
-	public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile, PlayerPublicKey publicKey) { super(world, profile, publicKey); } // IGNORED
+	public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) { super(world, profile); } // IGNORED
 }

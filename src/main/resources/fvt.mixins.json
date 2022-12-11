@@ -29,11 +29,13 @@
 		"MerchantScreenHandlerMixin",
 		"MerchantScreenMixin",
 		"HandledScreenMixin",
+		"ScreenAccessor",
 		"ScreenMixin",
 		"EntityMixin",
 		"SimpleOptionMixin",
 		"ChatHudMixin",
-		"KeyBindingMixin"
+		"KeyBindingMixin",
+		"ClickableWidgetMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

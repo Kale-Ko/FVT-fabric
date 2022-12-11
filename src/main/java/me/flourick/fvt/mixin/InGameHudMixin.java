@@ -20,6 +20,7 @@ import net.minecraft.client.option.AttackIndicator;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.JumpingMount;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -174,8 +175,8 @@ abstract class InGameHudMixin extends DrawableHelper
 		}
 	}
 
-	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderMountJumpBar(Lnet/minecraft/client/util/math/MatrixStack;I)V", ordinal = 0))
-	private void hijackRenderMountJumpBar(InGameHud igHud, MatrixStack matrices, int x)
+	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderMountJumpBar(Lnet/minecraft/entity/JumpingMount;Lnet/minecraft/client/util/math/MatrixStack;I)V", ordinal = 0))
+	private void hijackRenderMountJumpBar(InGameHud igHud, JumpingMount mount, MatrixStack matrices, int x)
 	{
 		// makes it so jump bar is only visible while actually jumping
 		if(FVT.MC.options.jumpKey.isPressed()) {
@@ -186,7 +187,7 @@ abstract class InGameHudMixin extends DrawableHelper
 				matrices.translate(0, FVT_getHotbarHideHeight(), this.getZOffset());
 			}
 
-			igHud.renderMountJumpBar(matrices, x);
+			igHud.renderMountJumpBar(mount, matrices, x);
 
 			if(autoHideHotbar) {
 				matrices.pop();
@@ -345,7 +346,7 @@ abstract class InGameHudMixin extends DrawableHelper
 			
 			if(playerEntity != null) {
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-				RenderSystem.setShader(GameRenderer::getPositionTexShader);
+				RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 				RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
 
 				int scaledWidth = this.client.getWindow().getScaledWidth();

@@ -16,6 +16,8 @@ public class FVTVars
 	public boolean waitForTrade;
 	public Item tradeItem;
 
+	public boolean settingsShowTooltips;
+
 	public boolean autoEating;
 
 	public double freelookYaw;
@@ -56,6 +58,8 @@ public class FVTVars
 	{
 		this.waitForTrade = false;
 		this.tradeItem = null;
+
+		this.settingsShowTooltips = false;
 
 		this.autoEating = false;
 
