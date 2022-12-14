@@ -67,9 +67,14 @@ abstract class OptionsScreenMixin extends Screen
 				break;
 		}
 
-		this.addDrawableChild(new ButtonWidget(x, y, l, 20, Text.literal("FVT..."), (buttonWidget) -> {
-			this.client.setScreen(new FVTSettingsScreen(this));
-		}));
+		// DONE button at the bottom
+		this.addDrawableChild(
+			ButtonWidget.builder(Text.literal("FVT..."), (buttonWidget) -> {
+				this.client.setScreen(new FVTSettingsScreen(this));
+			})
+			.dimensions(x, y, l, 20)
+			.build()
+		);
 	}
 
 	public OptionsScreenMixin(Screen parent, GameOptions gameOptions) { super(Text.translatable("options.title", new Object[0])); } // IGNORED

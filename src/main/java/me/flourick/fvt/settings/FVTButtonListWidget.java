@@ -1,9 +1,7 @@
 package me.flourick.fvt.settings;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -22,6 +20,7 @@ import net.minecraft.util.math.MathHelper;
 
 import me.flourick.fvt.FVT;
 import me.flourick.fvt.utils.Color;
+import me.flourick.fvt.utils.IClickableWidget;
 
 /**
  * Custom button list that allows for custom amount of buttons in each entry and "category buttons".
@@ -65,25 +64,6 @@ public class FVTButtonListWidget extends ElementListWidget<FVTButtonListWidget.F
 	protected int getScrollbarPositionX()
 	{
 		return super.getScrollbarPositionX() + 32;
-	}
-
-	public Optional<ClickableWidget> getHoveredButton(double mouseX, double mouseY)
-	{
-		FVTButtonEntry buttonEntry = this.getEntryAtPosition(mouseX, mouseY);
-
-		if(buttonEntry != null) {
-			Iterator<ClickableWidget> clickableIterator = buttonEntry.buttons.iterator();
-
-			while(clickableIterator.hasNext()) {
-				ClickableWidget clickableWidget = clickableIterator.next();
-
-				if(clickableWidget.isMouseOver(mouseX, mouseY) && mouseY >= this.top && mouseY < this.bottom) {
-					return Optional.of(clickableWidget);
-				}
-			}
-		}
-
-		return Optional.empty();
 	}
 
 	public int getBottom()
@@ -148,8 +128,15 @@ public class FVTButtonListWidget extends ElementListWidget<FVTButtonListWidget.F
 		public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta)
 		{
 			this.buttons.forEach((button) -> {
-				button.y = y;
-				button.render(matrices, mouseX, mouseY, tickDelta);
+				button.setY(y);
+				
+				if(FVT.VARS.settingsShowTooltips) {
+					button.render(matrices, mouseX, mouseY, tickDelta);
+				}
+				else {
+					// HACK: Noone can now override the render method, but eh, it's just for this menu anyway, right?
+					((IClickableWidget)button).FVT_renderWithoutTooltip(matrices, mouseX, mouseY, tickDelta);
+				}
 			});
 		}
 
@@ -172,21 +159,21 @@ public class FVTButtonListWidget extends ElementListWidget<FVTButtonListWidget.F
 		}
 
 		@Override
-		public void appendNarrations(NarrationMessageBuilder builder)
+		public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta)
 		{
-			this.appendDefaultNarrations(builder);
-		}
-		
-		@Override
-		public void render(MatrixStack matrices, int mouseX, int mouseY, float delta)
-		{
-			ClickableWidget.drawCenteredText(matrices, FVT.MC.textRenderer, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, Color.WHITE.getPacked());
+			ClickableWidget.drawCenteredText(matrices, FVT.MC.textRenderer, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, Color.WHITE.getPacked());
 		}
 
 		@Override
 		public boolean mouseClicked(double mouseX, double mouseY, int button)
 		{
 			return false;
+		}
+
+		@Override
+		protected void appendClickableNarrations(NarrationMessageBuilder builder)
+		{
+			this.appendDefaultNarrations(builder);
 		}
 	}
 }

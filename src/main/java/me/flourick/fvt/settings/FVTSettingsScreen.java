@@ -1,31 +1,13 @@
 package me.flourick.fvt.settings;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.TooltipComponent;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.option.SimpleOption;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.util.OrderableTooltip;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.math.Matrix4f;
 
 import me.flourick.fvt.FVT;
 import me.flourick.fvt.utils.Color;
@@ -39,8 +21,6 @@ public class FVTSettingsScreen extends Screen
 {
 	private final Screen parent;
 	private FVTButtonListWidget list;
-
-	private boolean tooltipsActive = false;
 
 	// getter for ModMenu
 	public static Screen getNewScreen(Screen parent)
@@ -99,32 +79,44 @@ public class FVTSettingsScreen extends Screen
 		this.addSelectableChild(this.list);
 
 		// DEFAULTS button at the top left corner
-		this.addDrawableChild(new ButtonWidget(6, 6, 55, 20, Text.translatable("fvt.options.defaults"), (buttonWidget) -> {
-			FVT.OPTIONS.reset();
-			this.client.setScreen(getNewScreen(parent));
-		}, (buttonWidget, matrixStack, i, j) -> {
-			this.renderTooltip(matrixStack, Text.translatable("fvt.options.defaults.tooltip").formatted(Formatting.YELLOW), i, j + 8);
-		}));
+		this.addDrawableChild(
+			ButtonWidget.builder(Text.translatable("fvt.options.defaults"), (buttonWidget) -> {
+				FVT.OPTIONS.reset();
+				this.client.setScreen(getNewScreen(parent));
+			})
+			.dimensions(6, 6, 55, 20)
+			.tooltip(Tooltip.of(Text.translatable("fvt.options.defaults.tooltip").formatted(Formatting.YELLOW)))
+			.build()
+		);
 
 		// TOOLTIP (?/-) button at the top right corner
-		this.addDrawableChild(new ButtonWidget(this.width - 26, 6, 20, 20, Text.literal("?"), (buttonWidget) -> {
-			tooltipsActive = !tooltipsActive;
-
-			if(tooltipsActive) {
-				buttonWidget.setMessage(Text.literal("-"));
-			}
-			else {
-				buttonWidget.setMessage(Text.literal("?"));
-			}
-		}, (buttonWidget, matrixStack, i, j) -> {
-			this.renderTooltip(matrixStack, (tooltipsActive ? Text.translatable("fvt.options.tooltips.hide") : Text.translatable("fvt.options.tooltips.show")), i, j + 8);
-		}));
+		this.addDrawableChild(
+			ButtonWidget.builder(Text.literal("?"), (buttonWidget) -> {
+				FVT.VARS.settingsShowTooltips = !FVT.VARS.settingsShowTooltips;
+	
+				if(FVT.VARS.settingsShowTooltips) {
+					buttonWidget.setMessage(Text.literal("-"));
+					buttonWidget.setTooltip(Tooltip.of(Text.translatable("fvt.options.tooltips.hide")));
+				}
+				else {
+					buttonWidget.setMessage(Text.literal("?"));
+					buttonWidget.setTooltip(Tooltip.of(Text.translatable("fvt.options.tooltips.show")));
+				}
+			})
+			.dimensions(this.width - 26, 6, 20, 20)
+			.tooltip(Tooltip.of(Text.translatable("fvt.options.tooltips.show")))
+			.build()
+		);
 
 		// DONE button at the bottom
-		this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.list.getBottom() + ((this.height - this.list.getBottom() - 20) / 2), 200, 20, ScreenTexts.DONE, (buttonWidget) -> {
-			FVT.OPTIONS.write();
-			this.client.setScreen(parent);
-		}));
+		this.addDrawableChild(
+			ButtonWidget.builder(ScreenTexts.DONE, (buttonWidget) -> {
+				FVT.OPTIONS.write();
+				this.client.setScreen(parent);
+			})
+			.dimensions(this.width / 2 - 100, this.list.getBottom() + ((this.height - this.list.getBottom() - 20) / 2), 200, 20)
+			.build()
+		);
 	}
 
 	@Override
@@ -135,17 +127,6 @@ public class FVTSettingsScreen extends Screen
 		drawCenteredText(matrixStack, this.textRenderer, this.title, this.width / 2, 12, Color.WHITE.getPacked());
 
 		super.render(matrixStack, mouseX, mouseY, delta);
-
-		List<OrderedText> tooltip = getHoveredButtonTooltip(mouseX, mouseY);
-		if(tooltip != null && tooltipsActive) {
-			this.renderOrderedTooltip(matrixStack, tooltip, mouseX, mouseY);
-		}
-	}
-
-	public List<OrderedText> getHoveredButtonTooltip(int mouseX, int mouseY)
-	{
-		Optional<ClickableWidget> button = list.getHoveredButton((double)mouseX, (double)mouseY);
-		return (button.isPresent() && button.get() instanceof OrderableTooltip ? ((OrderableTooltip)button.get()).getOrderedTooltip() : ImmutableList.of());
 	}
 
 	@Override
@@ -158,89 +139,5 @@ public class FVTSettingsScreen extends Screen
 	public void close()
 	{
 		this.client.setScreen(parent);
-	}
-
-	@Override
-	public void renderOrderedTooltip(MatrixStack matrices, List<? extends OrderedText> lines, int x, int y)
-	{
-		// basically a copy paste just to adjust some annoying spacing, yeah
-		if(!lines.isEmpty() && lines.size() > 2) {
-			List<TooltipComponent> components = lines.stream().map(TooltipComponent::of).collect(Collectors.toList());
-			TooltipComponent tooltipComponent2;
-			int t;
-			int k;
-			if(components.isEmpty()) {
-				return;
-			}
-			int i = 0;
-			int j = components.size() == 1 ? -2 : 0;
-
-			for(TooltipComponent tooltipComponent : components) {
-				k = tooltipComponent.getWidth(this.textRenderer);
-				if(k > i) {
-					i = k;
-				}
-				j += tooltipComponent.getHeight();
-			}
-
-			int l = x + 12;
-			int m = y - 12;
-			k = i;
-			int n = j;
-			if(l + i > this.width) {
-				l -= 28 + i;
-			}
-			if(m + n + 6 > this.height) {
-				m = this.height - n - 6;
-			}
-			if(y - n - 8 < 0) {
-				m = y + 8;
-			}
-			matrices.push();
-			float f = this.itemRenderer.zOffset;
-			this.itemRenderer.zOffset = 400.0f;
-			Tessellator tessellator = Tessellator.getInstance();
-			BufferBuilder bufferBuilder = tessellator.getBuffer();
-			RenderSystem.setShader(GameRenderer::getPositionColorShader);
-			bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-			Matrix4f matrix4f = matrices.peek().getPositionMatrix();
-			Screen.fillGradient(matrix4f, bufferBuilder, l - 3, m - 4, l + k + 3, m - 3, 400, -267386864, -267386864);
-			Screen.fillGradient(matrix4f, bufferBuilder, l - 3, m + n + 3, l + k + 3, m + n + 4, 400, -267386864, -267386864);
-			Screen.fillGradient(matrix4f, bufferBuilder, l - 3, m - 3, l + k + 3, m + n + 3, 400, -267386864, -267386864);
-			Screen.fillGradient(matrix4f, bufferBuilder, l - 4, m - 3, l - 3, m + n + 3, 400, -267386864, -267386864);
-			Screen.fillGradient(matrix4f, bufferBuilder, l + k + 3, m - 3, l + k + 4, m + n + 3, 400, -267386864, -267386864);
-			Screen.fillGradient(matrix4f, bufferBuilder, l - 3, m - 3 + 1, l - 3 + 1, m + n + 3 - 1, 400, 0x505000FF, 1344798847);
-			Screen.fillGradient(matrix4f, bufferBuilder, l + k + 2, m - 3 + 1, l + k + 3, m + n + 3 - 1, 400, 0x505000FF, 1344798847);
-			Screen.fillGradient(matrix4f, bufferBuilder, l - 3, m - 3, l + k + 3, m - 3 + 1, 400, 0x505000FF, 0x505000FF);
-			Screen.fillGradient(matrix4f, bufferBuilder, l - 3, m + n + 2, l + k + 3, m + n + 3, 400, 1344798847, 1344798847);
-			RenderSystem.enableDepthTest();
-			RenderSystem.disableTexture();
-			RenderSystem.enableBlend();
-			RenderSystem.defaultBlendFunc();
-			BufferRenderer.drawWithShader(bufferBuilder.end());
-			RenderSystem.disableBlend();
-			RenderSystem.enableTexture();
-			VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-			matrices.translate(0.0, 0.0, 400.0);
-			int s = m;
-
-			for(t = 0; t < components.size(); ++t) {
-				tooltipComponent2 = components.get(t);
-				tooltipComponent2.drawText(this.textRenderer, l, s, matrix4f, immediate);
-				s += tooltipComponent2.getHeight() + (t == components.size()-2 ? 2 : 0);
-			}
-			immediate.draw();
-			matrices.pop();
-			s = m;
-			for (t = 0; t < components.size(); ++t) {
-				tooltipComponent2 = components.get(t);
-				tooltipComponent2.drawItems(this.textRenderer, l, s, matrices, this.itemRenderer, 400);
-				s += tooltipComponent2.getHeight() + (t == components.size()-2 ? 2 : 0);
-			}
-			this.itemRenderer.zOffset = f;
-		}
-		else {
-			super.renderOrderedTooltip(matrices, lines, x, y);
-		}
 	}
 }

@@ -24,11 +24,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.option.SimpleOption;
-import net.minecraft.client.option.SimpleOption.TooltipFactoryGetter;
+import net.minecraft.client.option.SimpleOption.TooltipFactory;
 import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+import net.minecraft.text.Texts;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.TranslatableOption;
 import net.minecraft.util.math.MathHelper;
@@ -521,37 +522,37 @@ public class FVTOptions
 		init();
 	}
 
-	private static <T> TooltipFactoryGetter<T> tooltip(String key, T defaultValue)
+	private static <T> TooltipFactory<T> tooltip(String key, T defaultValue)
 	{
-		return client -> value -> {
-			List<OrderedText> lines = new ArrayList<>();
-			lines.addAll(client.textRenderer.wrapLines(Text.translatable(key), 220));
+		return value -> {
+			List<Text> lines = new ArrayList<>();
+			lines.add(Text.translatable(key));
 
 			if(defaultValue instanceof Double) {
 				// double is mostly used with percent so should be fine, just leaving this in case I forgot and rage why it shows percent even tho it should not
-				lines.add(Text.translatable("fvt.feature.default", (int)((double)defaultValue * 100.0)).append("%").formatted(Formatting.GRAY).asOrderedText());
+				lines.add(Text.translatable("fvt.feature.default", (int)((double)defaultValue * 100.0)).append("%").formatted(Formatting.GRAY));
 			}
 			else if(defaultValue instanceof Boolean) {
-				lines.add(Text.translatable("fvt.feature.default", (boolean)defaultValue ? ScreenTexts.ON : ScreenTexts.OFF).formatted(Formatting.GRAY).asOrderedText());
+				lines.add(Text.translatable("fvt.feature.default", (boolean)defaultValue ? ScreenTexts.ON : ScreenTexts.OFF).formatted(Formatting.GRAY));
 			}
 			else if(defaultValue instanceof TranslatableOption) {
-				lines.add(Text.translatable("fvt.feature.default", ((TranslatableOption) defaultValue).getText()).formatted(Formatting.GRAY).asOrderedText());
+				lines.add(Text.translatable("fvt.feature.default", ((TranslatableOption) defaultValue).getText()).formatted(Formatting.GRAY));
 			}
 			else {
-				lines.add(Text.translatable("fvt.feature.default", defaultValue).formatted(Formatting.GRAY).asOrderedText());
+				lines.add(Text.translatable("fvt.feature.default", defaultValue).formatted(Formatting.GRAY));
 			}
 
-			return lines;
+			return Tooltip.of(Texts.join(lines, Text.of("\n")));
 		};
 	}
 
-	private static <T> TooltipFactoryGetter<T> tooltipHT(String key, T defaultValue)
+	private static <T> TooltipFactory<T> tooltipHT(String key, T defaultValue)
 	{
-		return client -> value -> {
-			List<OrderedText> lines = new ArrayList<>();
-			lines.addAll(client.textRenderer.wrapLines(Text.translatable(key), 220));
-			lines.add(Text.translatable("fvt.feature.default", (Integer)defaultValue / 10.0D).formatted(Formatting.GRAY).asOrderedText());
-			return lines;
+		return value -> {
+			List<Text> lines = new ArrayList<>();
+			lines.add(Text.translatable(key));
+			lines.add(Text.translatable("fvt.feature.default", (Integer)defaultValue / 10.0D).formatted(Formatting.GRAY));
+			return Tooltip.of(Texts.join(lines, Text.of("\n")));
 		};
 	}
 

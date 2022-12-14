@@ -2,16 +2,25 @@ package me.flourick.fvt.mixin;
 
 import java.util.List;
 
-import org.spongepowered.asm.mixin.Final;
+import org.joml.Matrix4f;
+import org.joml.Vector2ic;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.Screen;
-
-import me.flourick.fvt.utils.IScreen;
+import net.minecraft.client.gui.tooltip.TooltipComponent;
+import net.minecraft.client.gui.tooltip.TooltipPositioner;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * FEATURES: Container Buttons
@@ -19,28 +28,40 @@ import me.flourick.fvt.utils.IScreen;
  * @author Flourick
  */
 @Mixin(Screen.class)
-abstract class ScreenMixin implements IScreen
+abstract class ScreenMixin
 {
-	@Final
 	@Shadow
-	private List<Drawable> drawables;
+	protected ItemRenderer itemRenderer;
 
-	@Final
 	@Shadow
-	private List<Element> children;
+	protected TextRenderer textRenderer;
 
-	@Final
-	@Shadow
-	private List<Selectable> selectables;
-
-	@Override
-	public <T extends Element & Drawable & Selectable> T FVT_addDrawableSelectableChild(T child)
+	@Inject(method = "renderTooltipFromComponents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+	private void renderTooltipFromComponents(MatrixStack matrices, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, CallbackInfo info, int i, int j, int l, int m, int k, int n, Vector2ic vector2ic, int o, float f, Tessellator tessellator, BufferBuilder bufferBuilder, Matrix4f matrix4f, VertexConsumerProvider.Immediate immediate)
 	{
-		// cannot use Invoker because for some reason it cannot find those methods
-		this.drawables.add(child);
-		this.children.add(child);
-		this.selectables.add(child);
+		// just to adjust the first line having extra spacing for no apparent reason
+		TooltipComponent tooltipComponent2;
+		int p = m;
 
-		return child;
+		matrices.translate(0.0f, 0.0f, 400.0f);
+
+        for(int q = 0; q < components.size(); ++q) {
+            tooltipComponent2 = components.get(q);
+            tooltipComponent2.drawText(this.textRenderer, l, p, matrix4f, immediate);
+            p += tooltipComponent2.getHeight();
+        }
+
+        immediate.draw();
+        matrices.pop();
+
+        p = m;
+        for(int q = 0; q < components.size(); ++q) {
+            tooltipComponent2 = components.get(q);
+            tooltipComponent2.drawItems(this.textRenderer, l, p, matrices, this.itemRenderer, 400);
+            p += tooltipComponent2.getHeight();
+        }
+        this.itemRenderer.zOffset = f;
+
+		info.cancel();
 	}
 }

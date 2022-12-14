@@ -15,7 +15,6 @@ import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
 
@@ -61,7 +60,7 @@ abstract class ClientPlayerInteractionManagerMixin
 			PlayerInventory inventory  = FVT.MC.player.getInventory();
 
 			// need to hold a block first for it to pick a block or empty hand
-			if(inventory.getStack(inventory.selectedSlot).getItem() instanceof BlockItem || inventory.getStack(inventory.selectedSlot).getItem() == Items.AIR) {
+			if(inventory.getStack(inventory.selectedSlot).getItem() instanceof BlockItem || inventory.getStack(inventory.selectedSlot).isEmpty()) {
 				List<Integer> blockIndexes = new ArrayList<>();
 
 				for(int i = 0; i < 9; i++) {

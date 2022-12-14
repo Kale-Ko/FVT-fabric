@@ -22,6 +22,8 @@ public class FVTVars
 
 	public ServerInfo lastServer;
 
+	public boolean settingsShowTooltips;
+
 	public boolean autoEating;
 
 	public double freelookYaw;
@@ -67,6 +69,8 @@ public class FVTVars
         this.autoReconnectTicks = 0;
 
         this.lastServer = null;
+
+		this.settingsShowTooltips = false;
 
 		this.autoEating = false;
 

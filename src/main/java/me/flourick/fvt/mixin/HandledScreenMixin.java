@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
@@ -40,7 +41,7 @@ abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen implem
 	@Shadow
 	protected int backgroundWidth;
 
-	private FVTButtonWidget FVT_dropButton = new FVTButtonWidget(0, 0, 0, 0, null, null, null);
+	private FVTButtonWidget FVT_dropButton = new FVTButtonWidget(0, 0, 0, 0, null, null);
 
 	private int FVT_getDropButtonX()
 	{
@@ -62,10 +63,13 @@ abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen implem
 		int buttonWidth = 14;
 		int buttonHeight = 12;
 
-		FVT_dropButton = new FVTButtonWidget(FVT_getDropButtonX(), FVT_getDropButtonY(), buttonWidth, buttonHeight, Text.literal("⊽"), (buttonWidget) -> FVT_onDropButtonClick()
-		, (buttonWidget, matrixStack, i, j) -> {
-			this.renderTooltip(matrixStack, Text.translatable("fvt.feature.name.inventory_button.drop.tooltip"), i, j + 8);
-		}, new Color(255, 255, 255, 255), new Color(255, 255, 255, 255));
+		FVT_dropButton = new FVTButtonWidget(
+			FVT_getDropButtonX(), FVT_getDropButtonY(), buttonWidth, buttonHeight,
+			Text.literal("⊽"), (buttonWidget) -> FVT_onDropButtonClick(),
+			new Color(255, 255, 255, 255), new Color(255, 255, 255, 255)
+		);
+
+		FVT_dropButton.setTooltip(Tooltip.of(Text.translatable("fvt.feature.name.inventory_button.drop.tooltip")));
 
 		this.addDrawableChild(FVT_dropButton);
 	}
@@ -73,8 +77,8 @@ abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen implem
 	@Inject(method = "render", at = @At("HEAD"))
 	private void onRender(CallbackInfo info)
 	{
-		FVT_dropButton.x = FVT_getDropButtonX();
-		FVT_dropButton.y = FVT_getDropButtonY();
+		FVT_dropButton.setX(FVT_getDropButtonX());
+		FVT_dropButton.setY(FVT_getDropButtonY());
 	}
 
 	private void FVT_onDropButtonClick()
