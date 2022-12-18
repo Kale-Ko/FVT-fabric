@@ -14,7 +14,6 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
 
 import me.flourick.fvt.FVT;
-import me.flourick.fvt.mixin.ScreenAccessor;
 
 /**
  * Adds three item management buttons to given screen.
@@ -73,9 +72,9 @@ public class ContainerButtons<T extends ScreenHandler>
 		getButton.setTooltip(Tooltip.of(Text.translatable("fvt.feature.name.container_buttons.get.tooltip")));
 		storeButton.setTooltip(Tooltip.of(Text.translatable("fvt.feature.name.container_buttons.store.tooltip")));
 
-		((ScreenAccessor)screen).callAddDrawableChild(dropButton);
-		((ScreenAccessor)screen).callAddDrawableChild(getButton);
-		((ScreenAccessor)screen).callAddDrawableChild(storeButton);
+		((IScreen)screen).FVT_addDrawableSelectableChild(dropButton);
+		((IScreen)screen).FVT_addDrawableSelectableChild(getButton);
+		((IScreen)screen).FVT_addDrawableSelectableChild(storeButton);
 	}
 
 	public void setBasePos(int baseX, int baseY)
