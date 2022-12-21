@@ -12,7 +12,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import me.flourick.fvt.utils.IScreen;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.tooltip.TooltipPositioner;
@@ -28,13 +32,28 @@ import net.minecraft.client.util.math.MatrixStack;
  * @author Flourick
  */
 @Mixin(Screen.class)
-abstract class ScreenMixin
+abstract class ScreenMixin implements IScreen
 {
-	@Shadow
-	protected ItemRenderer itemRenderer;
+    @Shadow
+    private List<Drawable> drawables;
+    @Shadow
+    private List<Element> children;
+    @Shadow
+    private List<Selectable> selectables;
 
 	@Shadow
+	protected ItemRenderer itemRenderer;
+	@Shadow
 	protected TextRenderer textRenderer;
+
+    @Override
+	public <T extends Element & Drawable & Selectable> void FVT_addDrawableSelectableChild(T child)
+    {
+        // cannot use Invoker because for some reason it cannot find those methods
+		this.drawables.add(child);
+		this.children.add(child);
+		this.selectables.add(child);
+    }
 
 	@Inject(method = "renderTooltipFromComponents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
 	private void renderTooltipFromComponents(MatrixStack matrices, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, CallbackInfo info, int i, int j, int l, int m, int k, int n, Vector2ic vector2ic, int o, float f, Tessellator tessellator, BufferBuilder bufferBuilder, Matrix4f matrix4f, VertexConsumerProvider.Immediate immediate)

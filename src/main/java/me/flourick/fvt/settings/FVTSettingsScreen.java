@@ -42,9 +42,9 @@ public class FVTSettingsScreen extends Screen
 		this.list.addOptionEntry(FVT.OPTIONS.crosshairScale);
 		this.list.addOptionEntry(FVT.OPTIONS.crosshairStaticColor);
 		this.list.addOptionEntry(new SimpleOption<?>[] {FVT.OPTIONS.crosshairStaticColorRed, FVT.OPTIONS.crosshairStaticColorGreen, FVT.OPTIONS.crosshairStaticColorBlue, FVT.OPTIONS.crosshairStaticColorAlpha});
-		this.list.addCategoryEntry("fvt.feature_category.hud"); 
+		this.list.addCategoryEntry("fvt.feature_category.hud");
 		this.list.addOptionEntry(FVT.OPTIONS.showHUDInfo, FVT.OPTIONS.coordinatesPosition);
-		this.list.addCategoryEntry("fvt.feature_category.hotbar"); 
+		this.list.addCategoryEntry("fvt.feature_category.hotbar");
 		this.list.addOptionEntry(FVT.OPTIONS.autoHideHotbar);
 		this.list.addOptionEntry(FVT.OPTIONS.autoHideHotbarTimeout, FVT.OPTIONS.autoHideHotbarMode);
 		this.list.addOptionEntry(FVT.OPTIONS.autoHideHotbarUse, FVT.OPTIONS.autoHideHotbarItem);
