@@ -30,7 +30,6 @@
 		"MerchantScreenHandlerMixin",
 		"MerchantScreenMixin",
 		"HandledScreenMixin",
-		"ScreenAccessor",
 		"ScreenMixin",
 		"EntityMixin",
 		"SimpleOptionMixin",
