@@ -56,30 +56,30 @@ abstract class ScreenMixin implements IScreen
     }
 
 	@Inject(method = "renderTooltipFromComponents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
-	private void renderTooltipFromComponents(MatrixStack matrices, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, CallbackInfo info, int i, int j, int l, int m, int k, int n, Vector2ic vector2ic, int o, float f, Tessellator tessellator, BufferBuilder bufferBuilder, Matrix4f matrix4f, VertexConsumerProvider.Immediate immediate)
+	private void renderTooltipFromComponents(MatrixStack matrices, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, CallbackInfo info, int i, int j, 
+    int l, int m, Vector2ic vector2ic, int n, int o, int p, Tessellator tessellator, BufferBuilder bufferBuilder, Matrix4f matrix4f, VertexConsumerProvider.Immediate immediate)
 	{
-		// just to adjust the first line having extra spacing for no apparent reason
 		TooltipComponent tooltipComponent2;
-		int p = m;
+		int r = m;
 
 		matrices.translate(0.0f, 0.0f, 400.0f);
 
         for(int q = 0; q < components.size(); ++q) {
             tooltipComponent2 = components.get(q);
-            tooltipComponent2.drawText(this.textRenderer, l, p, matrix4f, immediate);
-            p += tooltipComponent2.getHeight();
+            tooltipComponent2.drawText(this.textRenderer, l, r, matrix4f, immediate);
+            r += tooltipComponent2.getHeight();
         }
 
         immediate.draw();
         matrices.pop();
 
-        p = m;
+        r = m;
         for(int q = 0; q < components.size(); ++q) {
             tooltipComponent2 = components.get(q);
-            tooltipComponent2.drawItems(this.textRenderer, l, p, matrices, this.itemRenderer, 400);
-            p += tooltipComponent2.getHeight();
+            tooltipComponent2.drawItems(this.textRenderer, l, r, matrices, this.itemRenderer);
+            r += tooltipComponent2.getHeight();
         }
-        this.itemRenderer.zOffset = f;
+        // this.itemRenderer.zOffset = f; /* FIXME zOffset */
 
 		info.cancel();
 	}

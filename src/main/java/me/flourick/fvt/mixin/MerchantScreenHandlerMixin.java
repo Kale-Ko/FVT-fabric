@@ -18,7 +18,7 @@ import me.flourick.fvt.FVT;
 @Mixin(MerchantScreenHandler.class)
 abstract class MerchantScreenHandlerMixin
 {
-	@Inject(method = "close", at = @At("HEAD"))
+	@Inject(method = "onClosed", at = @At("HEAD"))
 	private void onClose(PlayerEntity player, CallbackInfo info)
 	{
 		// reset when closing trade screen

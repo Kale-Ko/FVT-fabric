@@ -38,14 +38,6 @@ List of all toggleable features. Configuration is in in-game options menu called
 
    If enabled sends a chat message (only visible to you) whenever you enable/disable a feature using assigned key.
 
-* ### Crosshair
-
-   This disables crosshair changing it's color based on background and instead let's you choose the static color yourself. You can also set the scale of the crosshair. You can still scale the crosshair even if you don't use the static color feature.
-
-   If you use a crosshair from a resource pack that is already colored or you wish to have a crosshair that has multiple colors, set the color to white (RGB: 255, 255, 255) which will make it so only colors from the resource pack are used.
-
-   NOTE: Crosshair in resource pack is the upper-left 15x15 pixels in *assets/minecraft/textures/gui/icons.png*
-
 * ### Chat History Length
 
    Allows you to change the amount of messages you can scroll up in chat.
@@ -95,10 +87,6 @@ List of all toggleable features. Configuration is in in-game options menu called
 * ### Cloud Height
 
    Allows you to set the height at which clouds render (-64 to 320).
-
-* ### No Nether Thick Fog
-
-   Disables the thick nether fog (but leaves the default fog intact).
 
 * ### No Block Breaking Particles
 

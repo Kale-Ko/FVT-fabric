@@ -79,28 +79,11 @@ public class OnScreenText
 		FVT.MC.textRenderer.drawWithShadow(matrixStack, curYPRText, FVT.MC.getWindow().getScaledWidth() - FVT.MC.textRenderer.getWidth(curYPRText) - 1, FVT.MC.textRenderer.fontHeight + 3, Color.WHITE.getPacked());
 	}
 
-	public static void drawToolWarningText(MatrixStack matrixStack)
-	{
-		// last half a second fade-out
-		int alpha = MathHelper.clamp(MathHelper.ceil(25.5f * FVT.VARS.getToolWarningTextTicksLeft()), 0, 255);
-
-		int y;
-		if(FVT.OPTIONS.toolWarningPosition.getValue() == ToolWarningPosition.TOP) {
-			y = (int)((-(FVT.MC.getWindow().getScaledHeight() / 2 * 1/FVT.OPTIONS.toolWarningScale.getValue())) + (2/FVT.OPTIONS.toolWarningScale.getValue()));
-		}
-		else {
-			y = (int)(((FVT.MC.getWindow().getScaledHeight() / 2 * 1/FVT.OPTIONS.toolWarningScale.getValue())) - (FVT.MC.textRenderer.fontHeight + 60/FVT.OPTIONS.toolWarningScale.getValue()));
-		}
-
-		final String ToolWarningText = FVT.VARS.toolHand.equals(Hand.MAIN_HAND) ? Text.translatable("fvt.feature.name.tool_warning.text.main_hand", FVT.VARS.toolDurability).getString() : Text.translatable("fvt.feature.name.tool_warning.text.offhand", FVT.VARS.toolDurability).getString();
-		FVT.MC.textRenderer.drawWithShadow(matrixStack, ToolWarningText, (float) -(FVT.MC.textRenderer.getWidth(ToolWarningText) / 2), y, new Color(alpha, 255, 0, 0).getPacked());
-	}
-
 	// FUNCTIONS TO GET VARIOUS VALUES TO HUD
 
 	private static int getBlockLightLevel()
 	{
-		return FVT.MC.world.getChunkManager().getLightingProvider().get(LightType.BLOCK).getLightLevel(FVT.OPTIONS.freecam.getValue() ? new BlockPos(FVT.MC.gameRenderer.getCamera().getPos().x, FVT.MC.gameRenderer.getCamera().getPos().y, FVT.MC.gameRenderer.getCamera().getPos().z)  : FVT.MC.getCameraEntity().getBlockPos());
+		return FVT.MC.world.getChunkManager().getLightingProvider().get(LightType.BLOCK).getLightLevel(FVT.OPTIONS.freecam.getValue() ? BlockPos.ofFloored(FVT.MC.gameRenderer.getCamera().getPos().x, FVT.MC.gameRenderer.getCamera().getPos().y, FVT.MC.gameRenderer.getCamera().getPos().z)  : FVT.MC.getCameraEntity().getBlockPos());
 	}
 
 	private static String getFacingDirection()

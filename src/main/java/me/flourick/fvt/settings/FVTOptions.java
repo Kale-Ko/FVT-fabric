@@ -50,12 +50,6 @@ public class FVTOptions
 	// all the FEATURES
 	public final SimpleOption<ButtonPlacement> buttonPosition;
 	public final SimpleOption<Boolean> featureToggleMessages;
-	public final SimpleOption<Double> crosshairScale;
-	public final SimpleOption<Boolean> crosshairStaticColor;
-	public final SimpleOption<Integer> crosshairStaticColorRed;
-	public final SimpleOption<Integer> crosshairStaticColorGreen;
-	public final SimpleOption<Integer> crosshairStaticColorBlue;
-	public final SimpleOption<Integer> crosshairStaticColorAlpha;
 	public final SimpleOption<Boolean> disableWToSprint;
 	public final SimpleOption<Boolean> sendDeathCoordinates;
 	public final SimpleOption<CoordinatesPosition> coordinatesPosition;
@@ -72,8 +66,6 @@ public class FVTOptions
 	public final SimpleOption<Boolean> entityOutlineMisc;
 	public final SimpleOption<Boolean> fullbright;
 	public final SimpleOption<Boolean> randomPlacement;
-	public final SimpleOption<Boolean> noNetherFog;
-	public final SimpleOption<Boolean> noBlockBreakParticles;
 	public final SimpleOption<Boolean> noPotionParticles;
 	public final SimpleOption<Boolean> noVignette;
 	public final SimpleOption<Boolean> noSpyglassOverlay;
@@ -100,7 +92,6 @@ public class FVTOptions
 	public final SimpleOption<Boolean> attackThrough;
 	public final SimpleOption<Boolean> autoElytra;
 	public final SimpleOption<Boolean> fastTrade;
-	public final SimpleOption<DamageTiltMode> damageTilt;
 	public final SimpleOption<Boolean> noBreakSwapStop;
 	public final SimpleOption<Integer> chatHistoryLength;
 
@@ -125,54 +116,6 @@ public class FVTOptions
 			true
 		);
 		features.put("featureToggleMessages", featureToggleMessages);
-
-		crosshairScale = new SimpleOption<Double>(
-			"fvt.feature.name.crosshair_scale", 
-			tooltip("fvt.feature.name.crosshair_scale.tooltip", 1.0), 
-			FVTOptions::getPercentValueText, 
-			new SimpleOption.ValidatingIntSliderCallbacks(0, 100).withModifier(value -> (double)value / 20.0, value -> (int)(value * 20.0)), 
-			Codec.doubleRange(0.0, 5.0), 1.0, value -> {}
-		);
-		features.put("crosshairScale", crosshairScale);
-
-		crosshairStaticColor = SimpleOption.ofBoolean(
-			"fvt.feature.name.crosshair_static_color", 
-			tooltip("fvt.feature.name.crosshair_static_color.tooltip", false), 
-			false
-		);
-		features.put("crosshairStaticColor", crosshairStaticColor);
-
-		crosshairStaticColorRed = new SimpleOption<Integer>(
-			"fvt.feature.name.crosshair_static_color.red",
-			tooltip("fvt.feature.name.crosshair_static_color.red.tooltip", 255),
-			FVTOptions::getValueText,
-			new SimpleOption.ValidatingIntSliderCallbacks(0, 255), 255, value -> {}
-		);
-		features.put("crosshairStaticColorRed", crosshairStaticColorRed);
-
-		crosshairStaticColorGreen = new SimpleOption<Integer>(
-			"fvt.feature.name.crosshair_static_color.green",
-			tooltip("fvt.feature.name.crosshair_static_color.green.tooltip", 255),
-			FVTOptions::getValueText,
-			new SimpleOption.ValidatingIntSliderCallbacks(0, 255), 255, value -> {}
-		);
-		features.put("crosshairStaticColorGreen", crosshairStaticColorGreen);
-
-		crosshairStaticColorBlue = new SimpleOption<Integer>(
-			"fvt.feature.name.crosshair_static_color.blue",
-			tooltip("fvt.feature.name.crosshair_static_color.blue.tooltip", 255),
-			FVTOptions::getValueText,
-			new SimpleOption.ValidatingIntSliderCallbacks(0, 255), 255, value -> {}
-		);
-		features.put("crosshairStaticColorBlue", crosshairStaticColorBlue);
-
-		crosshairStaticColorAlpha = new SimpleOption<Integer>(
-			"fvt.feature.name.crosshair_static_color.alpha",
-			tooltip("fvt.feature.name.crosshair_static_color.alpha.tooltip", 255),
-			FVTOptions::getValueText,
-			new SimpleOption.ValidatingIntSliderCallbacks(0, 255), 255, value -> {}
-		);
-		features.put("crosshairStaticColorAlpha", crosshairStaticColorAlpha);
 
 		disableWToSprint = SimpleOption.ofBoolean(
 			"fvt.feature.name.disable_w_to_sprint", 
@@ -292,20 +235,6 @@ public class FVTOptions
 			false
 		);
 		features.put("randomPlacement", randomPlacement);
-
-		noNetherFog = SimpleOption.ofBoolean(
-			"fvt.feature.name.no_nether_fog", 
-			tooltip("fvt.feature.name.no_nether_fog.tooltip", false), 
-			false
-		);
-		features.put("noNetherFog", noNetherFog);
-
-		noBlockBreakParticles = SimpleOption.ofBoolean(
-			"fvt.feature.name.no_block_break_particles", 
-			tooltip("fvt.feature.name.no_block_break_particles.tooltip", false), 
-			false
-		);
-		features.put("noBlockBreakParticles", noBlockBreakParticles);
 
 		noPotionParticles = SimpleOption.ofBoolean(
 			"fvt.feature.name.no_potion_particles", 
@@ -494,15 +423,6 @@ public class FVTOptions
 			true
 		);
 		features.put("fastTrade", fastTrade);
-
-		damageTilt = new SimpleOption<DamageTiltMode>(
-			"fvt.feature.name.damage_tilt", 
-			tooltip("fvt.feature.name.damage_tilt.tooltip", DamageTiltMode.DEFAULT), 
-			SimpleOption.enumValueText(), 
-			new SimpleOption.PotentialValuesBasedCallbacks<DamageTiltMode>(Arrays.asList(DamageTiltMode.values()), 
-			Codec.INT.xmap(DamageTiltMode::byId, DamageTiltMode::getId)), DamageTiltMode.DEFAULT, value -> {}
-		);
-		features.put("damageTilt", damageTilt);
 
 		noBreakSwapStop = SimpleOption.ofBoolean(
 			"fvt.feature.name.no_break_swap_stop", 
@@ -815,46 +735,6 @@ public class FVTOptions
 		}
 
 		public static HotbarMode byId(int id)
-		{
-			return VALUES[MathHelper.floorMod(id, VALUES.length)];
-		}
-	}
-	
-	public enum DamageTiltMode implements TranslatableOption
-	{
-		OFF(0, "options.off"),
-		MINIMAL(1, "options.particles.minimal"),
-		DEFAULT(1, "options.gamma.default");
-
-		private static final DamageTiltMode[] VALUES = (DamageTiltMode[])Arrays.stream(DamageTiltMode.values()).sorted(Comparator.comparingInt(DamageTiltMode::getId)).toArray(DamageTiltMode[]::new);;
-		private final String translationKey;
-		private final int id;
-
-		private DamageTiltMode(int id, String translationKey)
-		{
-			this.id = id;
-			this.translationKey = translationKey;
-		}
-		
-		@Override
-		public String toString()
-		{
-			return Integer.toString(getId());
-		}
-
-		@Override
-		public int getId()
-		{
-			return this.id;
-		}
-
-		@Override
-		public String getTranslationKey()
-		{
-			return this.translationKey;
-		}
-
-		public static DamageTiltMode byId(int id)
 		{
 			return VALUES[MathHelper.floorMod(id, VALUES.length)];
 		}

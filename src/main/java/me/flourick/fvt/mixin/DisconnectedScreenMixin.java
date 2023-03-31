@@ -40,10 +40,10 @@ abstract class DisconnectedScreenMixin
 	{
 		if(FVT.OPTIONS.autoReconnect.getValue() && FVT.VARS.autoReconnectAttempts > 0 && (FVT.VARS.autoReconnectAttempts <= FVT.OPTIONS.autoReconnectAttempts.getValue() || FVT.OPTIONS.autoReconnectAttempts.getValue() == -1)) {
 			if(FVT.OPTIONS.autoReconnectAttempts.getValue() != -1) {
-                DrawableHelper.drawCenteredText(matrices, FVT.MC.textRenderer, Text.translatable("fvt.feature.name.auto_reconnect.message", MathHelper.ceil(FVT.VARS.autoReconnectTicks / 20f), ((FVT.OPTIONS.autoReconnectAttempts.getValue() + 1) - FVT.VARS.autoReconnectAttempts)).getString(), FVT.MC.currentScreen.width / 2, FVT.MC.currentScreen.height - this.reasonHeight / 2 - 2 * FVT.MC.textRenderer.fontHeight, Color.WHITE.getPacked());
+                DrawableHelper.drawCenteredTextWithShadow(matrices, FVT.MC.textRenderer, Text.translatable("fvt.feature.name.auto_reconnect.message", MathHelper.ceil(FVT.VARS.autoReconnectTicks / 20f), ((FVT.OPTIONS.autoReconnectAttempts.getValue() + 1) - FVT.VARS.autoReconnectAttempts)).getString(), FVT.MC.currentScreen.width / 2, FVT.MC.currentScreen.height - this.reasonHeight / 2 - 2 * FVT.MC.textRenderer.fontHeight, Color.WHITE.getPacked());
             }
             else {
-                DrawableHelper.drawCenteredText(matrices, FVT.MC.textRenderer, Text.translatable("fvt.feature.name.auto_reconnect.message_no_max", MathHelper.ceil(FVT.VARS.autoReconnectTicks / 20f)), FVT.MC.currentScreen.width / 2, FVT.MC.currentScreen.height - this.reasonHeight / 2 - 2 * FVT.MC.textRenderer.fontHeight, Color.WHITE.getPacked());
+                DrawableHelper.drawCenteredTextWithShadow(matrices, FVT.MC.textRenderer, Text.translatable("fvt.feature.name.auto_reconnect.message_no_max", MathHelper.ceil(FVT.VARS.autoReconnectTicks / 20f)), FVT.MC.currentScreen.width / 2, FVT.MC.currentScreen.height - this.reasonHeight / 2 - 2 * FVT.MC.textRenderer.fontHeight, Color.WHITE.getPacked());
             }
 		}
 	}

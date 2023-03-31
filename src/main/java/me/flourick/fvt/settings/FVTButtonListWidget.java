@@ -95,13 +95,13 @@ public class FVTButtonListWidget extends ElementListWidget<FVTButtonListWidget.F
 		// single button row
 		public static FVTButtonEntry create(int width, SimpleOption<?> option)
 		{
-			return new FVTButtonEntry(ImmutableMap.of(option, option.createButton(FVT.MC.options, width / 2 - 155, 0, 310)));
+			return new FVTButtonEntry(ImmutableMap.of(option, option.createWidget(FVT.MC.options, width / 2 - 155, 0, 310)));
 		}
 
 		// two buttons next to each other, kept for simplicity so that the dynamic create does not have to be used for every row
 		public static FVTButtonEntry create(int width, SimpleOption<?> firstOption, SimpleOption<?> secondOption)
 		{
-			return new FVTButtonEntry(ImmutableMap.of(firstOption, firstOption.createButton(FVT.MC.options, width / 2 - 155, 0, 150), secondOption, secondOption.createButton(FVT.MC.options, width / 2 - 155 + 160, 0, 150)));
+			return new FVTButtonEntry(ImmutableMap.of(firstOption, firstOption.createWidget(FVT.MC.options, width / 2 - 155, 0, 150), secondOption, secondOption.createWidget(FVT.MC.options, width / 2 - 155 + 160, 0, 150)));
 		}
 
 		// dynamically makes a button entry based on how many options are given, null values can be used to make empty spaces
@@ -118,7 +118,7 @@ public class FVTButtonListWidget extends ElementListWidget<FVTButtonListWidget.F
 				if(option != null) {
 					int adjustment = pixelAdjustment > 0.5f && i == options.length - 1 ? Math.round(pixelAdjustment) : 0;
 
-					builder.put(option, option.createButton(FVT.MC.options, width / 2 - 155 + (i * (MathHelper.floor(buttonWidth) + 10)) + adjustment, 0, MathHelper.floor(buttonWidth)));
+					builder.put(option, option.createWidget(FVT.MC.options, width / 2 - 155 + (i * (MathHelper.floor(buttonWidth) + 10)) + adjustment, 0, MathHelper.floor(buttonWidth)));
 				}
 			}
 
@@ -161,7 +161,7 @@ public class FVTButtonListWidget extends ElementListWidget<FVTButtonListWidget.F
 		@Override
 		public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta)
 		{
-			ClickableWidget.drawCenteredText(matrices, FVT.MC.textRenderer, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, Color.WHITE.getPacked());
+			ClickableWidget.drawCenteredTextWithShadow(matrices, FVT.MC.textRenderer, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, Color.WHITE.getPacked());
 		}
 
 		@Override

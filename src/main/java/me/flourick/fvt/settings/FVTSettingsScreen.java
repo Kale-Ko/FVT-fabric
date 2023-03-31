@@ -38,10 +38,6 @@ public class FVTSettingsScreen extends Screen
 	{
 		this.list = new FVTButtonListWidget(this.client, this.width, this.height, 32, this.height - 32, 25);
 		this.list.addOptionEntry(FVT.OPTIONS.buttonPosition, FVT.OPTIONS.featureToggleMessages);
-		this.list.addCategoryEntry("fvt.feature_category.crosshair");
-		this.list.addOptionEntry(FVT.OPTIONS.crosshairScale);
-		this.list.addOptionEntry(FVT.OPTIONS.crosshairStaticColor);
-		this.list.addOptionEntry(new SimpleOption<?>[] {FVT.OPTIONS.crosshairStaticColorRed, FVT.OPTIONS.crosshairStaticColorGreen, FVT.OPTIONS.crosshairStaticColorBlue, FVT.OPTIONS.crosshairStaticColorAlpha});
 		this.list.addCategoryEntry("fvt.feature_category.hud");
 		this.list.addOptionEntry(FVT.OPTIONS.showHUDInfo, FVT.OPTIONS.coordinatesPosition);
 		this.list.addCategoryEntry("fvt.feature_category.hotbar");
@@ -49,11 +45,9 @@ public class FVTSettingsScreen extends Screen
 		this.list.addOptionEntry(FVT.OPTIONS.autoHideHotbarTimeout, FVT.OPTIONS.autoHideHotbarMode);
 		this.list.addOptionEntry(FVT.OPTIONS.autoHideHotbarUse, FVT.OPTIONS.autoHideHotbarItem);
 		this.list.addCategoryEntry("fvt.feature_category.render");
-		this.list.addOptionEntry(FVT.OPTIONS.noPotionParticles, FVT.OPTIONS.noBlockBreakParticles);
-		this.list.addOptionEntry(FVT.OPTIONS.noNetherFog, FVT.OPTIONS.invisibleOffhand);
+		this.list.addOptionEntry(FVT.OPTIONS.invisibleOffhand, FVT.OPTIONS.noPotionParticles);
 		this.list.addOptionEntry(FVT.OPTIONS.noVignette, FVT.OPTIONS.noSpyglassOverlay);
-		this.list.addOptionEntry(FVT.OPTIONS.fullbright, FVT.OPTIONS.damageTilt);
-        this.list.addOptionEntry(new SimpleOption<?>[] {FVT.OPTIONS.cloudHeight, null});
+		this.list.addOptionEntry(FVT.OPTIONS.fullbright, FVT.OPTIONS.cloudHeight);
 		this.list.addCategoryEntry("fvt.feature_category.entity_outline");
 		this.list.addOptionEntry(FVT.OPTIONS.entityOutline);
 		this.list.addOptionEntry(FVT.OPTIONS.entityOutlineAnimals, FVT.OPTIONS.entityOutlineMobs);
@@ -124,7 +118,7 @@ public class FVTSettingsScreen extends Screen
 	{
 		this.renderBackground(matrixStack);
 		this.list.render(matrixStack, mouseX, mouseY, delta);
-		drawCenteredText(matrixStack, this.textRenderer, this.title, this.width / 2, 12, Color.WHITE.getPacked());
+		drawCenteredTextWithShadow(matrixStack, this.textRenderer, this.title, this.width / 2, 12, Color.WHITE.getPacked());
 
 		super.render(matrixStack, mouseX, mouseY, delta);
 	}

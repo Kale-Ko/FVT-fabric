@@ -11,7 +11,6 @@
 
 	"fvt.chat_messages_prefix": "§8[§7FVT§8]§r %s",
 
-	"fvt.feature_category.crosshair": "Crosshair",
 	"fvt.feature_category.hud": "HUD",
 	"fvt.feature_category.hotbar": "Hotbar",
 	"fvt.feature_category.tools": "Tools",
@@ -36,19 +35,6 @@
 
 	"fvt.feature.name.feature_toggle_messages": "Toggle Chat Messages",
 	"fvt.feature.name.feature_toggle_messages.tooltip": "Sends a chat message (only visible to you) whenever you enable/disable a feature using assigned key.",
-
-	"fvt.feature.name.crosshair_scale": "Scale",
-	"fvt.feature.name.crosshair_scale.tooltip": "Let's you make the crosshair bigger or smaller. Values close to zero percent make it disappear.",
-	"fvt.feature.name.crosshair_static_color": "Static Color",
-	"fvt.feature.name.crosshair_static_color.tooltip": "Disables crosshair changing it's color based on background and instead let's you choose the color yourself using RGBA model.",
-	"fvt.feature.name.crosshair_static_color.blue": "Blue",
-	"fvt.feature.name.crosshair_static_color.blue.tooltip": "Represents the blue part of crosshair color.",
-	"fvt.feature.name.crosshair_static_color.green": "Green",
-	"fvt.feature.name.crosshair_static_color.green.tooltip": "Represents the green part of crosshair color.",
-	"fvt.feature.name.crosshair_static_color.red": "Red",
-	"fvt.feature.name.crosshair_static_color.red.tooltip": "Represents the red part of crosshair color.",
-	"fvt.feature.name.crosshair_static_color.alpha": "Alpha",
-	"fvt.feature.name.crosshair_static_color.alpha.tooltip": "Represents the alpha part of crosshair color. Basically how transparent the crosshair should be.",
 
 	"fvt.feature.name.chat_history_length": "Chat History Length",
 	"fvt.feature.name.chat_history_length.tooltip": "Allows you to change the amount of messages you can scroll up in chat.",

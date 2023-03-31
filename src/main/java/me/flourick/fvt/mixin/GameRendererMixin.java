@@ -29,49 +29,6 @@ import me.flourick.fvt.FVT;
 @Mixin(GameRenderer.class)
 abstract class GameRendererMixin
 {
-	@Inject(method = "bobViewWhenHurt", at = @At("HEAD"), cancellable = true)
-	private void onBobViewWhenHurt(MatrixStack matrices, float tickDelta, CallbackInfo info)
-	{
-		if(FVT.MC.getCameraEntity() instanceof LivingEntity) {
-			LivingEntity livingEntity = (LivingEntity)FVT.MC.getCameraEntity();
-			float f = (float)livingEntity.hurtTime - tickDelta;
-			float g;
-
-			if(livingEntity.isDead()) {
-				g = Math.min((float)livingEntity.deathTime + tickDelta, 20.0f);
-				matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(40.0f - 8000.0f / (g + 200.0f)));
-			}
-
-			if(f < 0.0f) {
-				info.cancel();
-				return;
-			}
-
-			switch(FVT.OPTIONS.damageTilt.getValue()) {
-				case OFF:
-					info.cancel();
-					return;
-				case MINIMAL:
-					f /= (float)livingEntity.maxHurtTime;
-					f = MathHelper.sin(f*f*f * (float)Math.PI);
-					g = livingEntity.knockbackVelocity;
-					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-g));
-					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-f * 5.0f));
-					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(g));
-				case DEFAULT:
-				default:
-					f /= (float)livingEntity.maxHurtTime;
-					f = MathHelper.sin(f*f*f*f * (float)Math.PI);
-					g = livingEntity.knockbackVelocity;
-					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-g));
-					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(-f * 14.0f));
-					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(g));
-			}
-		}
-
-		info.cancel();
-	}
-
 	@Inject(method = "updateTargetedEntity", at = @At("HEAD"), cancellable = true)
 	private void onUpdateTargetedEntity(float tickDelta, CallbackInfo info)
 	{

@@ -36,7 +36,7 @@ import me.flourick.fvt.utils.Color;
 import me.flourick.fvt.utils.OnScreenText;
 
 /**
- * FEATURES: Tool Breaking Warning, HUD Info, Mount Hunger, Crosshair, No Vignette, No Spyglass Overlay, Hotbar Autohide
+ * FEATURES: Tool Breaking Warning, HUD Info, Mount Hunger, No Vignette, No Spyglass Overlay, Hotbar Autohide
  * 
  * @author Flourick
  */
@@ -62,7 +62,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	abstract LivingEntity getRiddenEntity();
 
 	@Shadow
-	abstract void renderVignetteOverlay(Entity entity);
+	abstract void renderVignetteOverlay(MatrixStack matrices, Entity entity);
 
 	@Shadow
 	abstract int getHeartCount(LivingEntity entity);
@@ -71,7 +71,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	abstract int getHeartRows(int heartCount);
 
 	@Shadow
-	abstract void renderHotbarItem(int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int seed);
+	abstract void renderHotbarItem(MatrixStack matrices, int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int seed);
 
 	@Shadow
 	abstract PlayerEntity getCameraPlayer();
@@ -157,21 +157,13 @@ abstract class InGameHudMixin extends DrawableHelper
 				OnScreenText.drawPFTextLower(matrixStack);
 			}
 		}
-
-		if(FVT.VARS.getToolWarningTextTicksLeft() > 0) {
-			matrixStack.push();
-			matrixStack.translate((double)(this.client.getWindow().getScaledWidth() / 2.0d), (double)(this.client.getWindow().getScaledHeight() / 2.0d), (double)this.getZOffset());
-			matrixStack.scale(FVT.OPTIONS.toolWarningScale.getValue().floatValue(), FVT.OPTIONS.toolWarningScale.getValue().floatValue(), 1.0f);
-			OnScreenText.drawToolWarningText(matrixStack);
-			matrixStack.pop();
-		}
 	}
 
-	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderVignetteOverlay(Lnet/minecraft/entity/Entity;)V", ordinal = 0))
-	private void hijackRenderVignetteOverlay(InGameHud igHud, Entity entity)
+	@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderVignetteOverlay(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/entity/Entity;)V", ordinal = 0))
+	private void hijackRenderVignetteOverlay(InGameHud igHud, MatrixStack matrix, Entity entity)
 	{
 		if(!FVT.OPTIONS.noVignette.getValue()) {
-			this.renderVignetteOverlay(entity);
+			this.renderVignetteOverlay(matrix, entity);
 		}
 	}
 
@@ -184,7 +176,7 @@ abstract class InGameHudMixin extends DrawableHelper
 
 			if(autoHideHotbar) {
 				matrices.push();
-				matrices.translate(0, FVT_getHotbarHideHeight(), this.getZOffset());
+				matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME zOffset */);
 			}
 
 			igHud.renderMountJumpBar(mount, matrices, x);
@@ -215,7 +207,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	{
 		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.push();
-			matrices.translate(0, FVT_getHotbarHideHeight(), this.getZOffset());
+			matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME zOffset */);
 		}
 	}
 
@@ -232,7 +224,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	{
 		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.push();
-			matrices.translate(0, FVT_getHotbarHideHeight(), this.getZOffset());
+			matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME zOffset */);
 		}
 
 		PlayerEntity playerEntity = this.getCameraPlayer();
@@ -324,7 +316,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	{
 		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.push();
-			matrices.translate(0, FVT_getHotbarHideHeight(), this.getZOffset());
+			matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME zOffset */);
 		}
 	}
 
@@ -356,9 +348,9 @@ abstract class InGameHudMixin extends DrawableHelper
 				ItemStack itemStack = playerEntity.getOffHandStack();
 				Arm arm = playerEntity.getMainArm().getOpposite();
 				
-				int zOffset = this.getZOffset();
+				int zOffset = 0 /* FIXME zOffset */;
 				
-				this.setZOffset(-90);
+				// this.setZOffset(-90); /* FIXME zOffset */
 				this.drawTexture(matrices, scaledHalfWidth - 91, scaledHeight - 22, 0, 0, 182, 22);
 				this.drawTexture(matrices, scaledHalfWidth - 91 - 1 + playerEntity.getInventory().selectedSlot * 20, scaledHeight - 22 - 1, 0, 22, 24, 22);
 
@@ -371,7 +363,7 @@ abstract class InGameHudMixin extends DrawableHelper
 					}
 				}
 
-				this.setZOffset(zOffset);
+				// this.setZOffset(zOffset); /* FIXME zOffset */
 				RenderSystem.enableBlend();
 				RenderSystem.defaultBlendFunc();
 
@@ -383,15 +375,15 @@ abstract class InGameHudMixin extends DrawableHelper
 				for(q = 0; q < 9; ++q) {
 					r = scaledHalfWidth - 90 + q * 20 + 2;
 					s = scaledHeight - 16 - 3;
-					this.renderHotbarItem(r, s, tickDelta, playerEntity, (ItemStack)playerEntity.getInventory().main.get(q), m++);
+					this.renderHotbarItem(matrices, r, s, tickDelta, playerEntity, (ItemStack)playerEntity.getInventory().main.get(q), m++);
 				}
 
 				if(!itemStack.isEmpty()) {
 					q = scaledHeight - 16 - 3;
 					if (arm == Arm.LEFT) {
-						this.renderHotbarItem(scaledHalfWidth - 91 - 26, q, tickDelta, playerEntity, itemStack, m++);
+						this.renderHotbarItem(matrices, scaledHalfWidth - 91 - 26, q, tickDelta, playerEntity, itemStack, m++);
 					} else {
-						this.renderHotbarItem(scaledHalfWidth + 91 + 10, q, tickDelta, playerEntity, itemStack, m++);
+						this.renderHotbarItem(matrices, scaledHalfWidth + 91 + 10, q, tickDelta, playerEntity, itemStack, m++);
 					}
 				}
 
@@ -420,27 +412,5 @@ abstract class InGameHudMixin extends DrawableHelper
 
 			info.cancel();
 		}
-	}
-
-	@Redirect(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V", ordinal = 0), require = 0)
-	private void onRenderCrosshair(InGameHud igHud, MatrixStack matrixStack, int x, int y, int u, int v, int width, int height)
-	{
-		int scaledWidth = this.client.getWindow().getScaledWidth();
-		int scaledHeight = this.client.getWindow().getScaledHeight();
-
-		matrixStack.push();
-		matrixStack.translate((float)(scaledWidth / 2), (float)(scaledHeight / 2), (float)this.getZOffset());
-
-		if(FVT.OPTIONS.crosshairStaticColor.getValue()) {
-			RenderSystem.setShaderColor(Color.normalize(FVT.OPTIONS.crosshairStaticColorRed.getValue()), Color.normalize(FVT.OPTIONS.crosshairStaticColorGreen.getValue()), Color.normalize(FVT.OPTIONS.crosshairStaticColorBlue.getValue()), Color.normalize(FVT.OPTIONS.crosshairStaticColorAlpha.getValue()));
-			RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
-		}
-		else {
-			RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.ONE_MINUS_DST_COLOR, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
-		}
-	
-		matrixStack.scale(FVT.OPTIONS.crosshairScale.getValue().floatValue(), FVT.OPTIONS.crosshairScale.getValue().floatValue(), 1.0f);
-		this.drawTexture(matrixStack, -15/2, -15/2, 0, 0, 15, 15);
-		matrixStack.pop();
 	}
 }
