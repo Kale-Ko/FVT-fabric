@@ -3,22 +3,19 @@ package me.flourick.fvt.mixin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
+import me.flourick.fvt.FVT;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.util.ActionResult;
-
-import me.flourick.fvt.FVT;
 
 /**
  * FEATURES: Random Block Placement, Refill Hand, Creative Break Delay, No Break Swap Stop

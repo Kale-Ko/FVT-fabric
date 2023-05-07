@@ -17,13 +17,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import com.google.gson.JsonParser;
-
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
-
+import me.flourick.fvt.FVT;
+import me.flourick.fvt.utils.ISimpleOption;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.option.SimpleOption.TooltipFactory;
@@ -33,9 +32,6 @@ import net.minecraft.text.Texts;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.TranslatableOption;
 import net.minecraft.util.math.MathHelper;
-
-import me.flourick.fvt.FVT;
-import me.flourick.fvt.utils.ISimpleOption;
 
 /**
  * All features this mod offers, also handles loading & saving to file.

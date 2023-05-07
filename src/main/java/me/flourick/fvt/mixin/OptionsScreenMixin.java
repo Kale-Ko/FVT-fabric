@@ -6,15 +6,13 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
+import me.flourick.fvt.FVT;
+import me.flourick.fvt.settings.FVTSettingsScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.text.Text;
-
-import me.flourick.fvt.FVT;
-import me.flourick.fvt.settings.FVTSettingsScreen;
 
 /**
  * FEATURES: FVT Button Position

@@ -3,11 +3,9 @@ package me.flourick.fvt.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
+import me.flourick.fvt.FVT;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.entity.Entity;
-
-import me.flourick.fvt.FVT;
 
 /**
  * FEATURES: Freecam

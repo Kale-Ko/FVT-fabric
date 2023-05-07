@@ -2,11 +2,11 @@ package me.flourick.fvt.mixin;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-
+import me.flourick.fvt.FVT;
+import me.flourick.fvt.utils.FVTButtonWidget;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HorseScreen;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -16,8 +16,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.HorseScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
-import me.flourick.fvt.FVT;
-import me.flourick.fvt.utils.FVTButtonWidget;
 
 /**
  * FEATURES: Horse Info

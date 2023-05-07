@@ -1,18 +1,12 @@
 package me.flourick.fvt.utils;
 
 import org.apache.commons.lang3.StringUtils;
-
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.LightType;
-
 import me.flourick.fvt.FVT;
 import me.flourick.fvt.settings.FVTOptions.CoordinatesPosition;
-import me.flourick.fvt.settings.FVTOptions.ToolWarningPosition;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.world.LightType;
 
 /**
  * Holder for static functions that draw text on the ingame HUD.

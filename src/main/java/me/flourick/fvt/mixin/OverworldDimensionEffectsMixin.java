@@ -1,11 +1,9 @@
 package me.flourick.fvt.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-
+import me.flourick.fvt.FVT;
 import net.minecraft.client.render.DimensionEffects;
 import net.minecraft.client.render.DimensionEffects.Overworld;
-
-import me.flourick.fvt.FVT;
 
 /**
  * FEATURES: Cloud Height

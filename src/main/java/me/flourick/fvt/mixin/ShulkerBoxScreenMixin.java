@@ -1,15 +1,13 @@
 package me.flourick.fvt.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-
+import me.flourick.fvt.FVT;
+import me.flourick.fvt.utils.ContainerButtons;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.ShulkerBoxScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ShulkerBoxScreenHandler;
 import net.minecraft.text.Text;
-
-import me.flourick.fvt.FVT;
-import me.flourick.fvt.utils.ContainerButtons;
 
 /**
  * FEATURES: Container Buttons

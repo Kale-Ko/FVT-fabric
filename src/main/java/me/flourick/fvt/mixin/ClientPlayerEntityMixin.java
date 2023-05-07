@@ -1,7 +1,5 @@
 package me.flourick.fvt.mixin;
 
-import com.ibm.icu.math.BigDecimal;
-import com.mojang.authlib.GameProfile;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -9,6 +7,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import com.ibm.icu.math.BigDecimal;
+import com.mojang.authlib.GameProfile;
+import me.flourick.fvt.FVT;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.Input;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -28,8 +29,6 @@ import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.stat.StatHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
-
-import me.flourick.fvt.FVT;
 
 /**
  * FEATURES: AutoReconnect, Chat Death Coordinates, Disable 'W' To Sprint, Freecam, Hotbar Autohide, AutoElytra, FreeLook, Spyglass Zoom

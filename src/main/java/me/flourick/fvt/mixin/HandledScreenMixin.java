@@ -5,7 +5,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
+import me.flourick.fvt.FVT;
+import me.flourick.fvt.utils.Color;
+import me.flourick.fvt.utils.FVTButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -16,10 +18,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
-
-import me.flourick.fvt.FVT;
-import me.flourick.fvt.utils.Color;
-import me.flourick.fvt.utils.FVTButtonWidget;
 
 /**
  * FEATURES: Inventory Button

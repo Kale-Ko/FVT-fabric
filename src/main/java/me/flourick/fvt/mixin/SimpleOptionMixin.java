@@ -3,10 +3,8 @@ package me.flourick.fvt.mixin;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-
-import net.minecraft.client.option.SimpleOption;
-
 import me.flourick.fvt.utils.ISimpleOption;
+import net.minecraft.client.option.SimpleOption;
 
 /**
  * So mod features can be reset to default.

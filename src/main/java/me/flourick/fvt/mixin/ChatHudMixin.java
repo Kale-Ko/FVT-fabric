@@ -3,7 +3,6 @@ package me.flourick.fvt.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-
 import me.flourick.fvt.FVT;
 import net.minecraft.client.gui.hud.ChatHud;
 

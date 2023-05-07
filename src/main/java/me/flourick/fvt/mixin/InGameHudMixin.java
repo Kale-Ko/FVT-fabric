@@ -1,8 +1,5 @@
 package me.flourick.fvt.mixin;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,8 +7,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import net.minecraft.util.math.random.Random;
+import com.mojang.blaze3d.systems.RenderSystem;
+import me.flourick.fvt.FVT;
+import me.flourick.fvt.settings.FVTOptions.HotbarMode;
+import me.flourick.fvt.utils.OnScreenText;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -29,11 +28,7 @@ import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
-
-import me.flourick.fvt.FVT;
-import me.flourick.fvt.settings.FVTOptions.HotbarMode;
-import me.flourick.fvt.utils.Color;
-import me.flourick.fvt.utils.OnScreenText;
+import net.minecraft.util.math.random.Random;
 
 /**
  * FEATURES: Tool Breaking Warning, HUD Info, Mount Hunger, No Vignette, No Spyglass Overlay, Hotbar Autohide
@@ -176,7 +171,7 @@ abstract class InGameHudMixin extends DrawableHelper
 
 			if(autoHideHotbar) {
 				matrices.push();
-				matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME zOffset */);
+				matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME Maybe zOffset */);
 			}
 
 			igHud.renderMountJumpBar(mount, matrices, x);
@@ -256,13 +251,13 @@ abstract class InGameHudMixin extends DrawableHelper
 					currentRowY = foodRectY + (this.random.nextInt(3) - 1);
 				}
 
-				this.drawTexture(matrices, currentFoodX, currentRowY, 16 + hungerEffectBackgroundU * 9, 27, 9, 9);
+				DrawableHelper.drawTexture(matrices, currentFoodX, currentRowY, 16 + hungerEffectBackgroundU * 9, 27, 9, 9);
 				if(i*2 + 1 < playerFoodLevel) {
-					this.drawTexture(matrices, currentFoodX, currentRowY, hungerEffectU + 36, 27, 9, 9);
+					DrawableHelper.drawTexture(matrices, currentFoodX, currentRowY, hungerEffectU + 36, 27, 9, 9);
 				}
 
 				if(i*2 + 1 == playerFoodLevel) {
-					this.drawTexture(matrices, currentFoodX, currentRowY, hungerEffectU + 45, 27, 9, 9);
+					DrawableHelper.drawTexture(matrices, currentFoodX, currentRowY, hungerEffectU + 45, 27, 9, 9);
 				}
 			}
 
@@ -282,13 +277,13 @@ abstract class InGameHudMixin extends DrawableHelper
 				for(int j = 0; j < riddenEntityHealthRowOffset; ++j) {
 					int currentHeartX = mountRectX - j * 8 - 9;
 
-					this.drawTexture(matrices, currentHeartX, currentRowY, 52, 9, 9, 9);
+					DrawableHelper.drawTexture(matrices, currentHeartX, currentRowY, 52, 9, 9, 9);
 					if(j*2 + 1 + i < riddenEntityHealth) {
-						this.drawTexture(matrices, currentHeartX, currentRowY, 88, 9, 9, 9);
+						DrawableHelper.drawTexture(matrices, currentHeartX, currentRowY, 88, 9, 9, 9);
 					}
 
 					if(j*2 + 1 + i == riddenEntityHealth) {
-						this.drawTexture(matrices, currentHeartX, currentRowY, 97, 9, 9, 9);
+						DrawableHelper.drawTexture(matrices, currentHeartX, currentRowY, 97, 9, 9, 9);
 					}
 				}
 
@@ -351,15 +346,15 @@ abstract class InGameHudMixin extends DrawableHelper
 				int zOffset = 0 /* FIXME zOffset */;
 				
 				// this.setZOffset(-90); /* FIXME zOffset */
-				this.drawTexture(matrices, scaledHalfWidth - 91, scaledHeight - 22, 0, 0, 182, 22);
-				this.drawTexture(matrices, scaledHalfWidth - 91 - 1 + playerEntity.getInventory().selectedSlot * 20, scaledHeight - 22 - 1, 0, 22, 24, 22);
+				DrawableHelper.drawTexture(matrices, scaledHalfWidth - 91, scaledHeight - 22, 0, 0, 182, 22);
+				DrawableHelper.drawTexture(matrices, scaledHalfWidth - 91 - 1 + playerEntity.getInventory().selectedSlot * 20, scaledHeight - 22 - 1, 0, 22, 24, 22);
 
 				if(!itemStack.isEmpty()) {
 					if(arm == Arm.LEFT) {
-						this.drawTexture(matrices, scaledHalfWidth - 91 - 29, scaledHeight - 23, 24, 22, 29, 24);
+						DrawableHelper.drawTexture(matrices, scaledHalfWidth - 91 - 29, scaledHeight - 23, 24, 22, 29, 24);
 					}
 					else {
-						this.drawTexture(matrices, scaledHalfWidth + 91, scaledHeight - 23, 53, 22, 29, 24);
+						DrawableHelper.drawTexture(matrices, scaledHalfWidth + 91, scaledHeight - 23, 53, 22, 29, 24);
 					}
 				}
 
@@ -402,8 +397,8 @@ abstract class InGameHudMixin extends DrawableHelper
 						int t = (int)(f * 19.0F);
 						RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 						
-						this.drawTexture(matrices, s, r, 0, 94, 18, 18);
-						this.drawTexture(matrices, s, r + 18 - t, 18, 112 - t, 18, t);
+						DrawableHelper.drawTexture(matrices, s, r, 0, 94, 18, 18);
+						DrawableHelper.drawTexture(matrices, s, r + 18 - t, 18, 112 - t, 18, t);
 					}
 				}
 

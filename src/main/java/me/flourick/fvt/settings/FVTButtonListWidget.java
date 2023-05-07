@@ -2,10 +2,11 @@ package me.flourick.fvt.settings;
 
 import java.util.List;
 import java.util.Map;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-
+import me.flourick.fvt.FVT;
+import me.flourick.fvt.utils.Color;
+import me.flourick.fvt.utils.IClickableWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
@@ -17,10 +18,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
-
-import me.flourick.fvt.FVT;
-import me.flourick.fvt.utils.Color;
-import me.flourick.fvt.utils.IClickableWidget;
 
 /**
  * Custom button list that allows for custom amount of buttons in each entry and "category buttons".

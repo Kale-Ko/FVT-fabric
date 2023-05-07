@@ -1,7 +1,7 @@
 package me.flourick.fvt.utils;
 
 import java.util.HashSet;
-
+import me.flourick.fvt.FVT;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -12,8 +12,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
-
-import me.flourick.fvt.FVT;
 
 /**
  * Adds three item management buttons to given screen.
