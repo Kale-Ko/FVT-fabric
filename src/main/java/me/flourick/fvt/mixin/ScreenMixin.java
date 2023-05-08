@@ -5,10 +5,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector2ic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import me.flourick.fvt.utils.IScreen;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Drawable;
@@ -52,7 +49,8 @@ abstract class ScreenMixin implements IScreen
 		this.selectables.add(child);
     }
 
-	@Inject(method = "renderTooltipFromComponents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+    // FIXME This function causes problems but doesnt seem to be in use so just disabled it
+	// @Inject(method = "renderTooltipFromComponents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
 	private void renderTooltipFromComponents(MatrixStack matrices, List<TooltipComponent> components, int x, int y, TooltipPositioner positioner, CallbackInfo info, int i, int j, 
     int l, int m, Vector2ic vector2ic, int n, int o, int p, Tessellator tessellator, BufferBuilder bufferBuilder, Matrix4f matrix4f, VertexConsumerProvider.Immediate immediate)
 	{
@@ -76,7 +74,7 @@ abstract class ScreenMixin implements IScreen
             tooltipComponent2.drawItems(this.textRenderer, l, r, matrices, this.itemRenderer);
             r += tooltipComponent2.getHeight();
         }
-        // this.itemRenderer.zOffset = f; /* FIXME zOffset */
+        // this.itemRenderer.zOffset = f;
 
 		info.cancel();
 	}

@@ -171,7 +171,7 @@ abstract class InGameHudMixin extends DrawableHelper
 
 			if(autoHideHotbar) {
 				matrices.push();
-				matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME Maybe zOffset */);
+				matrices.translate(0, FVT_getHotbarHideHeight(), 0);
 			}
 
 			igHud.renderMountJumpBar(mount, matrices, x);
@@ -202,7 +202,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	{
 		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.push();
-			matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME zOffset */);
+			matrices.translate(0, FVT_getHotbarHideHeight(), 0);
 		}
 	}
 
@@ -219,7 +219,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	{
 		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.push();
-			matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME zOffset */);
+			matrices.translate(0, FVT_getHotbarHideHeight(), 0);
 		}
 
 		PlayerEntity playerEntity = this.getCameraPlayer();
@@ -311,7 +311,7 @@ abstract class InGameHudMixin extends DrawableHelper
 	{
 		if(FVT.OPTIONS.autoHideHotbar.getValue()) {
 			matrices.push();
-			matrices.translate(0, FVT_getHotbarHideHeight(), 0 /* FIXME zOffset */);
+			matrices.translate(0, FVT_getHotbarHideHeight(), 0);
 		}
 	}
 
@@ -342,10 +342,7 @@ abstract class InGameHudMixin extends DrawableHelper
 
 				ItemStack itemStack = playerEntity.getOffHandStack();
 				Arm arm = playerEntity.getMainArm().getOpposite();
-				
-				int zOffset = 0 /* FIXME zOffset */;
-				
-				// this.setZOffset(-90); /* FIXME zOffset */
+
 				DrawableHelper.drawTexture(matrices, scaledHalfWidth - 91, scaledHeight - 22, 0, 0, 182, 22);
 				DrawableHelper.drawTexture(matrices, scaledHalfWidth - 91 - 1 + playerEntity.getInventory().selectedSlot * 20, scaledHeight - 22 - 1, 0, 22, 24, 22);
 
@@ -358,7 +355,6 @@ abstract class InGameHudMixin extends DrawableHelper
 					}
 				}
 
-				// this.setZOffset(zOffset); /* FIXME zOffset */
 				RenderSystem.enableBlend();
 				RenderSystem.defaultBlendFunc();
 
